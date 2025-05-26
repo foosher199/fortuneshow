@@ -61,6 +61,164 @@
             width: 16px;
             height: 16px;
         }
+
+        /* 新增样式 */
+        .jiazi-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .jiazi-info p {
+            margin: 8px 0;
+            color: #2c3e50;
+        }
+
+        .nayin-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 15px 0;
+        }
+
+        .nayin-item {
+            background: #fff;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .nayin-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .nayin-item h4 {
+            color: #1a73e8;
+            margin: 0 0 10px 0;
+            font-size: 16px;
+            border-bottom: 2px solid #e1e4e8;
+            padding-bottom: 5px;
+        }
+
+        .nayin-pillar {
+            font-size: 20px;
+            color: #2c3e50;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .nayin-name {
+            font-size: 16px;
+            color: #34495e;
+            margin: 8px 0;
+        }
+
+        .nayin-element {
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0;
+            padding: 4px 8px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* 为不同五行添加不同的颜色标识 */
+        .nayin-element[data-element="metal"] {
+            color: #808080;
+            background: #f5f5f5;
+        }
+
+        .nayin-element[data-element="wood"] {
+            color: #228B22;
+            background: #f0f8f0;
+        }
+
+        .nayin-element[data-element="water"] {
+            color: #4169E1;
+            background: #f0f8ff;
+        }
+
+        .nayin-element[data-element="fire"] {
+            color: #FF4500;
+            background: #fff5f0;
+        }
+
+        .nayin-element[data-element="earth"] {
+            color: #8B4513;
+            background: #fff8f0;
+        }
+
+        .nayin-element[data-element="unknown"] {
+            color: #666;
+            background: #f8f9fa;
+        }
+
+        .gods-analysis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .year-god, .month-god {
+            background: #fff;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .gods-analysis h4 {
+            color: #1a73e8;
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+
+        .gods-details {
+            margin-top: 15px;
+        }
+
+        .lucky-gods, .unlucky-gods {
+            background: #fff;
+            border: 1px solid #e1e4e8;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .lucky-gods h4 {
+            color: #28a745;
+        }
+
+        .unlucky-gods h4 {
+            color: #dc3545;
+        }
+
+        .god-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .god-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 0 0 5px 0;
+        }
+
+        .god-desc {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* 原有样式保持不变 */
     </style>
 </head>
 <body>
@@ -163,6 +321,121 @@
             '酉': '17:00-19:00',
             '戌': '19:00-21:00',
             '亥': '21:00-23:00'
+        };
+
+        // 添加纳音五行对照表
+        const NAYIN_FIVE_ELEMENTS = {
+            '甲子': { element: 'metal', name: { zh: '海中金', en: 'Ocean Metal' } },
+            '乙丑': { element: 'metal', name: { zh: '海中金', en: 'Ocean Metal' } },
+            '丙寅': { element: 'fire', name: { zh: '炉中火', en: 'Stove Fire' } },
+            '丁卯': { element: 'wood', name: { zh: '大林木', en: 'Forest Wood' } },
+            '戊辰': { element: 'earth', name: { zh: '路旁土', en: 'Roadside Earth' } },
+            '己巳': { element: 'metal', name: { zh: '剑锋金', en: 'Sword Metal' } },
+            '庚午': { element: 'fire', name: { zh: '山头火', en: 'Mountain Fire' } },
+            '辛未': { element: 'water', name: { zh: '涧下水', en: 'Valley Stream Water' } },
+            '壬申': { element: 'fire', name: { zh: '天上火', en: 'Sky Fire' } },
+            '癸酉': { element: 'wood', name: { zh: '石榴木', en: 'Pomegranate Wood' } },
+            '甲戌': { element: 'water', name: { zh: '大海水', en: 'Ocean Water' } },
+            '乙亥': { element: 'metal', name: { zh: '钗钏金', en: 'Hairpin Metal' } },
+            '丙子': { element: 'earth', name: { zh: '屋上土', en: 'Roof Earth' } },
+            '丁丑': { element: 'fire', name: { zh: '霹雳火', en: 'Thunder Fire' } },
+            '戊寅': { element: 'wood', name: { zh: '松柏木', en: 'Pine Wood' } },
+            '己卯': { element: 'water', name: { zh: '长流水', en: 'Long Stream Water' } },
+            '庚辰': { element: 'metal', name: { zh: '砂中金', en: 'Sand Metal' } },
+            '辛巳': { element: 'fire', name: { zh: '山下火', en: 'Mountain Base Fire' } },
+            '壬午': { element: 'wood', name: { zh: '平地木', en: 'Ground Wood' } },
+            '癸未': { element: 'earth', name: { zh: '壁上土', en: 'Wall Earth' } },
+            '甲申': { element: 'water', name: { zh: '泉中水', en: 'Spring Water' } },
+            '乙酉': { element: 'metal', name: { zh: '白蜡金', en: 'White Wax Metal' } },
+            '丙戌': { element: 'wood', name: { zh: '杨柳木', en: 'Willow Wood' } },
+            '丁亥': { element: 'water', name: { zh: '井泉水', en: 'Well Water' } },
+            '戊子': { element: 'water', name: { zh: '江河水', en: 'River Water' } },
+            '己丑': { element: 'fire', name: { zh: '佛灯火', en: 'Lamp Fire' } },
+            '庚寅': { element: 'metal', name: { zh: '金箔金', en: 'Gold Foil Metal' } },
+            '辛卯': { element: 'water', name: { zh: '天河水', en: 'Sky River Water' } },
+            '壬辰': { element: 'wood', name: { zh: '桑柘木', en: 'Mulberry Wood' } },
+            '癸巳': { element: 'earth', name: { zh: '城墙土', en: 'City Wall Earth' } },
+            
+            '甲午': { element: 'water', name: { zh: '泉中水', en: 'Spring Water' } },
+            '乙未': { element: 'metal', name: { zh: '白蜡金', en: 'White Wax Metal' } },
+            '丙申': { element: 'wood', name: { zh: '杨柳木', en: 'Willow Wood' } },
+            '丁酉': { element: 'water', name: { zh: '井泉水', en: 'Well Water' } },
+            '戊戌': { element: 'earth', name: { zh: '房上土', en: 'House Earth' } },
+            '己亥': { element: 'fire', name: { zh: '佛灯火', en: 'Lamp Fire' } },
+            '庚子': { element: 'metal', name: { zh: '金箔金', en: 'Gold Foil Metal' } },
+            '辛丑': { element: 'water', name: { zh: '天河水', en: 'Sky River Water' } },
+            '壬寅': { element: 'wood', name: { zh: '桑柘木', en: 'Mulberry Wood' } },
+            '癸卯': { element: 'earth', name: { zh: '城墙土', en: 'City Wall Earth' } },
+            
+            '甲辰': { element: 'earth', name: { zh: '城头土', en: 'City Wall Earth' } },
+            '乙巳': { element: 'metal', name: { zh: '白蜡金', en: 'White Wax Metal' } },
+            '丙午': { element: 'fire', name: { zh: '天上火', en: 'Sky Fire' } },
+            '丁未': { element: 'earth', name: { zh: '路旁土', en: 'Roadside Earth' } },
+            '戊申': { element: 'water', name: { zh: '江河水', en: 'River Water' } },
+            '己酉': { element: 'earth', name: { zh: '大驿土', en: 'Post Station Earth' } },
+            '庚戌': { element: 'water', name: { zh: '大溪水', en: 'Valley Water' } },
+            '辛亥': { element: 'water', name: { zh: '大溪水', en: 'Valley Water' } },
+            '壬子': { element: 'earth', name: { zh: '壁上土', en: 'Wall Earth' } },
+            '癸丑': { element: 'earth', name: { zh: '壁上土', en: 'Wall Earth' } },
+            
+            '甲寅': { element: 'wood', name: { zh: '大林木', en: 'Forest Wood' } },
+            '乙卯': { element: 'wood', name: { zh: '大林木', en: 'Forest Wood' } },
+            '丙辰': { element: 'water', name: { zh: '长流水', en: 'Long Stream Water' } },
+            '丁巳': { element: 'water', name: { zh: '长流水', en: 'Long Stream Water' } },
+            '戊午': { element: 'water', name: { zh: '江河水', en: 'River Water' } },
+            '己未': { element: 'wood', name: { zh: '杨柳木', en: 'Willow Wood' } },
+            '庚申': { element: 'fire', name: { zh: '山下火', en: 'Mountain Base Fire' } },
+            '辛酉': { element: 'fire', name: { zh: '山下火', en: 'Mountain Base Fire' } },
+            '壬戌': { element: 'wood', name: { zh: '松柏木', en: 'Pine Wood' } },
+            '癸亥': { element: 'wood', name: { zh: '松柏木', en: 'Pine Wood' } }
+        };
+
+        // 添加吉神凶煞对照表
+        const LUCKY_UNLUCKY_GODS = {
+            lucky: [
+                {
+                    name: 'tian_de',
+                    branches: ['亥']
+                },
+                {
+                    name: 'yue_de',
+                    branches: ['寅']
+                },
+                {
+                    name: 'tian_yi',
+                    branches: ['丑']
+                },
+                {
+                    name: 'fu_xing',
+                    branches: ['申']
+                },
+                {
+                    name: 'ji_shen',
+                    branches: ['午']
+                }
+            ],
+            unlucky: [
+                {
+                    name: 'jie_sha',
+                    branches: ['申']
+                },
+                {
+                    name: 'zai_sha',
+                    branches: ['巳']
+                },
+                {
+                    name: 'sui_sha',
+                    branches: ['子']
+                },
+                {
+                    name: 'fu_shi',
+                    branches: ['酉']
+                },
+                {
+                    name: 'xue_ren',
+                    branches: ['卯']
+                }
+            ]
         };
 
         // 转换数字为中文数字
@@ -889,6 +1162,11 @@
             const { fortune, recommendations } = analyzeFortune(baziResult, gender);
             const traditionalDate = generateTraditionalDate(birthdate);
 
+            // 新增分析
+            const nayinAnalysis = analyzeNaYin(baziResult.yearPillar, baziResult.monthPillar, baziResult.dayPillar, baziResult.hourPillar);
+            const yearGods = analyzeGods(baziResult.yearPillar[1], baziResult.monthPillar[1]);
+            const luckyUnluckyGods = analyzeLuckyUnluckyGods(baziResult.dayPillar[1]); // 以日支为主
+
             // Display results
             const resultSection = document.getElementById('result');
             resultSection.innerHTML = `
@@ -924,6 +1202,78 @@
                         <p>${i18n[currentLang].month_pillar}：${baziResult.monthPillar}</p>
                         <p>${i18n[currentLang].day_pillar}：${baziResult.dayPillar}</p>
                         <p>${i18n[currentLang].hour_pillar}：${baziResult.hourPillar}</p>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>${i18n[currentLang].nayin_title}</h3>
+                        <div class="nayin-intro">${currentLang === 'zh' ? 
+                            '' : 
+                            ''
+                        }</div>
+                        <div class="nayin-analysis">
+                            ${nayinAnalysis.map((nayin, index) => `
+                                <div class="nayin-item">
+                                    <h4>${currentLang === 'zh' ? ['年柱', '月柱', '日柱', '时柱'][index] : ['Year', 'Month', 'Day', 'Hour'][index]}</h4>
+                                    <p class="nayin-pillar">${nayin.pillar || (currentLang === 'zh' ? '未知' : 'Unknown')}</p>
+                                    <p class="nayin-name">${nayin.name[currentLang]}</p>
+                                    <p class="nayin-element" data-element="${nayin.element}">${nayin.element !== 'unknown' ? 
+                                        i18n[currentLang]['element_' + nayin.element] : 
+                                        (currentLang === 'zh' ? '未知五行' : 'Unknown Element')
+                                    }</p>
+                                    <p class="nayin-desc">${getNayinDescription(nayin.name.zh, currentLang)}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>${i18n[currentLang].gods_title}</h3>
+                        <div class="gods-analysis">
+                            <div class="year-god">
+                                <h4>${i18n[currentLang].year_god_label}</h4>
+                                <p>${yearGods.yearGod[currentLang]}</p>
+                            </div>
+                            <div class="month-god">
+                                <h4>${i18n[currentLang].month_god_label}</h4>
+                                <p>${yearGods.monthGod[currentLang]}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>${i18n[currentLang].lucky_unlucky_title}</h3>
+                        <div class="gods-details">
+                            <div class="lucky-gods">
+                                <h4>${i18n[currentLang].lucky_gods}</h4>
+                                ${luckyUnluckyGods.lucky.length > 0 ? 
+                                    luckyUnluckyGods.lucky.map(god => `
+                                        <div class="god-item">
+                                            <p class="god-name">${god.name}</p>
+                                            <p class="god-desc">${god.description}</p>
+                                        </div>
+                                    `).join('') :
+                                    `<div class="god-item">
+                                        <p class="god-name">${currentLang === 'zh' ? '普通' : 'Normal'}</p>
+                                        <p class="god-desc">${currentLang === 'zh' ? '运势平稳' : 'Normal fortune'}</p>
+                                    </div>`
+                                }
+                            </div>
+                            <div class="unlucky-gods">
+                                <h4>${i18n[currentLang].unlucky_gods}</h4>
+                                ${luckyUnluckyGods.unlucky.length > 0 ? 
+                                    luckyUnluckyGods.unlucky.map(god => `
+                                        <div class="god-item">
+                                            <p class="god-name">${god.name}</p>
+                                            <p class="god-desc">${god.description}</p>
+                                        </div>
+                                    `).join('') :
+                                    `<div class="god-item">
+                                        <p class="god-name">${currentLang === 'zh' ? '平安' : 'Safe'}</p>
+                                        <p class="god-desc">${currentLang === 'zh' ? '无特殊凶煞' : 'No particular adversity'}</p>
+                                    </div>`
+                                }
+                            </div>
+                        </div>
                     </div>
 
                     <div class="result-item">
@@ -988,6 +1338,113 @@
             
             resultSection.classList.add('active');
             resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 添加纳音五行解释函数
+        function getNayinDescription(nayinName, lang) {
+            if (!window.i18n || !window.i18n[lang] || !window.i18n[lang].nayin_descriptions) {
+                console.error('i18n configuration not found:', { i18n: window.i18n, lang, nayinName });
+                return lang === 'zh' ? '暂无解释' : 'No description available';
+            }
+            return window.i18n[lang].nayin_descriptions[nayinName] || 
+                (lang === 'zh' ? '暂无解释' : 'No description available');
+        }
+
+        // 神煞系统
+        const GODS_SYSTEM = {
+            year: {
+                '子': { zh: '岁破', en: 'Year Breaker' },
+                '丑': { zh: '晦气', en: 'Darkness' },
+                '寅': { zh: '丧门', en: 'Death Door' },
+                '卯': { zh: '贯索', en: 'Rope' },
+                '辰': { zh: '官符', en: 'Official Seal' },
+                '巳': { zh: '小耗', en: 'Minor Loss' },
+                '午': { zh: '大耗', en: 'Major Loss' },
+                '未': { zh: '朱雀', en: 'Red Bird' },
+                '申': { zh: '白虎', en: 'White Tiger' },
+                '酉': { zh: '玄武', en: 'Black Tortoise' },
+                '戌': { zh: '青龙', en: 'Azure Dragon' },
+                '亥': { zh: '天德', en: 'Heavenly Virtue' }
+            },
+            month: {
+                '寅': { zh: '月德', en: 'Monthly Virtue' },
+                '卯': { zh: '月空', en: 'Monthly Void' },
+                '辰': { zh: '月厌', en: 'Monthly Disgust' },
+                '巳': { zh: '月煞', en: 'Monthly Evil' },
+                '午': { zh: '月虚', en: 'Monthly Emptiness' },
+                '未': { zh: '月害', en: 'Monthly Harm' },
+                '申': { zh: '月刑', en: 'Monthly Punishment' },
+                '酉': { zh: '月破', en: 'Monthly Break' },
+                '戌': { zh: '月惊', en: 'Monthly Shock' },
+                '亥': { zh: '月恩', en: 'Monthly Grace' },
+                '子': { zh: '月生', en: 'Monthly Birth' },
+                '丑': { zh: '月墓', en: 'Monthly Tomb' }
+            }
+        };
+
+        // 分析神煞
+        function analyzeGods(yearBranch, monthBranch) {
+            return {
+                yearGod: GODS_SYSTEM.year[yearBranch] || { zh: '未知', en: 'Unknown' },
+                monthGod: GODS_SYSTEM.month[monthBranch] || { zh: '未知', en: 'Unknown' }
+            };
+        }
+
+        // 分析纳音五行
+        function analyzeNaYin(yearPillar, monthPillar, dayPillar, hourPillar) {
+            const pillars = [yearPillar, monthPillar, dayPillar, hourPillar];
+            const pillarNames = ['年柱', 'Year', '月柱', 'Month', '日柱', 'Day', '时柱', 'Hour'];
+            
+            return pillars.map((pillar, index) => {
+                const info = NAYIN_FIVE_ELEMENTS[pillar];
+                if (!info) {
+                    console.log('未找到纳音五行信息：', pillar); // 调试信息
+                    return {
+                        pillar,
+                        element: 'unknown',
+                        name: { 
+                            zh: '未知五行', 
+                            en: 'Unknown Element' 
+                        }
+                    };
+                }
+                return {
+                    pillar,
+                    ...info
+                };
+            });
+        }
+
+        // 分析吉神凶煞
+        function analyzeLuckyUnluckyGods(branch) {
+            const result = {
+                lucky: [],
+                unlucky: []
+            };
+
+            // 检查吉神
+            LUCKY_UNLUCKY_GODS.lucky.forEach(god => {
+                if (god.branches.includes(branch)) {
+                    result.lucky.push({
+                        key: god.name,
+                        name: i18n[currentLang].gods[god.name].name,
+                        description: i18n[currentLang].gods[god.name].description
+                    });
+                }
+            });
+
+            // 检查凶煞
+            LUCKY_UNLUCKY_GODS.unlucky.forEach(god => {
+                if (god.branches.includes(branch)) {
+                    result.unlucky.push({
+                        key: god.name,
+                        name: i18n[currentLang].gods[god.name].name,
+                        description: i18n[currentLang].gods[god.name].description
+                    });
+                }
+            });
+
+            return result;
         }
     </script>
 </body>
