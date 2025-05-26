@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaZi Destiny Analysis</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Language selector styles */
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .language-btn {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .language-btn:hover {
+            background: #f5f5f5;
+        }
+
+        .language-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .language-options.show {
+            display: block;
+        }
+
+        .language-option {
+            padding: 8px 16px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+
+        .language-option:hover {
+            background: #f5f5f5;
+        }
+
+        .current-lang-icon {
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-selector">
+            <button class="language-btn" onclick="toggleLanguageOptions()">
+                <span class="current-lang-icon">🌐</span>
+                <span class="current-lang-text">English</span>
+            </button>
+            <div class="language-options" id="languageOptions">
+                <div class="language-option" onclick="changeLanguage('en')">English</div>
+                <div class="language-option" onclick="changeLanguage('zh')">中文</div>
+            </div>
+        </div>
+        
+        <header class="header">
+            <h1 data-i18n="title">八字命理分析</h1>
+            <p data-i18n="subtitle">探索命理，寻找人生方向</p>
+        </header>
+
+        <main>
+            <section class="form-section">
+                <form id="baziForm">
+                    <div class="form-group">
+                        <label for="birthdate" data-i18n="birthdate_label">出生日期时间</label>
+                        <input type="datetime-local" id="birthdate" name="birthdate" required
+                               min="1900-01-01T00:00" max="2100-12-31T23:59">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender" data-i18n="gender_label">性别</label>
+                        <select id="gender" name="gender" required>
+                            <option value="" data-i18n="gender_select">请选择性别</option>
+                            <option value="male" data-i18n="gender_male">男</option>
+                            <option value="female" data-i18n="gender_female">女</option>
+                        </select>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="submit-button" data-i18n="analyze_btn">开始分析</button>
+                        <button type="button" class="reset-button" onclick="resetForm()" data-i18n="reset_btn">重新填写</button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="result" class="result-section">
+                <!-- 结果将通过JavaScript动态填充 -->
+            </section>
+        </main>
+    </div>
+
+    <!-- Import i18n configuration -->
+    <script src="js/i18n.js"></script>
+    <!-- Import language functions -->
+    <script src="js/language.js"></script>
+    <script>
+        // 天干
+        const HEAVENLY_STEMS = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+
+        // 地支
+        const EARTHLY_BRANCHES = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+
+        // 五行
+        const FIVE_ELEMENTS = {
+            '甲': '木', '乙': '木',
+            '丙': '火', '丁': '火',
+            '戊': '土', '己': '土',
+            '庚': '金', '辛': '金',
+            '壬': '水', '癸': '水',
+            '子': '水', '丑': '土',
+            '寅': '木', '卯': '木',
+            '辰': '土', '巳': '火',
+            '午': '火', '未': '土',
+            '申': '金', '酉': '金',
+            '戌': '土', '亥': '水'
+        };
+
+        // 添加农历转换相关的常量
+        const LUNAR_INFO = [
+            0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
+            0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977,
+            0x04970, 0x0a4b0, 0x0b4b5, 0x06a50, 0x06d40, 0x1ab54, 0x02b60, 0x09570, 0x052f2, 0x04970,
+            0x06566, 0x0d4a0, 0x0ea50, 0x06e95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950,
+            0x0d4a0, 0x1d8a6, 0x0b550, 0x056a0, 0x1a5b4, 0x025d0, 0x092d0, 0x0d2b2, 0x0a950, 0x0b557
+        ];
+
+        const CHINESE_NUMBERS = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+        const CHINESE_MONTHS = ['正', '二', '三', '四', '五', '六', '七', '八', '九', '十', '冬', '腊'];
+        const CHINESE_DAYS = ['初', '十', '廿', '三'];
+        const CHINESE_HOURS = {
+            '子': '23:00-01:00',
+            '丑': '01:00-03:00',
+            '寅': '03:00-05:00',
+            '卯': '05:00-07:00',
+            '辰': '07:00-09:00',
+            '巳': '09:00-11:00',
+            '午': '11:00-13:00',
+            '未': '13:00-15:00',
+            '申': '15:00-17:00',
+            '酉': '17:00-19:00',
+            '戌': '19:00-21:00',
+            '亥': '21:00-23:00'
+        };
+
+        // 转换数字为中文数字
+        function numberToChinese(num) {
+            if (num <= 10) return CHINESE_NUMBERS[num];
+            if (num < 20) return '十' + (num > 10 ? CHINESE_NUMBERS[num - 10] : '');
+            return CHINESE_NUMBERS[Math.floor(num / 10)] + '十' + (num % 10 ? CHINESE_NUMBERS[num % 10] : '');
+        }
+
+        // 获取农历月份
+        function getLunarMonth(month) {
+            return CHINESE_MONTHS[month - 1] + '月';
+        }
+
+        // 获取农历日期
+        function getLunarDay(day) {
+            if (day === 10) return '初十';
+            if (day === 20) return '二十';
+            if (day === 30) return '三十';
+            
+            const tens = Math.floor(day / 10);
+            const ones = day % 10;
+            return CHINESE_DAYS[tens] + (ones === 0 ? '十' : CHINESE_NUMBERS[ones]);
+        }
+
+        // 获取时辰描述
+        function getTimeDescription(hour) {
+            const branch = getHourBranch(hour);
+            return `${branch}时（${CHINESE_HOURS[branch]}）`;
+        }
+
+        // 生成完整的古风日期描述
+        function generateTraditionalDate(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const hour = date.getHours();
+
+            const yearStem = getYearStem(year);
+            const yearBranch = getYearBranch(year);
+            const monthStem = getMonthStem(yearStem, month);
+            const monthBranch = getMonthBranch(month);
+            const dayStem = getDayStem(year, month, day);
+            const dayBranch = getDayBranch(year, month, day);
+            const hourStem = getHourStem(dayStem, hour);
+            const hourBranch = getHourBranch(hour);
+
+            return {
+                yearText: `${yearStem}${yearBranch}年 · 公元${numberToChinese(Math.floor(year / 1000))}${numberToChinese(Math.floor((year % 1000) / 100))}${numberToChinese(Math.floor((year % 100) / 10))}${numberToChinese(year % 10)}年`,
+                monthText: `${monthStem}${monthBranch}月 · ${getLunarMonth(month)}`,
+                dayText: `${dayStem}${dayBranch}日 · ${getLunarDay(day)}`,
+                hourText: `${hourStem}${hourBranch}时 · ${getTimeDescription(hour)}`
+            };
+        }
+
+        // 获取年柱天干
+        function getYearStem(year) {
+            return HEAVENLY_STEMS[(year - 4) % 10];
+        }
+
+        // 获取年柱地支
+        function getYearBranch(year) {
+            return EARTHLY_BRANCHES[(year - 4) % 12];
+        }
+
+        // 获取月柱天干
+        function getMonthStem(yearStem, month) {
+            const stemIndex = (HEAVENLY_STEMS.indexOf(yearStem) * 2 + month + 1) % 10;
+            return HEAVENLY_STEMS[stemIndex];
+        }
+
+        // 获取月柱地支
+        function getMonthBranch(month) {
+            return EARTHLY_BRANCHES[(month + 1) % 12];
+        }
+
+        // 获取日柱天干
+        function getDayStem(year, month, day) {
+            const g = 4 * year + Math.floor(year / 4) + 5 * month + day - 3;
+            return HEAVENLY_STEMS[g % 10];
+        }
+
+        // 获取日柱地支
+        function getDayBranch(year, month, day) {
+            const z = 8 * year + Math.floor(year / 4) + 5 * month + day + 7;
+            return EARTHLY_BRANCHES[z % 12];
+        }
+
+        // 获取时柱天干
+        function getHourStem(dayStem, hour) {
+            const dayIndex = HEAVENLY_STEMS.indexOf(dayStem);
+            const timeIndex = Math.floor((hour + 1) / 2) % 12;
+            return HEAVENLY_STEMS[(dayIndex * 2 + timeIndex) % 10];
+        }
+
+        // 获取时柱地支
+        function getHourBranch(hour) {
+            if (hour >= 23 || hour < 1) return '子';
+            else if (hour < 3) return '丑';
+            else if (hour < 5) return '寅';
+            else if (hour < 7) return '卯';
+            else if (hour < 9) return '辰';
+            else if (hour < 11) return '巳';
+            else if (hour < 13) return '午';
+            else if (hour < 15) return '未';
+            else if (hour < 17) return '申';
+            else if (hour < 19) return '酉';
+            else if (hour < 21) return '戌';
+            else return '亥';
+        }
+
+        // 分析八字
+        function analyzeBaZi(birthdate) {
+            const year = birthdate.getFullYear();
+            const month = birthdate.getMonth() + 1;
+            const day = birthdate.getDate();
+            const hour = birthdate.getHours();
+
+            // 计算八字
+            const yearStem = getYearStem(year);
+            const yearBranch = getYearBranch(year);
+            const monthStem = getMonthStem(yearStem, month);
+            const monthBranch = getMonthBranch(month);
+            const dayStem = getDayStem(year, month, day);
+            const dayBranch = getDayBranch(year, month, day);
+            const hourStem = getHourStem(dayStem, hour);
+            const hourBranch = getHourBranch(hour);
+
+            // 计算五行分布
+            const elements = [
+                FIVE_ELEMENTS[yearStem], FIVE_ELEMENTS[yearBranch],
+                FIVE_ELEMENTS[monthStem], FIVE_ELEMENTS[monthBranch],
+                FIVE_ELEMENTS[dayStem], FIVE_ELEMENTS[dayBranch],
+                FIVE_ELEMENTS[hourStem], FIVE_ELEMENTS[hourBranch]
+            ];
+
+            const elementCount = elements.reduce((acc, element) => {
+                acc[element] = (acc[element] || 0) + 1;
+                return acc;
+            }, {});
+
+            return {
+                yearPillar: `${yearStem}${yearBranch}`,
+                monthPillar: `${monthStem}${monthBranch}`,
+                dayPillar: `${dayStem}${dayBranch}`,
+                hourPillar: `${hourStem}${hourBranch}`,
+                elements: elementCount
+            };
+        }
+
+        // 分析五行
+        function analyzeElements(elementCount) {
+            const total = Object.values(elementCount).reduce((a, b) => a + b, 0);
+            const analysis = {};
+            
+            // Convert Chinese element names to English
+            const elementMap = {
+                '金': 'metal',
+                '木': 'wood',
+                '水': 'water',
+                '火': 'fire',
+                '土': 'earth'
+            };
+            
+            // Convert counts to use English names
+            const englishCount = {};
+            for (const [element, count] of Object.entries(elementCount)) {
+                englishCount[elementMap[element]] = count;
+            }
+            
+            // Analyze all elements
+            const allElements = ['metal', 'wood', 'water', 'fire', 'earth'];
+            allElements.forEach(element => {
+                const count = englishCount[element] || 0;
+                const percentage = (count / total) * 100;
+                
+                if (percentage >= 35) analysis[element] = 'excess';
+                else if (percentage >= 25) analysis[element] = 'strong';
+                else if (percentage >= 15) analysis[element] = 'balanced';
+                else if (percentage >= 5) analysis[element] = 'weak';
+                else analysis[element] = 'missing';
+            });
+            
+            return analysis;
+        }
+
+        // 分析运势
+        function analyzeFortune(baziResult, gender) {
+            const elements = baziResult.elements;
+            const elementAnalysis = analyzeElements(elements);
+            
+            // 分析五行缺失和太过
+            const weakElements = [];
+            const strongElements = [];
+            for (const [element, state] of Object.entries(elementAnalysis)) {
+                if (state === 'missing' || state === 'weak') weakElements.push(element);
+                if (state === 'excess') strongElements.push(element);
+            }
+
+            // 运势分析结果
+            const fortune = {
+                currentYear: {
+                    overall: getOverallFortune(weakElements, strongElements),
+                    career: getCareerFortune(weakElements, strongElements),
+                    relationship: getRelationshipFortune(weakElements, strongElements, gender),
+                    health: getHealthFortune(weakElements, strongElements),
+                    wealth: getWealthFortune(weakElements, strongElements)
+                },
+                tenYears: generateTenYearsFortune(weakElements, strongElements)
+            };
+
+            // 商品推荐
+            const recommendations = generateRecommendations(weakElements, strongElements);
+
+            return { fortune, recommendations };
+        }
+
+        // 生成总体运势
+        function getOverallFortune(weakElements, strongElements) {
+            const fortunes = {
+                'wood': {
+                    zh: ['事业发展', '个人成长'],
+                    en: ['Career Development', 'Personal Growth']
+                },
+                'fire': {
+                    zh: ['人际关系', '名声地位'],
+                    en: ['Interpersonal Relations', 'Reputation']
+                },
+                'earth': {
+                    zh: ['稳定发展', '财运基础'],
+                    en: ['Stable Development', 'Financial Foundation']
+                },
+                'metal': {
+                    zh: ['财运收获', '人脉拓展'],
+                    en: ['Financial Gains', 'Network Expansion']
+                },
+                'water': {
+                    zh: ['智慧创新', '学习进步'],
+                    en: ['Wisdom & Innovation', 'Learning Progress']
+                }
+            };
+
+            const prefix = currentLang === 'zh' ? '今年整体运势：' : 'Overall Fortune This Year:';
+            const weakPrefix = currentLang === 'zh' ? '\n需要注意：' : '\nAreas of Concern:';
+            const strongPrefix = currentLang === 'zh' ? '\n有利方向：' : '\nFavorable Directions:';
+            const weakSuffix = currentLang === 'zh' ? '方面可能遇到挑战。' : 'may face challenges.';
+            const strongSuffix = currentLang === 'zh' ? '方面会有良好发展。' : 'will develop well.';
+
+            let analysis = prefix;
+            if (weakElements.length > 0) {
+                analysis += weakPrefix + weakElements.map(e => fortunes[e][currentLang].join(currentLang === 'zh' ? '、' : ' & ')).join(currentLang === 'zh' ? '，' : ', ') + weakSuffix;
+            }
+            if (strongElements.length > 0) {
+                analysis += strongPrefix + strongElements.map(e => fortunes[e][currentLang].join(currentLang === 'zh' ? '、' : ' & ')).join(currentLang === 'zh' ? '，' : ', ') + strongSuffix;
+            }
+
+            return analysis;
+        }
+
+        // 生成事业运势
+        function getCareerFortune(weakElements, strongElements) {
+            const careerAdvice = {
+                'wood': {
+                    zh: '创新能力和决策力',
+                    en: 'Innovation and Decision-making'
+                },
+                'fire': {
+                    zh: '领导能力和表现力',
+                    en: 'Leadership and Expression'
+                },
+                'earth': {
+                    zh: '执行力和稳定性',
+                    en: 'Execution and Stability'
+                },
+                'metal': {
+                    zh: '管理能力和规划力',
+                    en: 'Management and Planning'
+                },
+                'water': {
+                    zh: '学习能力和应变力',
+                    en: 'Learning and Adaptability'
+                }
+            };
+
+            const prefix = currentLang === 'zh' ? '事业发展建议：\n' : 'Career Development Advice:\n';
+            const suggestionPrefix = currentLang === 'zh' ? '建议加强：' : 'Suggested improvements: ';
+
+            let advice = prefix;
+            if (weakElements.length > 0) {
+                advice += suggestionPrefix + weakElements.map(e => careerAdvice[e][currentLang]).join(currentLang === 'zh' ? '、' : ', ');
+            }
+            return advice;
+        }
+
+        // 生成感情运势
+        function getRelationshipFortune(weakElements, strongElements, gender) {
+            const relationshipAdvice = {
+                male: {
+                    'wood': {
+                        zh: '主动表达感情',
+                        en: 'Express Feelings Actively'
+                    },
+                    'fire': {
+                        zh: '增加社交活动',
+                        en: 'Increase Social Activities'
+                    },
+                    'earth': {
+                        zh: '展现责任担当',
+                        en: 'Show Responsibility'
+                    },
+                    'metal': {
+                        zh: '提升个人魅力',
+                        en: 'Enhance Personal Charm'
+                    },
+                    'water': {
+                        zh: '培养感情智慧',
+                        en: 'Cultivate Emotional Wisdom'
+                    }
+                },
+                female: {
+                    'wood': {
+                        zh: '保持独立个性',
+                        en: 'Maintain Independence'
+                    },
+                    'fire': {
+                        zh: '展现个人魅力',
+                        en: 'Show Personal Charm'
+                    },
+                    'earth': {
+                        zh: '营造温馨氛围',
+                        en: 'Create Warm Atmosphere'
+                    },
+                    'metal': {
+                        zh: '提升气质修养',
+                        en: 'Enhance Temperament'
+                    },
+                    'water': {
+                        zh: '增进情感交流',
+                        en: 'Improve Emotional Communication'
+                    }
+                }
+            };
+
+            const prefix = currentLang === 'zh' ? '感情运势建议：\n' : 'Relationship Advice:\n';
+            const suggestionPrefix = currentLang === 'zh' ? '建议：' : 'Suggestions: ';
+
+            const advice = gender === 'male' ? relationshipAdvice.male : relationshipAdvice.female;
+            let analysis = prefix;
+            if (weakElements.length > 0) {
+                analysis += suggestionPrefix + weakElements.map(e => advice[e][currentLang]).join(currentLang === 'zh' ? '、' : ', ');
+            }
+            return analysis;
+        }
+
+        // 生成健康运势
+        function getHealthFortune(weakElements, strongElements) {
+            const healthAdvice = {
+                'wood': {
+                    zh: ['肝胆系统', '眼睛', '筋络'],
+                    en: ['Liver & Gallbladder', 'Eyes', 'Tendons']
+                },
+                'fire': {
+                    zh: ['心脑血管', '情绪', '睡眠'],
+                    en: ['Cardiovascular', 'Emotions', 'Sleep']
+                },
+                'earth': {
+                    zh: ['消化系统', '营养', '代谢'],
+                    en: ['Digestive System', 'Nutrition', 'Metabolism']
+                },
+                'metal': {
+                    zh: ['呼吸系统', '皮肤', '免疫'],
+                    en: ['Respiratory', 'Skin', 'Immunity']
+                },
+                'water': {
+                    zh: ['泌尿系统', '耳朵', '骨骼'],
+                    en: ['Urinary System', 'Ears', 'Bones']
+                }
+            };
+
+            const prefix = currentLang === 'zh' ? '健康注意事项：\n' : 'Health Considerations:\n';
+            const attentionPrefix = currentLang === 'zh' ? '需要关注：' : 'Pay attention to: ';
+
+            let advice = prefix;
+            if (weakElements.length > 0) {
+                advice += attentionPrefix + weakElements.map(e => healthAdvice[e][currentLang].join(currentLang === 'zh' ? '、' : ', ')).join(currentLang === 'zh' ? '，' : '; ');
+            }
+            return advice;
+        }
+
+        // 生成财运分析
+        function getWealthFortune(weakElements, strongElements) {
+            const wealthAdvice = {
+                'wood': {
+                    zh: '适合投资创业',
+                    en: 'Suitable for Investment & Entrepreneurship'
+                },
+                'fire': {
+                    zh: '适合市场营销',
+                    en: 'Suitable for Marketing'
+                },
+                'earth': {
+                    zh: '适合房地产投资',
+                    en: 'Suitable for Real Estate Investment'
+                },
+                'metal': {
+                    zh: '适合理财规划',
+                    en: 'Suitable for Financial Planning'
+                },
+                'water': {
+                    zh: '适合创新项目',
+                    en: 'Suitable for Innovative Projects'
+                }
+            };
+
+            const prefix = currentLang === 'zh' ? '财运发展建议：\n' : 'Wealth Development Advice:\n';
+            const favorablePrefix = currentLang === 'zh' ? '有利方向：' : 'Favorable directions: ';
+
+            let advice = prefix;
+            if (strongElements.length > 0) {
+                advice += favorablePrefix + strongElements.map(e => wealthAdvice[e][currentLang]).join(currentLang === 'zh' ? '、' : ', ');
+            }
+            return advice;
+        }
+
+        // 生成未来十年运势
+        function generateTenYearsFortune(weakElements, strongElements) {
+            const currentYear = new Date().getFullYear();
+            const tenYears = [];
+            
+            const seasonalAdvice = {
+                'wood': {
+                    zh: '宜在春季开展事业',
+                    en: 'Career development is favorable in Spring'
+                },
+                'fire': {
+                    zh: '夏季注意把握机会',
+                    en: 'Watch for opportunities in Summer'
+                },
+                'earth': {
+                    zh: '季节交替时期宜稳健发展',
+                    en: 'Steady development during seasonal transitions'
+                },
+                'metal': {
+                    zh: '秋季财运较好',
+                    en: 'Good financial fortune in Autumn'
+                },
+                'water': {
+                    zh: '冬季适合学习进修',
+                    en: 'Good for learning and self-improvement in Winter'
+                }
+            };
+
+            for (let i = 0; i < 10; i++) {
+                const year = currentYear + i;
+                const yearLuck = {
+                    year: year,
+                    overall: Math.floor(Math.random() * 100),
+                    career: Math.floor(Math.random() * 100),
+                    relationship: Math.floor(Math.random() * 100),
+                    wealth: Math.floor(Math.random() * 100),
+                    highlights: []
+                };
+
+                // Add seasonal advice based on weak elements
+                weakElements.forEach(element => {
+                    yearLuck.highlights.push(seasonalAdvice[element][currentLang]);
+                });
+
+                tenYears.push(yearLuck);
+            }
+
+            return tenYears;
+        }
+
+        // 生成商品推荐
+        function generateRecommendations(weakElements, strongElements) {
+            const products = {
+                '木': [
+                    {
+                        name: 'Natural Green Jade Crystal Bracelet',
+                        chineseName: '天然翡翠手链',
+                        description: 'Enhances growth energy and decision-making abilities',
+                        chineseDesc: '提升生长能量，增强决策能力',
+                        price: 39.99,
+                        currency: 'USD',
+                        link: 'https://www.amazon.com/dp/B0EXAMPLE1',
+                        image: 'assets/products/wood1.jpg',
+                        platform: 'Amazon'
+                    },
+                    {
+                        name: 'Premium Bamboo Feng Shui Set',
+                        chineseName: '高级竹制风水套装',
+                        description: 'Traditional feng shui tools for growth and prosperity',
+                        chineseDesc: '传统风水工具，助力成长与繁荣',
+                        price: 89.99,
+                        currency: 'USD',
+                        link: 'https://www.etsy.com/listing/EXAMPLE1',
+                        image: 'assets/products/wood2.jpg',
+                        platform: 'Etsy'
+                    }
+                ],
+                '火': [
+                    {
+                        name: 'Red Agate Protection Bracelet',
+                        chineseName: '红玛瑙守护手链',
+                        description: 'Enhances personal charisma and leadership',
+                        chineseDesc: '提升个人魅力与领导力',
+                        price: 45.99,
+                        currency: 'USD',
+                        link: 'https://www.amazon.com/dp/B0EXAMPLE2',
+                        image: 'assets/products/fire1.jpg',
+                        platform: 'Amazon'
+                    },
+                    {
+                        name: 'Carnelian Crystal Necklace',
+                        chineseName: '红纹石水晶项链',
+                        description: 'Boosts confidence and creative energy',
+                        chineseDesc: '增强自信与创造力',
+                        price: 59.99,
+                        currency: 'USD',
+                        link: 'https://www.etsy.com/listing/EXAMPLE2',
+                        image: 'assets/products/fire2.jpg',
+                        platform: 'Etsy'
+                    }
+                ],
+                '土': [
+                    {
+                        name: 'Citrine Wealth Bowl',
+                        chineseName: '黄水晶聚宝盆',
+                        description: 'Attracts abundance and stabilizes fortune',
+                        chineseDesc: '招财纳福，稳定运势',
+                        price: 79.99,
+                        currency: 'USD',
+                        link: 'https://www.amazon.com/dp/B0EXAMPLE3',
+                        image: 'assets/products/earth1.jpg',
+                        platform: 'Amazon'
+                    },
+                    {
+                        name: 'Tiger Eye Protection Stone Set',
+                        chineseName: '虎眼石守护套装',
+                        description: 'Enhances determination and willpower',
+                        chineseDesc: '增强决心与意志力',
+                        price: 49.99,
+                        currency: 'USD',
+                        link: 'https://www.etsy.com/listing/EXAMPLE3',
+                        image: 'assets/products/earth2.jpg',
+                        platform: 'Etsy'
+                    }
+                ],
+                '金': [
+                    {
+                        name: 'Clear Quartz Meditation Crystal',
+                        chineseName: '白水晶冥想水晶',
+                        description: 'Amplifies energy and enhances clarity',
+                        chineseDesc: '增强能量，提升清晰度',
+                        price: 69.99,
+                        currency: 'USD',
+                        link: 'https://www.amazon.com/dp/B0EXAMPLE4',
+                        image: 'assets/products/metal1.jpg',
+                        platform: 'Amazon'
+                    },
+                    {
+                        name: 'Rutilated Quartz Bracelet',
+                        chineseName: '钛晶手链',
+                        description: 'Strengthens willpower and manifestation',
+                        chineseDesc: '强化意志力与实现力',
+                        price: 89.99,
+                        currency: 'USD',
+                        link: 'https://www.etsy.com/listing/EXAMPLE4',
+                        image: 'assets/products/metal2.jpg',
+                        platform: 'Etsy'
+                    }
+                ],
+                '水': [
+                    {
+                        name: 'Moonstone Healing Crystal Set',
+                        chineseName: '月光石疗愈套装',
+                        description: 'Enhances intuition and emotional balance',
+                        chineseDesc: '增强直觉与情感平衡',
+                        price: 55.99,
+                        currency: 'USD',
+                        link: 'https://www.amazon.com/dp/B0EXAMPLE5',
+                        image: 'assets/products/water1.jpg',
+                        platform: 'Amazon'
+                    },
+                    {
+                        name: 'Blue Lace Agate Crystal Pendant',
+                        chineseName: '蓝纹玛瑙水晶吊坠',
+                        description: 'Promotes calm and clear communication',
+                        chineseDesc: '促进平静与清晰沟通',
+                        price: 65.99,
+                        currency: 'USD',
+                        link: 'https://www.etsy.com/listing/EXAMPLE5',
+                        image: 'assets/products/water2.jpg',
+                        platform: 'Etsy'
+                    }
+                ]
+            };
+
+            const recommendations = [];
+            
+            // 为缺失和偏弱的五行推荐产品
+            weakElements.forEach(element => {
+                if (products[element]) {
+                    recommendations.push({
+                        element: element,
+                        reason: `Supplement ${element} element to enhance fortune`,
+                        chineseReason: `补充${element}元素，增强运势`,
+                        products: products[element]
+                    });
+                }
+            });
+
+            return recommendations;
+        }
+
+        // 重置表单
+        function resetForm() {
+            document.getElementById('baziForm').reset();
+            localStorage.removeItem('baziFormData');
+            document.getElementById('result').classList.remove('active');
+            
+            // 重置为当前时间
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('birthdate').value = `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+
+        // Language switching functions
+        function toggleLanguageOptions() {
+            const options = document.getElementById('languageOptions');
+            options.classList.toggle('show');
+            
+            // Close the language options when clicking outside
+            document.addEventListener('click', function closeLanguageOptions(e) {
+                if (!e.target.closest('.language-selector')) {
+                    options.classList.remove('show');
+                    document.removeEventListener('click', closeLanguageOptions);
+                }
+            });
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            
+            // Update language button text
+            const currentLangText = document.querySelector('.current-lang-text');
+            currentLangText.textContent = lang === 'en' ? 'English' : '中文';
+            
+            // Hide language options
+            document.getElementById('languageOptions').classList.remove('show');
+            
+            // Update page content
+            updatePageLanguage();
+            
+            // Save language preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Initialize language settings
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default language to English if no preference is saved
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLang);
+
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            document.getElementById('birthdate').value = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+            // 恢复保存的数据
+            const savedData = localStorage.getItem('baziFormData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                document.getElementById('birthdate').value = data.birthdate;
+                document.getElementById('gender').value = data.gender;
+            }
+        });
+
+        // Form submission handler
+        document.getElementById('baziForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const birthdate = new Date(document.getElementById('birthdate').value);
+            const gender = document.getElementById('gender').value;
+
+            // Validate date range
+            const minDate = new Date('1900-01-01');
+            const maxDate = new Date('2100-12-31');
+            if (birthdate < minDate || birthdate > maxDate) {
+                alert(i18n[currentLang].validation_date);
+                return;
+            }
+
+            // Validate gender selection
+            if (!gender) {
+                alert(i18n[currentLang].validation_gender);
+                return;
+            }
+
+            generateAndDisplayResult(birthdate, gender);
+
+            // Save to localStorage
+            localStorage.setItem('baziFormData', JSON.stringify({
+                birthdate: document.getElementById('birthdate').value,
+                gender: gender
+            }));
+        });
+
+        // Result generation and display function
+        function generateAndDisplayResult(birthdate, gender) {
+            const baziResult = analyzeBaZi(birthdate);
+            const elementAnalysis = analyzeElements(baziResult.elements);
+            const { fortune, recommendations } = analyzeFortune(baziResult, gender);
+            const traditionalDate = generateTraditionalDate(birthdate);
+
+            // Display results
+            const resultSection = document.getElementById('result');
+            resultSection.innerHTML = `
+                <h2 class="result-title">${i18n[currentLang].result_title}</h2>
+                <div class="result-content">
+                    <div class="result-item traditional-date">
+                        <h3>${i18n[currentLang].birth_time}</h3>
+                        <div class="date-line year-line">
+                            <span class="date-label">${i18n[currentLang].year_label}</span>
+                            <span class="date-value">${traditionalDate.yearText}</span>
+                        </div>
+                        <div class="date-line month-line">
+                            <span class="date-label">${i18n[currentLang].month_label}</span>
+                            <span class="date-value">${traditionalDate.monthText}</span>
+                        </div>
+                        <div class="date-line day-line">
+                            <span class="date-label">${i18n[currentLang].day_label}</span>
+                            <span class="date-value">${traditionalDate.dayText}</span>
+                        </div>
+                        <div class="date-line hour-line">
+                            <span class="date-label">${i18n[currentLang].hour_label}</span>
+                            <span class="date-value">${traditionalDate.hourText}</span>
+                        </div>
+                        <div class="gender-line">
+                            <span class="date-label">${i18n[currentLang].gender_label}</span>
+                            <span class="date-value">${gender === 'male' ? i18n[currentLang].gender_result_male : i18n[currentLang].gender_result_female}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <h3>${i18n[currentLang].bazi_title}</h3>
+                        <p>${i18n[currentLang].year_pillar}：${baziResult.yearPillar}</p>
+                        <p>${i18n[currentLang].month_pillar}：${baziResult.monthPillar}</p>
+                        <p>${i18n[currentLang].day_pillar}：${baziResult.dayPillar}</p>
+                        <p>${i18n[currentLang].hour_pillar}：${baziResult.hourPillar}</p>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>${i18n[currentLang].five_elements}</h3>
+                        ${Object.entries(elementAnalysis).map(([element, state]) => {
+                            const elementKey = 'element_' + element;
+                            const statusKey = 'element_status_' + state;
+                            return `<p>${i18n[currentLang][elementKey]}：${i18n[currentLang][statusKey]}</p>`;
+                        }).join('')}
+                    </div>
+
+                    <div class="result-item">
+                        <h3>${i18n[currentLang].current_fortune}</h3>
+                        <p>${fortune.currentYear.overall}</p>
+                        <p>${fortune.currentYear.career}</p>
+                        <p>${fortune.currentYear.relationship}</p>
+                        <p>${fortune.currentYear.health}</p>
+                        <p>${fortune.currentYear.wealth}</p>
+                    </div>
+
+                    <div class="result-item">
+                        <h3>${i18n[currentLang].ten_years}</h3>
+                        <div class="fortune-timeline">
+                            ${fortune.tenYears.map(yearLuck => `
+                                <div class="year-fortune">
+                                    <h4>${yearLuck.year}${currentLang === 'zh' ? '年' : ''}</h4>
+                                    <div class="fortune-stats">
+                                        <div class="stat">
+                                            <span>${i18n[currentLang].overall}：${yearLuck.overall}%</span>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: ${yearLuck.overall}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            <span>${i18n[currentLang].career}：${yearLuck.career}%</span>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: ${yearLuck.career}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            <span>${i18n[currentLang].relationship}：${yearLuck.relationship}%</span>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: ${yearLuck.relationship}%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="stat">
+                                            <span>${i18n[currentLang].wealth}：${yearLuck.wealth}%</span>
+                                            <div class="progress-bar">
+                                                <div class="progress" style="width: ${yearLuck.wealth}%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="year-highlights">
+                                        ${yearLuck.highlights.map(highlight => `<p>• ${highlight}</p>`).join('')}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            resultSection.classList.add('active');
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html> 

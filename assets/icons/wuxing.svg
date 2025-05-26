@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- 五行图案 -->
+    <circle cx="100" cy="100" r="90" fill="none" stroke="#D4AF37" stroke-width="2"/>
+    
+    <!-- 金 -->
+    <circle cx="100" cy="40" r="20" fill="#FFD700" stroke="#D4AF37" stroke-width="2"/>
+    <text x="100" y="45" text-anchor="middle" fill="#8B0000" font-size="20">金</text>
+    
+    <!-- 木 -->
+    <circle cx="160" cy="100" r="20" fill="#228B22" stroke="#D4AF37" stroke-width="2"/>
+    <text x="160" y="105" text-anchor="middle" fill="#FFF" font-size="20">木</text>
+    
+    <!-- 水 -->
+    <circle cx="130" cy="160" r="20" fill="#4169E1" stroke="#D4AF37" stroke-width="2"/>
+    <text x="130" y="165" text-anchor="middle" fill="#FFF" font-size="20">水</text>
+    
+    <!-- 火 -->
+    <circle cx="70" cy="160" r="20" fill="#FF4500" stroke="#D4AF37" stroke-width="2"/>
+    <text x="70" y="165" text-anchor="middle" fill="#FFF" font-size="20">火</text>
+    
+    <!-- 土 -->
+    <circle cx="40" cy="100" r="20" fill="#8B4513" stroke="#D4AF37" stroke-width="2"/>
+    <text x="40" y="105" text-anchor="middle" fill="#FFF" font-size="20">土</text>
+    
+    <!-- 相生关系 -->
+    <path d="M115 55 L145 85" stroke="#D4AF37" stroke-width="2" fill="none"/>
+    <path d="M155 120 L140 140" stroke="#D4AF37" stroke-width="2" fill="none"/>
+    <path d="M110 160 L90 160" stroke="#D4AF37" stroke-width="2" fill="none"/>
+    <path d="M55 115 L60 140" stroke="#D4AF37" stroke-width="2" fill="none"/>
+    <path d="M55 85 L85 55" stroke="#D4AF37" stroke-width="2" fill="none"/>
+</svg> 

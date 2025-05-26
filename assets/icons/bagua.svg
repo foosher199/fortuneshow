@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- 外圈 -->
+    <circle cx="100" cy="100" r="90" fill="none" stroke="#D4AF37" stroke-width="2"/>
+    
+    <!-- 内圈 -->
+    <circle cx="100" cy="100" r="70" fill="none" stroke="#D4AF37" stroke-width="2"/>
+    
+    <!-- 八卦符号 -->
+    <!-- 乾（天） -->
+    <line x1="85" y1="20" x2="115" y2="20" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="85" y1="35" x2="115" y2="35" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="85" y1="50" x2="115" y2="50" stroke="#D4AF37" stroke-width="8"/>
+    
+    <!-- 兑（泽） -->
+    <line x1="150" y1="65" x2="180" y2="65" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="150" y1="80" x2="180" y2="80" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="150" y1="95" x2="165" y2="95" stroke="#D4AF37" stroke-width="8"/>
+    
+    <!-- 离（火） -->
+    <line x1="150" y1="105" x2="180" y2="105" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="150" y1="120" x2="165" y2="120" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="150" y1="135" x2="180" y2="135" stroke="#D4AF37" stroke-width="8"/>
+    
+    <!-- 震（雷） -->
+    <line x1="85" y1="150" x2="115" y2="150" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="85" y1="165" x2="100" y2="165" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="85" y1="180" x2="115" y2="180" stroke="#D4AF37" stroke-width="8"/>
+    
+    <!-- 巽（风） -->
+    <line x1="20" y1="150" x2="50" y2="150" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="35" y1="165" x2="50" y2="165" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="20" y1="180" x2="50" y2="180" stroke="#D4AF37" stroke-width="8"/>
+    
+    <!-- 坎（水） -->
+    <line x1="20" y1="105" x2="50" y2="105" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="35" y1="120" x2="50" y2="120" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="20" y1="135" x2="50" y2="135" stroke="#D4AF37" stroke-width="8"/>
+    
+    <!-- 艮（山） -->
+    <line x1="20" y1="65" x2="50" y2="65" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="20" y1="80" x2="35" y2="80" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="20" y1="95" x2="50" y2="95" stroke="#D4AF37" stroke-width="8"/>
+    
+    <!-- 坤（地） -->
+    <line x1="85" y1="85" x2="100" y2="85" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="85" y1="100" x2="100" y2="100" stroke="#D4AF37" stroke-width="8"/>
+    <line x1="85" y1="115" x2="100" y2="115" stroke="#D4AF37" stroke-width="8"/>
+    
+    <!-- 中心点 -->
+    <circle cx="100" cy="100" r="5" fill="#D4AF37"/>
+</svg> 
