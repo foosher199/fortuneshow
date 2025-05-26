@@ -438,6 +438,42 @@
             ]
         };
 
+        // 添加英文到中文的纳音五行映射
+        const NAYIN_EN_TO_ZH = {
+            'Ocean Metal': '海中金',
+            'Valley Water': '大溪水',
+            'Stove Fire': '炉中火',
+            'Forest Wood': '大林木',
+            'Roadside Earth': '路旁土',
+            'Sword Metal': '剑锋金',
+            'Mountain Fire': '山头火',
+            'Valley Stream Water': '涧下水',
+            'Sky Fire': '天上火',
+            'Pomegranate Wood': '石榴木',
+            'Ocean Water': '大海水',
+            'Hairpin Metal': '钗钏金',
+            'Roof Earth': '屋上土',
+            'Thunder Fire': '霹雳火',
+            'Pine Wood': '松柏木',
+            'Long Stream Water': '长流水',
+            'Sand Metal': '砂中金',
+            'Mountain Base Fire': '山下火',
+            'Ground Wood': '平地木',
+            'Wall Earth': '壁上土',
+            'Spring Water': '泉中水',
+            'White Wax Metal': '白蜡金',
+            'Willow Wood': '杨柳木',
+            'Well Water': '井泉水',
+            'House Earth': '房上土',
+            'Lamp Fire': '佛灯火',
+            'Gold Foil Metal': '金箔金',
+            'Sky River Water': '天河水',
+            'Mulberry Wood': '桑柘木',
+            'City Wall Earth': '城墙土',
+            'River Water': '江河水',
+            'Post Station Earth': '大驿土'
+        };
+
         // 转换数字为中文数字
         function numberToChinese(num) {
             if (num <= 10) return CHINESE_NUMBERS[num];
@@ -1220,7 +1256,7 @@
                                         i18n[currentLang]['element_' + nayin.element] : 
                                         (currentLang === 'zh' ? '未知五行' : 'Unknown Element')
                                     }</p>
-                                    <p class="nayin-desc">${getNayinDescription(nayin.name.zh, currentLang)}</p>
+                                    <p class="nayin-desc">${getNayinDescription(currentLang === 'zh' ? nayin.name.zh : nayin.name.en, currentLang)}</p>
                                 </div>
                             `).join('')}
                         </div>
@@ -1346,8 +1382,19 @@
                 console.error('i18n configuration not found:', { i18n: window.i18n, lang, nayinName });
                 return lang === 'zh' ? '暂无解释' : 'No description available';
             }
-            return window.i18n[lang].nayin_descriptions[nayinName] || 
-                (lang === 'zh' ? '暂无解释' : 'No description available');
+
+            // 如果是英文名称，先转换为中文
+            const zhName = lang === 'en' ? NAYIN_EN_TO_ZH[nayinName] || nayinName : nayinName;
+            
+            // 获取对应语言的描述
+            const description = window.i18n[lang].nayin_descriptions[zhName];
+            
+            if (!description) {
+                console.error('Description not found for:', { zhName, nayinName, lang });
+                return lang === 'zh' ? '暂无解释' : 'No description available';
+            }
+            
+            return description;
         }
 
         // 神煞系统
@@ -1393,12 +1440,11 @@
         // 分析纳音五行
         function analyzeNaYin(yearPillar, monthPillar, dayPillar, hourPillar) {
             const pillars = [yearPillar, monthPillar, dayPillar, hourPillar];
-            const pillarNames = ['年柱', 'Year', '月柱', 'Month', '日柱', 'Day', '时柱', 'Hour'];
             
             return pillars.map((pillar, index) => {
                 const info = NAYIN_FIVE_ELEMENTS[pillar];
                 if (!info) {
-                    console.log('未找到纳音五行信息：', pillar); // 调试信息
+                    console.error('未找到纳音五行信息：', pillar);
                     return {
                         pillar,
                         element: 'unknown',
@@ -1408,9 +1454,27 @@
                         }
                     };
                 }
+
+                // 确保name属性包含中英文
+                if (!info.name || (!info.name.zh && !info.name.en)) {
+                    console.error('纳音五行名称信息不完整：', pillar);
+                    return {
+                        pillar,
+                        element: info.element || 'unknown',
+                        name: {
+                            zh: info.name || '未知五行',
+                            en: info.name || 'Unknown Element'
+                        }
+                    };
+                }
+
                 return {
                     pillar,
-                    ...info
+                    element: info.element,
+                    name: {
+                        zh: info.name.zh,
+                        en: info.name.en
+                    }
                 };
             });
         }
