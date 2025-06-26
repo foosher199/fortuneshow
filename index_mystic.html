@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘学预测中心 - 最专业的在线命理占卜平台</title>
+    <meta name="description" content="专业的在线命理占卜平台，提供八字算命、星座占星、塔罗牌占卜、数字命理、手相面相、风水分析等服务">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 星空背景动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 顶部导航栏 */
+        .top-nav {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ffff;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 15px 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(45deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+            border-color: #00ffff;
+            color: #00ffff;
+            transform: translateY(-2px);
+        }
+
+        /* 英雄区域 */
+        .hero-section {
+            text-align: center;
+            padding: 120px 20px 80px;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: #ccc;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.5);
+        }
+
+        /* 服务分类区域 */
+        .services-section {
+            padding: 80px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 50px;
+            font-weight: bold;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .service-category {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .service-category:hover::before {
+            left: 100%;
+        }
+
+        .service-category:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-bazi { border-color: #ff6b6b; }
+        .category-astrology { border-color: #4ecdc4; }
+        .category-tarot { border-color: #45b7d1; }
+        .category-numerology { border-color: #ffa726; }
+        .category-palmistry { border-color: #66bb6a; }
+        .category-fengshui { border-color: #ab47bc; }
+
+        .category-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .category-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .category-description {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .category-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .feature-tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #ddd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .category-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, var(--category-color), var(--category-color-dark));
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .category-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-bazi .category-button { 
+            --category-color: #ff6b6b; 
+            --category-color-dark: #ee5a6f; 
+        }
+        .category-astrology .category-button { 
+            --category-color: #4ecdc4; 
+            --category-color-dark: #26a69a; 
+        }
+        .category-tarot .category-button { 
+            --category-color: #45b7d1; 
+            --category-color-dark: #1e88e5; 
+        }
+        .category-numerology .category-button { 
+            --category-color: #ffa726; 
+            --category-color-dark: #f57c00; 
+        }
+        .category-palmistry .category-button { 
+            --category-color: #66bb6a; 
+            --category-color-dark: #43a047; 
+        }
+        .category-fengshui .category-button { 
+            --category-color: #ab47bc; 
+            --category-color-dark: #8e24aa; 
+        }
+
+        /* 特色功能区域 */
+        .features-section {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 80px 20px;
+            margin: 40px 0;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .feature-item {
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* 添加页脚样式 */
+        .footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.95));
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 60px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .disclaimer-main {
+            font-size: 16px;
+            color: #ffaa00;
+            font-weight: bold;
+            margin-bottom: 15px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #ffaa00, 0 0 10px #ffaa00; }
+            to { text-shadow: 0 0 10px #ffaa00, 0 0 20px #ffaa00, 0 0 30px #ffaa00; }
+        }
+
+        .disclaimer {
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .footer-links a {
+            color: #888;
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+        }
+
+        .footer-links a:hover {
+            color: #00ffff;
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        .wisdom-quote {
+            font-size: 13px;
+            color: #999;
+            font-style: italic;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 20px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .disclaimer-main {
+                font-size: 14px;
+            }
+            
+            .disclaimer {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="logo">🔮 神秘学预测中心</div>
+            <ul class="nav-menu">
+                <li><a href="#services" class="nav-link">服务项目</a></li>
+                <li><a href="#features" class="nav-link">功能特色</a></li>
+                <li><a href="#about" class="nav-link">关于我们</a></li>
+                <li><a href="#contact" class="nav-link">联系方式</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero-section">
+        <h1 class="hero-title">🌟 神秘学预测中心 🌟</h1>
+        <p class="hero-subtitle">探索神秘，预见未来</p>
+        <p class="hero-description">
+            专业的在线命理占卜平台，融合传统智慧与现代技术，为您提供精准的命理分析、运势预测和人生指导。
+            无论是事业发展、感情运势、还是人生规划，我们都能为您提供专业的建议和指引。
+        </p>
+        <a href="#services" class="cta-button">开始预测</a>
+    </section>
+
+    <!-- 服务分类区域 -->
+    <section class="services-section" id="services">
+        <h2 class="section-title">✨ 专业服务项目 ✨</h2>
+        
+        <div class="services-grid">
+            <!-- 八字命理 -->
+            <div class="service-category category-bazi">
+                <span class="category-icon">🏮</span>
+                <h3 class="category-title">八字命理</h3>
+                <p class="category-description">
+                    基于传统八字理论，通过出生年月日时分析您的命格特点、运势走向和人生发展趋势，
+                    提供专业的命理解读和人生指导。
+                </p>
+                <div class="category-features">
+                    <span class="feature-tag">八字排盘</span>
+                    <span class="feature-tag">十神分析</span>
+                    <span class="feature-tag">流年运势</span>
+                    <span class="feature-tag">婚姻配对</span>
+                </div>
+                <a href="pages/bazi/chart.html" class="category-button">立即测算</a>
+            </div>
+
+            <!-- 星座占星 -->
+            <div class="service-category category-astrology">
+                <span class="category-icon">⭐</span>
+                <h3 class="category-title">星座占星</h3>
+                <p class="category-description">
+                    结合西方占星学理论，分析星座位置对您性格、运势和人际关系的影响，
+                    提供每日、每周、每月的星座运势预测。
+                </p>
+                <div class="category-features">
+                    <span class="feature-tag">星座运势</span>
+                    <span class="feature-tag">性格分析</span>
+                    <span class="feature-tag">爱情配对</span>
+                    <span class="feature-tag">事业指导</span>
+                </div>
+                <a href="pages/astrology/horoscope.html" class="category-button">查看运势</a>
+            </div>
+
+            <!-- 塔罗占卜 -->
+            <div class="service-category category-tarot">
+                <span class="category-icon">🔮</span>
+                <h3 class="category-title">塔罗占卜</h3>
+                <p class="category-description">
+                    使用神秘的塔罗牌为您解答人生疑惑，通过牌面组合揭示内心深处的想法，
+                    为您的决策提供直觉指引和智慧启发。
+                </p>
+                <div class="category-features">
+                    <span class="feature-tag">每日塔罗</span>
+                    <span class="feature-tag">爱情塔罗</span>
+                    <span class="feature-tag">事业塔罗</span>
+                    <span class="feature-tag">综合占卜</span>
+                </div>
+                <a href="pages/tarot/daily.html" class="category-button">开始占卜</a>
+            </div>
+
+            <!-- 数字命理 -->
+            <div class="service-category category-numerology">
+                <span class="category-icon">🔢</span>
+                <h3 class="category-title">数字命理</h3>
+                <p class="category-description">
+                    通过生日数字和姓名数字分析您的生命密码，揭示性格特质、天赋潜能和人生使命，
+                    为您的成长和发展提供数字化的指引。
+                </p>
+                <div class="category-features">
+                    <span class="feature-tag">生命数字</span>
+                    <span class="feature-tag">灵魂数字</span>
+                    <span class="feature-tag">性格分析</span>
+                    <span class="feature-tag">命运数字</span>
+                </div>
+                <a href="pages/numerology/life-path.html" class="category-button">计算数字</a>
+            </div>
+
+            <!-- 手相面相 -->
+            <div class="service-category category-palmistry">
+                <span class="category-icon">👁️</span>
+                <h3 class="category-title">手相面相</h3>
+                <p class="category-description">
+                    通过手相线条和面部特征分析您的性格、运势和人生轨迹，
+                    结合传统相学理论为您提供个性化的命运解读。
+                </p>
+                <div class="category-features">
+                    <span class="feature-tag">手相分析</span>
+                    <span class="feature-tag">面相解读</span>
+                    <span class="feature-tag">运势预测</span>
+                    <span class="feature-tag">性格分析</span>
+                </div>
+                <a href="pages/palmistry/palm-reading.html" class="category-button">相术分析</a>
+            </div>
+
+            <!-- 风水分析 -->
+            <div class="service-category category-fengshui">
+                <span class="category-icon">🏠</span>
+                <h3 class="category-title">风水分析</h3>
+                <p class="category-description">
+                    基于传统风水理论，分析居住和工作环境的气场布局，
+                    为您提供风水调整建议，改善运势和生活品质。
+                </p>
+                <div class="category-features">
+                    <span class="feature-tag">家居风水</span>
+                    <span class="feature-tag">办公风水</span>
+                    <span class="feature-tag">方位分析</span>
+                    <span class="feature-tag">改善建议</span>
+                </div>
+                <a href="pages/fengshui/home.html" class="category-button">风水测评</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 特色功能区域 -->
+    <section class="features-section" id="features">
+        <div class="features-container">
+            <h2 class="section-title">🌟 平台特色 🌟</h2>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">专业精准</h3>
+                    <p class="feature-description">
+                        基于传统命理学理论，结合现代数据分析技术，为您提供专业、精准的预测服务。
+                    </p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🔐</div>
+                    <h3 class="feature-title">隐私保护</h3>
+                    <p class="feature-description">
+                        严格保护用户隐私，所有个人信息和预测结果都采用加密技术进行保护。
+                    </p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <h3 class="feature-title">随时随地</h3>
+                    <p class="feature-description">
+                        支持手机、平板、电脑等多种设备，让您随时随地都能获得命理指导。
+                    </p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">💎</div>
+                    <h3 class="feature-title">个性化服务</h3>
+                    <p class="feature-description">
+                        根据每个用户的具体情况，提供个性化的分析报告和改善建议。
+                    </p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">精美界面</h3>
+                    <p class="feature-description">
+                        精心设计的用户界面，营造神秘而优雅的预测体验，让每次使用都充满仪式感。
+                    </p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🌈</div>
+                    <h3 class="feature-title">全面覆盖</h3>
+                    <p class="feature-description">
+                        涵盖东西方主流命理体系，满足不同用户的需求和偏好。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="disclaimer-main">
+                ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
+            </div>
+            <div class="disclaimer">
+                🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
+                💫 传统文化传承，现代科技呈现 • 探索神秘学智慧，感受古老文明魅力<br>
+                🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
+            </div>
+            <div class="footer-links">
+                <a href="#" onclick="return false;">服务条款</a>
+                <a href="#" onclick="return false;">隐私政策</a>
+                <a href="#" onclick="return false;">免责声明</a>
+                <a href="#" onclick="return false;">用户协议</a>
+                <a href="#" onclick="return false;">联系我们</a>
+                <a href="#" onclick="return false;">意见反馈</a>
+            </div>
+            <div class="wisdom-quote">
+                "知命不惧，知而无畏" - 探索未知，拥抱可能
+            </div>
+            <div class="copyright">
+                © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 创建星空背景
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // 随机位置
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                // 随机大小
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                // 随机动画延迟
+                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                // 随机动画持续时间
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // 平滑滚动
+        function smoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // 服务卡片动画
+        function animateServiceCards() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.service-category').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        }
+
+        // 特色功能动画
+        function animateFeatures() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.feature-item').forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = `all 0.5s ease ${index * 0.1}s`;
+                observer.observe(item);
+            });
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            smoothScroll();
+            animateServiceCards();
+            animateFeatures();
+        });
+
+        // 添加滚动效果
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const stars = document.getElementById('stars');
+            stars.style.transform = `translateY(${scrollY * 0.5}px)`;
+        });
+    </script>
+</body>
+</html> 

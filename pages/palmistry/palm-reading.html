@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手相分析 - 神秘学预测中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-item {
+            margin: 0;
+        }
+
+        .nav-link {
+            color: #e0e0e0;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: rgba(79, 172, 254, 0.2);
+            border-color: #4facfe;
+        }
+
+        .nav-link.active {
+            background: rgba(79, 172, 254, 0.3);
+            border-color: #4facfe;
+        }
+
+        .nav h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #e0e6ed;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-links a:hover {
+            background: rgba(79, 172, 254, 0.2);
+            border-color: #4facfe;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 3rem;
+            margin: 40px 0;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500, #ffeb3b, #4caf50, #2196f3, #9c27b0);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .palm-analyzer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .palm-diagram {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .palm-svg {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f5f5dc, #e6e6fa);
+        }
+
+        .line-features {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-group {
+            margin-bottom: 25px;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            color: #4facfe;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .feature-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(79, 172, 254, 0.3);
+            border-radius: 10px;
+            padding: 10px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .feature-option:hover {
+            background: rgba(79, 172, 254, 0.1);
+            border-color: #4facfe;
+        }
+
+        .feature-option.selected {
+            background: rgba(79, 172, 254, 0.2);
+            border-color: #4facfe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .analyze-btn {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto;
+            width: 200px;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+
+        .result-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .analysis-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(79, 172, 254, 0.3);
+            color: #e0e6ed;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: rgba(79, 172, 254, 0.2);
+            border-color: #4facfe;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .analysis-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #4facfe;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-content {
+            line-height: 1.6;
+            color: #e0e6ed;
+        }
+
+        .fortune-score {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #ff6b6b 0%, #ffa500 25%, #ffeb3b 50%, #4caf50 75%, #4caf50 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+
+        .score-inner {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .score-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4facfe;
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            color: #e0e6ed;
+        }
+
+        @media (max-width: 768px) {
+            .palm-analyzer {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .feature-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .analysis-tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    
+        /* 星空背景动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* 顶部导航栏 */
+        .top-nav {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ffff;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 主要内容区域 */
+        .main-container {
+            display: flex;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* 左侧功能菜单 */
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 2px solid #00ffff;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            color: #00ffff;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .function-list {
+            list-style: none;
+        }
+
+        .function-item {
+            margin: 2px 0;
+        }
+
+        .function-link {
+            display: block;
+            padding: 12px 20px;
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .function-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            border-left-color: #00ffff;
+            transform: translateX(5px);
+        }
+
+        .function-link.active {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00ffff;
+            border-left-color: #00ffff;
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
+
+        /* 响应式布局调整 */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                order: 2;
+            }
+
+            .content-area {
+                order: 1;
+                padding: 20px;
+            }
+        }
+    
+        /* 星空背景动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* 顶部导航栏 */
+        .top-nav {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ffff;
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 255, 255, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 主要内容区域 */
+        .main-container {
+            display: flex;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* 左侧功能菜单 */
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 2px solid #00ffff;
+            padding: 20px 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-category {
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            color: #00ffff;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .function-list {
+            list-style: none;
+        }
+
+        .function-item {
+            margin: 2px 0;
+        }
+
+        .function-link {
+            display: block;
+            padding: 12px 20px;
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .function-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            border-left-color: #00ffff;
+            transform: translateX(5px);
+        }
+
+        .function-link.active {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00ffff;
+            border-left-color: #00ffff;
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
+
+        /* 响应式布局调整 */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                order: 2;
+            }
+
+            .content-area {
+                order: 1;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <nav class="top-nav">
+        <div class="nav-container">
+        <div class="logo"><a href="../../index_mystic.html" style="color: inherit; text-decoration: none;">🔮 Mystic Hub</a></div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../bazi/chart.html" class="nav-link">八字命理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../astrology/horoscope.html" class="nav-link">星座占星</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../tarot/daily.html" class="nav-link">塔罗牌</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../numerology/life-path.html" class="nav-link">数字命理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../palmistry/palm-reading.html" class="nav-link active">手相面相</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../divination/lots.html" class="nav-link">占卜游戏</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../fengshui/home.html" class="nav-link">风水分析</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="sidebar-category">
+                <div class="category-title">🖐️ 手相面相</div>
+                <ul class="function-list">
+                    <li class="function-item">
+                        <a href="#" class="function-link active">手相分析</a>
+                    </li>
+                    <li class="function-item">
+                        <a href="#" class="function-link">面相解读</a>
+                    </li>
+                    <li class="function-item">
+                        <a href="#" class="function-link">指纹分析</a>
+                    </li>
+                    <li class="function-item">
+                        <a href="#" class="function-link">掌纹详解</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-area">
+
+        <h1 class="page-title">👋 手相分析</h1>
+
+        <div class="palm-analyzer">
+            <div class="palm-diagram">
+                <h3 style="color: #4facfe; margin-bottom: 20px; text-align: center;">🖐️ 手掌图解</h3>
+                <svg class="palm-svg" viewBox="0 0 300 400">
+                    <!-- 手掌轮廓 -->
+                    <path d="M50 350 Q45 340 50 330 L60 250 Q65 180 80 120 Q85 100 95 85 Q100 75 110 70 L140 65 Q160 60 180 65 L210 70 Q220 75 225 85 Q235 100 240 120 Q255 180 260 250 L270 330 Q275 340 270 350 Q265 360 250 365 L70 365 Q55 360 50 350 Z" fill="#f5deb3" stroke="#d2b48c" stroke-width="2"/>
+                    
+                    <!-- 生命线 -->
+                    <path id="lifeLine" d="M80 120 Q100 200 120 300" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line"/>
+                    
+                    <!-- 智慧线 -->
+                    <path id="headLine" d="M85 140 Q150 150 220 160" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line"/>
+                    
+                    <!-- 感情线 -->
+                    <path id="heartLine" d="M85 110 Q150 105 220 120" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line"/>
+                    
+                    <!-- 事业线 -->
+                    <path id="careerLine" d="M160 350 Q165 250 170 150" stroke="#8b4513" stroke-width="2" fill="none" class="palm-line"/>
+                    
+                    <!-- 手指 -->
+                    <rect x="90" y="45" width="15" height="35" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                    <rect x="120" y="35" width="15" height="45" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                    <rect x="150" y="40" width="15" height="40" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                    <rect x="180" y="45" width="15" height="35" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                    
+                    <!-- 拇指 -->
+                    <ellipse cx="60" cy="200" rx="12" ry="25" fill="#f5deb3" stroke="#d2b48c"/>
+                    
+                    <!-- 标签 -->
+                    <text x="85" y="130" fill="#8b4513" font-size="10">感情线</text>
+                    <text x="85" y="155" fill="#8b4513" font-size="10">智慧线</text>
+                    <text x="85" y="200" fill="#8b4513" font-size="10">生命线</text>
+                    <text x="175" y="180" fill="#8b4513" font-size="10">事业线</text>
+                </svg>
+            </div>
+
+            <div class="line-features">
+                <div class="feature-group">
+                    <h3 class="feature-title">❤️ 感情线特征</h3>
+                    <div class="feature-options">
+                        <div class="feature-option" data-feature="heart" data-value="deep">深刻清晰</div>
+                        <div class="feature-option" data-feature="heart" data-value="shallow">浅淡模糊</div>
+                        <div class="feature-option" data-feature="heart" data-value="long">长而延伸</div>
+                        <div class="feature-option" data-feature="heart" data-value="short">短而有力</div>
+                        <div class="feature-option" data-feature="heart" data-value="curved">弧度明显</div>
+                        <div class="feature-option" data-feature="heart" data-value="straight">较为平直</div>
+                    </div>
+                </div>
+
+                <div class="feature-group">
+                    <h3 class="feature-title">🧠 智慧线特征</h3>
+                    <div class="feature-options">
+                        <div class="feature-option" data-feature="head" data-value="long">长而清晰</div>
+                        <div class="feature-option" data-feature="head" data-value="short">短而有力</div>
+                        <div class="feature-option" data-feature="head" data-value="straight">笔直延伸</div>
+                        <div class="feature-option" data-feature="head" data-value="curved">向下弯曲</div>
+                        <div class="feature-option" data-feature="head" data-value="forked">末端分叉</div>
+                        <div class="feature-option" data-feature="head" data-value="broken">中断或断续</div>
+                    </div>
+                </div>
+
+                <div class="feature-group">
+                    <h3 class="feature-title">🌟 生命线特征</h3>
+                    <div class="feature-options">
+                        <div class="feature-option" data-feature="life" data-value="strong">深而有力</div>
+                        <div class="feature-option" data-feature="life" data-value="weak">细而浅淡</div>
+                        <div class="feature-option" data-feature="life" data-value="long">长而绕拇指</div>
+                        <div class="feature-option" data-feature="life" data-value="short">较短较直</div>
+                        <div class="feature-option" data-feature="life" data-value="double">有双重线</div>
+                        <div class="feature-option" data-feature="life" data-value="chained">呈链状</div>
+                    </div>
+                </div>
+
+                <div class="feature-group">
+                    <h3 class="feature-title">💼 事业线特征</h3>
+                    <div class="feature-options">
+                        <div class="feature-option" data-feature="career" data-value="clear">清晰笔直</div>
+                        <div class="feature-option" data-feature="career" data-value="faint">模糊不清</div>
+                        <div class="feature-option" data-feature="career" data-value="multiple">多条并行</div>
+                        <div class="feature-option" data-feature="career" data-value="broken">中断断续</div>
+                        <div class="feature-option" data-feature="career" data-value="late">中年出现</div>
+                        <div class="feature-option" data-feature="career" data-value="none">无明显线</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="analyze-btn" onclick="analyzePalm()">🔍 开始分析</button>
+
+        <div class="result-section" id="resultSection">
+            <div class="fortune-score">
+                <div class="score-circle">
+                    <div class="score-inner">
+                        <div class="score-number" id="totalScore">85</div>
+                        <div class="score-label">综合评分</div>
+                    </div>
+                </div>
+                <h3 style="color: #4facfe; margin-top: 10px;" id="fortuneLevel">运势良好</h3>
+            </div>
+
+            <div class="analysis-tabs">
+                <button class="tab-btn active" onclick="switchTab('personality')">性格特质</button>
+                <button class="tab-btn" onclick="switchTab('career')">事业发展</button>
+                <button class="tab-btn" onclick="switchTab('wealth')">财富运势</button>
+                <button class="tab-btn" onclick="switchTab('love')">感情生活</button>
+                <button class="tab-btn" onclick="switchTab('health')">健康状况</button>
+                <button class="tab-btn" onclick="switchTab('advice')">生活建议</button>
+            </div>
+
+            <div id="personality" class="tab-content active">
+                <div class="analysis-card">
+                    <h3 class="card-title">🌟 性格分析</h3>
+                    <div class="card-content" id="personalityAnalysis">
+                        <!-- 动态生成内容 -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="career" class="tab-content">
+                <div class="analysis-card">
+                    <h3 class="card-title">💼 事业运势</h3>
+                    <div class="card-content" id="careerAnalysis">
+                        <!-- 动态生成内容 -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="wealth" class="tab-content">
+                <div class="analysis-card">
+                    <h3 class="card-title">💰 财富运势</h3>
+                    <div class="card-content" id="wealthAnalysis">
+                        <!-- 动态生成内容 -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="love" class="tab-content">
+                <div class="analysis-card">
+                    <h3 class="card-title">❤️ 感情生活</h3>
+                    <div class="card-content" id="loveAnalysis">
+                        <!-- 动态生成内容 -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="health" class="tab-content">
+                <div class="analysis-card">
+                    <h3 class="card-title">🏥 健康状况</h3>
+                    <div class="card-content" id="healthAnalysis">
+                        <!-- 动态生成内容 -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="advice" class="tab-content">
+                <div class="analysis-card">
+                    <h3 class="card-title">💡 生活建议</h3>
+                    <div class="card-content" id="adviceAnalysis">
+                        <!-- 动态生成内容 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+            </div>
+    </div>
+
+    <script>
+        // 创建星空背景
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        }
+        }
+
+        // 选择的特征
+        let selectedFeatures = {
+            heart: null,
+            head: null,
+            life: null,
+            career: null
+        };
+
+        // 手相分析数据
+        const palmAnalysisData = {
+            heart: {
+                deep: {
+                    personality: "感情深刻，情感丰富，对爱情专一执着",
+                    love: "在感情中投入很深，容易受到情感波动影响，但一旦认定就会全心全意",
+                    advice: "学会适度表达情感，避免过度投入导致的情感负担"
+                },
+                shallow: {
+                    personality: "理性冷静，不易被情绪左右，独立性强",
+                    love: "在感情中较为理性，不容易冲动，但可能给人距离感",
+                    advice: "尝试更多地表达内心情感，让身边的人感受到你的温暖"
+                },
+                long: {
+                    personality: "感情丰富，社交能力强，善于维护人际关系",
+                    love: "桃花运较好，感情选择较多，但需要专一对待感情",
+                    advice: "珍惜真正合适的感情，不要在选择中迷失方向"
+                },
+                short: {
+                    personality: "专一深情，不善花言巧语，但内心真诚",
+                    love: "感情专一，一旦认定就会坚持到底，是值得信赖的伴侣",
+                    advice: "学会更好地表达爱意，让对方感受到你的深情"
+                }
+            },
+            head: {
+                long: {
+                    personality: "思维敏锐，分析能力强，善于深度思考",
+                    career: "适合从事需要智慧和分析的工作，学术研究、咨询等领域",
+                    advice: "充分发挥你的智慧优势，但也要注意实际行动的重要性"
+                },
+                short: {
+                    personality: "直觉敏锐，行动力强，善于快速决策",
+                    career: "适合需要快速反应的工作，销售、服务、运动等领域",
+                    advice: "在快速决策的同时，也要注意深度思考的价值"
+                },
+                straight: {
+                    personality: "逻辑清晰，做事有条理，善于系统性思考",
+                    career: "适合管理、工程、金融等需要逻辑思维的工作",
+                    advice: "保持你的理性优势，但也要培养创新思维"
+                },
+                curved: {
+                    personality: "想象力丰富，富有创意，感性思维强",
+                    career: "适合艺术、设计、文学等创意性工作",
+                    advice: "发挥你的创意天赋，但也要注意现实的考量"
+                }
+            },
+            life: {
+                strong: {
+                    personality: "生命力旺盛，体质强健，意志坚强",
+                    health: "身体素质良好，抵抗力强，恢复能力快",
+                    advice: "保持规律的生活习惯，继续维护良好的身体状态"
+                },
+                weak: {
+                    personality: "较为敏感，需要更多关怀，但内心细腻",
+                    health: "体质较弱，需要特别注意身体保养和健康管理",
+                    advice: "加强锻炼，注意营养，定期体检，预防疾病"
+                },
+                long: {
+                    personality: "生命力强，长寿体质，乐观积极",
+                    health: "有长寿的潜质，但也要注意健康的生活方式",
+                    advice: "珍惜健康的身体，保持积极的生活态度"
+                },
+                double: {
+                    personality: "生命力强韧，有贵人相助，恢复能力强",
+                    health: "即使遇到困难也能很快恢复，抵抗力强",
+                    advice: "感恩生命中的贵人，也要帮助他人度过难关"
+                }
+            },
+            career: {
+                clear: {
+                    personality: "目标明确，执行力强，事业心重",
+                    career: "事业运势良好，能够在工作中取得显著成就",
+                    wealth: "通过努力工作获得稳定收入，财运与事业密切相关",
+                    advice: "继续专注于事业发展，但也要注意工作与生活的平衡"
+                },
+                faint: {
+                    personality: "较为随性，不太在意名利，追求内心平静",
+                    career: "事业发展较为平缓，更注重精神满足而非物质成就",
+                    wealth: "财运平稳，不会大富大贵，但能满足基本需求",
+                    advice: "如果想要改变现状，需要更明确的目标和行动计划"
+                },
+                multiple: {
+                    personality: "多才多艺，适应性强，有多重发展可能",
+                    career: "可能在多个领域都有发展，或者有副业收入",
+                    wealth: "收入来源多样化，财运较好",
+                    advice: "充分利用你的多重才能，但要避免过于分散注意力"
+                },
+                none: {
+                    personality: "自由随性，不喜欢被束缚，可能更适合自由职业",
+                    career: "传统的职业发展路径可能不适合你，考虑自主创业或自由职业",
+                    wealth: "财运起伏较大，需要更好的财务规划",
+                    advice: "寻找真正适合自己的发展道路，不要被传统观念束缚"
+                }
+            }
+        };
+
+        // 处理特征选择
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('feature-option')) {
+                const feature = e.target.dataset.feature;
+                const value = e.target.dataset.value;
+                
+                // 清除同组的其他选择
+                document.querySelectorAll(`[data-feature="${feature}"]`).forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // 选中当前选项
+                e.target.classList.add('selected');
+                selectedFeatures[feature] = value;
+                
+                // 更新SVG显示
+                updatePalmDiagram(feature, value);
+            }
+        });
+
+        // 更新手掌图
+        function updatePalmDiagram(feature, value) {
+            const lineMap = {
+                heart: 'heartLine',
+                head: 'headLine',
+                life: 'lifeLine',
+                career: 'careerLine'
+            };
+            
+            const line = document.getElementById(lineMap[feature]);
+            if (line) {
+                // 根据特征改变线条样式
+                if (value === 'deep' || value === 'strong' || value === 'clear') {
+                    line.style.strokeWidth = '4';
+                    line.style.stroke = '#654321';
+                } else if (value === 'shallow' || value === 'weak' || value === 'faint') {
+                    line.style.strokeWidth = '2';
+                    line.style.stroke = '#d2b48c';
+                } else if (value === 'long') {
+                    line.style.strokeDasharray = 'none';
+                } else if (value === 'short') {
+                    line.style.strokeDasharray = '10,5';
+                }
+            }
+        }
+
+        // 分析手相
+        function analyzePalm() {
+            // 检查是否至少选择了一个特征
+            const hasSelection = Object.values(selectedFeatures).some(value => value !== null);
+            
+            if (!hasSelection) {
+                alert('请至少选择一个手相特征！');
+                return;
+            }
+            
+            // 计算综合评分
+            let totalScore = 70; // 基础分
+            const scoreFactors = {
+                heart: { deep: 5, long: 3, curved: 2, shallow: -2 },
+                head: { long: 4, straight: 3, forked: 2, broken: -3 },
+                life: { strong: 6, long: 4, double: 5, weak: -4 },
+                career: { clear: 5, multiple: 3, faint: -2, none: -4 }
+            };
+            
+            Object.keys(selectedFeatures).forEach(feature => {
+                const value = selectedFeatures[feature];
+                if (value && scoreFactors[feature] && scoreFactors[feature][value]) {
+                    totalScore += scoreFactors[feature][value];
+                }
+            });
+            
+            totalScore = Math.max(30, Math.min(100, totalScore));
+            
+            // 显示结果
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('totalScore').textContent = totalScore;
+            
+            // 设置运势等级
+            let fortuneLevel = '';
+            if (totalScore >= 90) fortuneLevel = '运势极佳';
+            else if (totalScore >= 80) fortuneLevel = '运势良好';
+            else if (totalScore >= 70) fortuneLevel = '运势平稳';
+            else if (totalScore >= 60) fortuneLevel = '运势一般';
+            else fortuneLevel = '需要改善';
+            
+            document.getElementById('fortuneLevel').textContent = fortuneLevel;
+            
+            // 生成分析内容
+            generateAnalysis();
+            
+            // 滚动到结果区域
+            document.getElementById('resultSection').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // 生成分析内容
+        function generateAnalysis() {
+            const analyses = {
+                personality: [],
+                career: [],
+                wealth: [],
+                love: [],
+                health: [],
+                advice: []
+            };
+            
+            Object.keys(selectedFeatures).forEach(feature => {
+                const value = selectedFeatures[feature];
+                if (value && palmAnalysisData[feature] && palmAnalysisData[feature][value]) {
+                    const data = palmAnalysisData[feature][value];
+                    
+                    if (data.personality) analyses.personality.push(data.personality);
+                    if (data.career) analyses.career.push(data.career);
+                    if (data.wealth) analyses.wealth.push(data.wealth);
+                    if (data.love) analyses.love.push(data.love);
+                    if (data.health) analyses.health.push(data.health);
+                    if (data.advice) analyses.advice.push(data.advice);
+                }
+            });
+            
+            // 设置默认内容
+            if (analyses.personality.length === 0) {
+                analyses.personality.push("您是一个有独特魅力的人，具有自己的特色和优势。");
+            }
+            if (analyses.career.length === 0) {
+                analyses.career.push("您在事业上有自己的发展路径，只要坚持努力就会有所收获。");
+            }
+            if (analyses.wealth.length === 0) {
+                analyses.wealth.push("您的财运平稳，通过努力和规划可以获得稳定的收入。");
+            }
+            if (analyses.love.length === 0) {
+                analyses.love.push("您在感情上有自己的魅力，真诚对待就能找到合适的伴侣。");
+            }
+            if (analyses.health.length === 0) {
+                analyses.health.push("注意保持健康的生活方式，规律作息，适度运动。");
+            }
+            if (analyses.advice.length === 0) {
+                analyses.advice.push("保持积极的心态，相信自己的能力，持续学习和成长。");
+            }
+            
+            // 填充内容
+            document.getElementById('personalityAnalysis').innerHTML = analyses.personality.join('<br><br>');
+            document.getElementById('careerAnalysis').innerHTML = analyses.career.join('<br><br>');
+            document.getElementById('wealthAnalysis').innerHTML = analyses.wealth.join('<br><br>');
+            document.getElementById('loveAnalysis').innerHTML = analyses.love.join('<br><br>');
+            document.getElementById('healthAnalysis').innerHTML = analyses.health.join('<br><br>');
+            document.getElementById('adviceAnalysis').innerHTML = analyses.advice.join('<br><br>');
+        }
+
+        // 切换标签
+        function switchTab(tabName) {
+            // 隐藏所有内容
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // 移除所有按钮的active状态
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // 显示选中的内容
+            document.getElementById(tabName).classList.add('active');
+            
+            // 激活对应的按钮
+            event.target.classList.add('active');
+        }
+
+        // 页面加载完成后创建星空背景
+        window.addEventListener('load', createStars);
+    </script>
+
+    <!-- 引入通用页脚 -->
+    <style>
+        .mystic-footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.95));
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .mystic-footer .disclaimer-main {
+            font-size: 15px;
+            color: #ffaa00;
+            font-weight: bold;
+            margin-bottom: 12px;
+            animation: footerGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes footerGlow {
+            from { text-shadow: 0 0 5px #ffaa00, 0 0 10px #ffaa00; }
+            to { text-shadow: 0 0 8px #ffaa00, 0 0 15px #ffaa00, 0 0 20px #ffaa00; }
+        }
+
+        .mystic-footer .disclaimer {
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mystic-footer .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .mystic-footer .footer-links a {
+            color: #888;
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .mystic-footer .footer-links a:hover {
+            color: #00ffff;
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .mystic-footer .copyright {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .mystic-footer .wisdom-quote {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .mystic-footer .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .mystic-footer .disclaimer-main {
+                font-size: 13px;
+            }
+            
+            .mystic-footer .disclaimer {
+                font-size: 12px;
+            }
+        }
+    </style>
+
+    <footer class="mystic-footer">
+        <div class="disclaimer-main">
+            ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
+        </div>
+        <div class="disclaimer">
+            🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
+            🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
+        </div>
+        <div class="footer-links">
+            <a href="../../index_mystic.html">返回首页</a>
+            <a href="#" onclick="return false;">服务条款</a>
+            <a href="#" onclick="return false;">隐私政策</a>
+            <a href="#" onclick="return false;">免责声明</a>
+            <a href="#" onclick="return false;">联系我们</a>
+        </div>
+        <div class="wisdom-quote">
+            "知命不惧，知而无畏" - 探索未知，拥抱可能
+        </div>
+        <div class="copyright">
+            © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
+        </div>
+    </footer>
+
+</body>
+</html></html> 

@@ -1,0 +1,113 @@
+<!-- 通用页脚组件 -->
+<style>
+    .mystic-footer {
+        background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.95));
+        backdrop-filter: blur(10px);
+        border-top: 2px solid rgba(0, 255, 255, 0.3);
+        padding: 20px;
+        text-align: center;
+        margin-top: 40px;
+        position: relative;
+        z-index: 100;
+    }
+
+    .mystic-footer .disclaimer-main {
+        font-size: 15px;
+        color: #ffaa00;
+        font-weight: bold;
+        margin-bottom: 12px;
+        animation: footerGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes footerGlow {
+        from { text-shadow: 0 0 5px #ffaa00, 0 0 10px #ffaa00; }
+        to { text-shadow: 0 0 8px #ffaa00, 0 0 15px #ffaa00, 0 0 20px #ffaa00; }
+    }
+
+    .mystic-footer .disclaimer {
+        font-size: 13px;
+        color: #ccc;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .mystic-footer .footer-links {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 12px;
+    }
+
+    .mystic-footer .footer-links a {
+        color: #888;
+        text-decoration: none;
+        padding: 6px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        font-size: 12px;
+    }
+
+    .mystic-footer .footer-links a:hover {
+        color: #00ffff;
+        border-color: #00ffff;
+        background: rgba(0, 255, 255, 0.1);
+        transform: translateY(-1px);
+    }
+
+    .mystic-footer .copyright {
+        font-size: 11px;
+        color: #666;
+        margin-top: 10px;
+    }
+
+    .mystic-footer .wisdom-quote {
+        font-size: 12px;
+        color: #999;
+        font-style: italic;
+        opacity: 0.8;
+        margin-bottom: 8px;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+        .mystic-footer .footer-links {
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .mystic-footer .disclaimer-main {
+            font-size: 13px;
+        }
+        
+        .mystic-footer .disclaimer {
+            font-size: 12px;
+        }
+    }
+</style>
+
+<footer class="mystic-footer">
+    <div class="disclaimer-main">
+        ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
+    </div>
+    <div class="disclaimer">
+        🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
+        🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
+    </div>
+    <div class="footer-links">
+        <a href="#" onclick="return false;">服务条款</a>
+        <a href="#" onclick="return false;">隐私政策</a>
+        <a href="#" onclick="return false;">免责声明</a>
+        <a href="#" onclick="return false;">联系我们</a>
+    </div>
+    <div class="wisdom-quote">
+        "知命不惧，知而无畏" - 探索未知，拥抱可能
+    </div>
+    <div class="copyright">
+        © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
+    </div>
+</footer> 

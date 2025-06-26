@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事业塔罗 - 神秘学预测中心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        .top-nav {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #00ffff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 255, 255, 0.3);
+        }
+        .nav-container { display: flex; align-items: center; max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 40px;
+            padding: 15px 0;
+        }
+        .nav-menu { display: flex; list-style: none; flex: 1; }
+        .nav-item { margin: 0 5px; }
+        .nav-link {
+            display: block;
+            padding: 15px 20px;
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        .nav-link:hover {
+            background: linear-gradient(45deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+            color: #00ffff;
+            transform: translateY(-2px);
+        }
+        .nav-link.active { background: linear-gradient(45deg, #00ffff, #ff00ff); color: #000; }
+        .main-container { display: flex; margin-top: 70px; min-height: calc(100vh - 70px); }
+        .sidebar {
+            width: 280px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 2px solid #00ffff;
+            padding: 20px 0;
+        }
+        .category-title {
+            color: #00ffff;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            margin-bottom: 10px;
+        }
+        .function-list { list-style: none; }
+        .function-item { margin: 2px 0; }
+        .function-link {
+            display: block;
+            padding: 12px 20px;
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        .function-link:hover {
+            background: rgba(0, 255, 255, 0.1);
+            color: #00ffff;
+            border-left-color: #00ffff;
+            transform: translateX(5px);
+        }
+        .function-link.active {
+            background: rgba(0, 255, 255, 0.2);
+            color: #00ffff;
+            border-left-color: #00ffff;
+        }
+        .content-area { flex: 1; padding: 40px; }
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 0, 255, 0.5)); }
+        }
+        .question-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .question-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        .question-input:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            outline: none;
+        }
+        .draw-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .draw-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+        }
+        .cards-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .card-position {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .card-position.revealed {
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        .position-title {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .tarot-card {
+            width: 120px;
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            margin: 0 auto 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .tarot-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4);
+        }
+        .card-back {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff00ff, #00ffff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #000;
+        }
+        .card-front {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        .card-front.show { display: flex; }
+        .card-icon { font-size: 48px; margin-bottom: 10px; }
+        .card-name {
+            font-size: 12px;
+            color: #00ffff;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+        }
+        .card-meaning {
+            color: #ccc;
+            font-size: 14px;
+            margin-top: 10px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        .reading-result {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        .reading-result.show { display: block; animation: fadeInUp 0.5s ease; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-title {
+            color: #ff00ff;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .result-content {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        .career-aspects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .aspect-card {
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid #ff00ff;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .aspect-title {
+            color: #ff00ff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .aspect-content {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="logo"><a href="../../index_mystic.html" style="color: inherit; text-decoration: none;">🔮 Mystic Hub</a></div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../bazi/chart.html" class="nav-link">八字命理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../astrology/horoscope.html" class="nav-link">星座占星</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../tarot/daily.html" class="nav-link active">塔罗牌</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../numerology/life-path.html" class="nav-link">数字命理</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../palmistry/palm-reading.html" class="nav-link">手相面相</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../divination/lots.html" class="nav-link">占卜游戏</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../fengshui/home.html" class="nav-link">风水分析</a>
+                </li>
+            </ul>
+        </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../../index_mystic.html" class="nav-link">八字命理</a></li>
+                <li class="nav-item"><a href="../astrology/horoscope.html" class="nav-link">星座占星</a></li>
+                <li class="nav-item"><a href="../tarot/daily.html" class="nav-link active">塔罗牌</a></li>
+                <li class="nav-item"><a href="../numerology/life-number.html" class="nav-link">数字命理</a></li>
+                <li class="nav-item"><a href="../palmistry/palm-reading.html" class="nav-link">手相面相</a></li>
+                <li class="nav-item"><a href="../divination/lots.html" class="nav-link">占卜游戏</a></li>
+                <li class="nav-item"><a href="../fengshui/home.html" class="nav-link">风水分析</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="sidebar-category">
+                <div class="category-title">塔罗占卜</div>
+                <ul class="function-list">
+                    <li class="function-item"><a href="daily.html" class="function-link">每日一牌</a></li>
+                    <li class="function-item"><a href="love.html" class="function-link">爱情塔罗</a></li>
+                    <li class="function-item"><a href="career.html" class="function-link active">事业塔罗</a></li>
+                    <li class="function-item"><a href="wealth.html" class="function-link">财运塔罗</a></li>
+                    <li class="function-item"><a href="three-cards.html" class="function-link">三牌占卜</a></li>
+                    <li class="function-item"><a href="celtic-cross.html" class="function-link">凯尔特十字</a></li>
+                </ul>
+            </div>
+        </aside>
+        <main class="content-area">
+            <h1 class="page-title">💼 事业塔罗</h1>
+            <div class="question-section">
+                <h3 style="color: #00ffff; margin-bottom: 15px;">💭 请输入您的事业问题</h3>
+                <textarea id="careerQuestion" class="question-input" placeholder="例如：我是否应该换工作？当前的项目会成功吗？如何提升职业发展？"></textarea>
+                <button onclick="drawCareerCards()" class="draw-btn">🎴 抽取事业指导牌</button>
+            </div>
+            <div class="cards-section" id="cardsSection" style="display: none;">
+                <div class="card-position" id="position1">
+                    <div class="position-title">现状分析</div>
+                    <div class="tarot-card" onclick="revealCard(1)">
+                        <div class="card-back">🎴</div>
+                        <div class="card-front" id="card1">
+                            <div class="card-icon" id="icon1">🌟</div>
+                            <div class="card-name" id="name1">卡牌名称</div>
+                        </div>
+                    </div>
+                    <div class="card-meaning" id="meaning1"></div>
+                </div>
+                <div class="card-position" id="position2">
+                    <div class="position-title">挑战与机遇</div>
+                    <div class="tarot-card" onclick="revealCard(2)">
+                        <div class="card-back">🎴</div>
+                        <div class="card-front" id="card2">
+                            <div class="card-icon" id="icon2">🌟</div>
+                            <div class="card-name" id="name2">卡牌名称</div>
+                        </div>
+                    </div>
+                    <div class="card-meaning" id="meaning2"></div>
+                </div>
+                <div class="card-position" id="position3">
+                    <div class="position-title">行动建议</div>
+                    <div class="tarot-card" onclick="revealCard(3)">
+                        <div class="card-back">🎴</div>
+                        <div class="card-front" id="card3">
+                            <div class="card-icon" id="icon3">🌟</div>
+                            <div class="card-name" id="name3">卡牌名称</div>
+                        </div>
+                    </div>
+                    <div class="card-meaning" id="meaning3"></div>
+                </div>
+            </div>
+            <div id="readingResult" class="reading-result">
+                <div class="result-title">🔮 事业指导解读</div>
+                <div class="result-content" id="resultContent"></div>
+                <div class="career-aspects">
+                    <div class="aspect-card">
+                        <div class="aspect-title">职业发展</div>
+                        <div class="aspect-content" id="careerDevelopment"></div>
+                    </div>
+                    <div class="aspect-card">
+                        <div class="aspect-title">人际关系</div>
+                        <div class="aspect-content" id="workRelations"></div>
+                    </div>
+                    <div class="aspect-card">
+                        <div class="aspect-title">技能提升</div>
+                        <div class="aspect-content" id="skillDevelopment"></div>
+                    </div>
+                    <div class="aspect-card">
+                        <div class="aspect-title">时机把握</div>
+                        <div class="aspect-content" id="timing"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        const careerTarotCards = [
+            { name: '皇帝', icon: '👑', meaning: '权威与领导力，事业上需要展现决断力和管理能力。' },
+            { name: '教皇', icon: '⛪', meaning: '传统与智慧，遵循既定规则，寻求导师指导。' },
+            { name: '战车', icon: '🏆', meaning: '胜利与进取，通过努力和决心克服困难。' },
+            { name: '力量', icon: '💪', meaning: '内在力量与坚持，用耐心和毅力面对挑战。' },
+            { name: '隐者', icon: '🔦', meaning: '内省与指导，需要独立思考，寻找内在智慧。' },
+            { name: '命运之轮', icon: '🎡', meaning: '机遇与变化，把握时机，适应环境变化。' },
+            { name: '正义', icon: '⚖️', meaning: '公平与平衡，做出正确决定，承担责任。' },
+            { name: '倒吊人', icon: '🙃', meaning: '牺牲与等待，需要改变视角，耐心等待时机。' },
+            { name: '死神', icon: '💀', meaning: '转变与重生，旧的结束，新的开始。' },
+            { name: '节制', icon: '🍃', meaning: '平衡与调和，保持耐心，寻求中庸之道。' },
+            { name: '恶魔', icon: '😈', meaning: '束缚与诱惑，需要克服内在恐惧和外在限制。' },
+            { name: '塔', icon: '🗼', meaning: '突然变化，旧结构的崩塌带来新机会。' },
+            { name: '星星', icon: '⭐', meaning: '希望与灵感，保持乐观，追求理想。' },
+            { name: '月亮', icon: '🌙', meaning: '直觉与迷惑，需要相信直觉，小心陷阱。' },
+            { name: '太阳', icon: '☀️', meaning: '成功与喜悦，事业蒸蒸日上，充满活力。' },
+            { name: '审判', icon: '📯', meaning: '觉醒与重生，重新评估，做出重要决定。' },
+            { name: '世界', icon: '🌍', meaning: '完成与成就，目标达成，获得认可。' },
+            { name: '愚者', icon: '🃏', meaning: '新开始与冒险，勇于尝试，保持开放心态。' }
+        ];
+
+        let selectedCards = [];
+        let revealedCount = 0;
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function drawCareerCards() {
+            const question = document.getElementById('careerQuestion').value.trim();
+            if (!question) {
+                alert('请输入您的事业问题！');
+                return;
+            }
+
+            // 随机选择3张牌
+            const shuffled = [...careerTarotCards].sort(() => Math.random() - 0.5);
+            selectedCards = shuffled.slice(0, 3);
+            revealedCount = 0;
+
+            // 显示卡牌区域
+            document.getElementById('cardsSection').style.display = 'grid';
+            
+            // 重置卡牌状态
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById(`position${i}`).classList.remove('revealed');
+                document.getElementById(`card${i}`).classList.remove('show');
+                document.getElementById(`meaning${i}`).textContent = '';
+            }
+            
+            // 隐藏结果
+            document.getElementById('readingResult').classList.remove('show');
+        }
+
+        function revealCard(position) {
+            if (document.getElementById(`card${position}`).classList.contains('show')) {
+                return; // 已经翻开的卡牌
+            }
+
+            const card = selectedCards[position - 1];
+            document.getElementById(`icon${position}`).textContent = card.icon;
+            document.getElementById(`name${position}`).textContent = card.name;
+            document.getElementById(`card${position}`).classList.add('show');
+            document.getElementById(`meaning${position}`).textContent = card.meaning;
+            document.getElementById(`position${position}`).classList.add('revealed');
+            
+            revealedCount++;
+            
+            if (revealedCount === 3) {
+                setTimeout(() => {
+                    generateCareerReading();
+                }, 1000);
+            }
+        }
+
+        function generateCareerReading() {
+            const question = document.getElementById('careerQuestion').value;
+            const currentCard = selectedCards[0];
+            const challengeCard = selectedCards[1];
+            const actionCard = selectedCards[2];
+
+            const reading = `
+                <p><strong>您的问题：</strong>${question}</p>
+                <br>
+                <p><strong>现状分析 - ${currentCard.name}：</strong></p>
+                <p>${currentCard.meaning} 当前您的事业状态需要关注这个方面的发展。</p>
+                <br>
+                <p><strong>挑战与机遇 - ${challengeCard.name}：</strong></p>
+                <p>${challengeCard.meaning} 这是您需要面对的主要挑战，同时也蕴含着机遇。</p>
+                <br>
+                <p><strong>行动建议 - ${actionCard.name}：</strong></p>
+                <p>${actionCard.meaning} 建议您采取这样的行动策略。</p>
+            `;
+
+            document.getElementById('resultContent').innerHTML = reading;
+            
+            // 生成各方面建议
+            generateCareerAspects();
+            
+            document.getElementById('readingResult').classList.add('show');
+        }
+
+        function generateCareerAspects() {
+            const aspects = {
+                careerDevelopment: [
+                    '专注于核心技能的提升，建立个人品牌。',
+                    '寻找导师或榜样，学习成功经验。',
+                    '制定明确的职业规划，设定阶段性目标。',
+                    '积极参与项目，展现领导能力。'
+                ],
+                workRelations: [
+                    '建立良好的同事关系，扩展人脉网络。',
+                    '主动沟通，增强团队协作能力。',
+                    '尊重他人意见，展现包容性。',
+                    '在关键时刻提供支持，建立信任。'
+                ],
+                skillDevelopment: [
+                    '关注行业趋势，学习新技术和知识。',
+                    '参加培训课程，获得相关认证。',
+                    '实践中学习，通过项目提升能力。',
+                    '培养软技能，如沟通和管理能力。'
+                ],
+                timing: [
+                    '把握当前机会，不要错过关键时机。',
+                    '耐心等待，有些事情需要时间发酵。',
+                    '主动创造机会，而不是被动等待。',
+                    '关注市场变化，适时调整策略。'
+                ]
+            };
+
+            Object.keys(aspects).forEach(key => {
+                const randomAdvice = aspects[key][Math.floor(Math.random() * aspects[key].length)];
+                document.getElementById(key).textContent = randomAdvice;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', createStars);
+    </script>
+
+    <!-- 引入通用页脚 -->
+    <style>
+        .mystic-footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.95));
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .mystic-footer .disclaimer-main {
+            font-size: 15px;
+            color: #ffaa00;
+            font-weight: bold;
+            margin-bottom: 12px;
+            animation: footerGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes footerGlow {
+            from { text-shadow: 0 0 5px #ffaa00, 0 0 10px #ffaa00; }
+            to { text-shadow: 0 0 8px #ffaa00, 0 0 15px #ffaa00, 0 0 20px #ffaa00; }
+        }
+
+        .mystic-footer .disclaimer {
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mystic-footer .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .mystic-footer .footer-links a {
+            color: #888;
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .mystic-footer .footer-links a:hover {
+            color: #00ffff;
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .mystic-footer .copyright {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .mystic-footer .wisdom-quote {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .mystic-footer .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .mystic-footer .disclaimer-main {
+                font-size: 13px;
+            }
+            
+            .mystic-footer .disclaimer {
+                font-size: 12px;
+            }
+        }
+    </style>
+
+    <footer class="mystic-footer">
+        <div class="disclaimer-main">
+            ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
+        </div>
+        <div class="disclaimer">
+            🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
+            🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
+        </div>
+        <div class="footer-links">
+            <a href="../../index_mystic.html">返回首页</a>
+            <a href="#" onclick="return false;">服务条款</a>
+            <a href="#" onclick="return false;">隐私政策</a>
+            <a href="#" onclick="return false;">免责声明</a>
+            <a href="#" onclick="return false;">联系我们</a>
+        </div>
+        <div class="wisdom-quote">
+            "知命不惧，知而无畏" - 探索未知，拥抱可能
+        </div>
+        <div class="copyright">
+            © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
+        </div>
+    </footer>
+
+</body>
+</html></html> 
