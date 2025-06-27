@@ -99,66 +99,7 @@
             50% { opacity: 1; }
         }
 
-        /* 顶部导航栏 */
-        .top-nav {
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 2px solid #00ffff;
-            padding: 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 255, 255, 0.3);
-        }
-
-        .nav-container {
-            display: flex;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-right: 40px;
-            padding: 15px 0;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            flex: 1;
-        }
-
-        .nav-item {
-            margin: 0 5px;
-        }
-
-        .nav-link {
-            display: block;
-            padding: 15px 20px;
-            color: #e0e0e0;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-        }
-
-        .nav-link:hover {
-            background: linear-gradient(45deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
-            color: #00ffff;
-            transform: translateY(-2px);
-        }
-
-        .nav-link.active {
-            background: linear-gradient(45deg, #00ffff, #ff00ff);
-            color: #000;
-        }
+        
 
         /* 主要内容区域 */
         .main-container {
@@ -414,9 +355,7 @@
 
         /* 响应式设计 */
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none;
-            }
+            
             
             .sidebar {
                 width: 100%;
@@ -491,44 +430,15 @@
         });
     }
     </script>
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
 </head>
 <body>
     <!-- 星空背景 -->
     <div class="stars" id="stars"></div>
 
     <!-- 顶部导航栏 -->
-    <nav class="top-nav">
-        <div class="nav-container">
-            <div class="logo"><a href="../../index_mystic.html" style="color: inherit; text-decoration: none;">🔮 Mystic Hub</a></div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="../bazi/chart.html" class="nav-link active">八字命理</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../astrology/horoscope.html" class="nav-link">星座占星</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../tarot/daily.html" class="nav-link">塔罗牌</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../numerology/life-path.html" class="nav-link">数字命理</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../palmistry/palm-reading.html" class="nav-link">手相面相</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../divination/lots.html" class="nav-link">占卜游戏</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../fengshui/home.html" class="nav-link">风水分析</a>
-                </li>
-            </ul>
-        </div>
-            <div class="language-switcher">
-                <button class="lang-button" onclick="toggleLanguage()">EN</button>
-            </div>
-        </div>
-    </nav>
+    
 
     <div class="main-container">
         <!-- 左侧功能菜单 -->
@@ -885,5 +795,7 @@
         </div>
     </footer>
 
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
 </body>
 </html></html> 
