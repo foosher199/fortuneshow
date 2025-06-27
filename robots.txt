@@ -1,0 +1,47 @@
+User-agent: *
+Allow: /
+
+# 首页
+Allow: /index_mystic.html
+
+# 主要功能页面 - 八字命理
+Allow: /pages/bazi/chart.html
+Allow: /pages/bazi/nayin.html
+Allow: /pages/bazi/marriage.html
+Allow: /pages/bazi/gods.html
+Allow: /pages/bazi/fortune.html
+Allow: /pages/bazi/elements.html
+
+# 主要功能页面 - 塔罗占卜
+Allow: /pages/tarot/daily.html
+Allow: /pages/tarot/love.html
+Allow: /pages/tarot/career.html
+
+# 主要功能页面 - 手相面相
+Allow: /pages/palmistry/palm-reading.html
+
+# 主要功能页面 - 星座运势
+Allow: /pages/astrology/horoscope.html
+
+# 主要功能页面 - 数字命理
+Allow: /pages/numerology/life-path.html
+
+# 主要功能页面 - 风水分析
+Allow: /pages/fengshui/home.html
+
+# 允许所有页面目录
+Allow: /pages/
+
+# 禁止抓取的文件和目录
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /fix_*.js
+Disallow: /*.log
+Disallow: /*_optimization.js
+Disallow: /*_enhancement.js
+
+# Sitemap位置
+Sitemap: https://mystic-prediction.com/sitemap.xml
+
+# 爬虫延迟设置（降低服务器负载）
+Crawl-delay: 1

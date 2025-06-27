@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导航测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding-top: 80px;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 80px 20px 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .status {
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+        }
+    </style>
+    <script src="./components/navigation.js"></script>
+</head>
+<body>
+    <div id="navigation-container"></div>
+    
+    <div class="test-container">
+        <h1>🔮 导航组件测试页面</h1>
+        <div class="status">
+            <h2>测试状态</h2>
+            <p id="navigation-status">检查导航是否正常显示...</p>
+        </div>
+        
+        <script>
+            // 检查导航是否加载成功
+            setTimeout(() => {
+                const navContainer = document.getElementById('navigation-container');
+                const statusEl = document.getElementById('navigation-status');
+                
+                if (navContainer && navContainer.innerHTML.trim() !== '') {
+                    statusEl.innerHTML = '✅ 导航组件加载成功！<br>如果您能看到顶部的导航栏，说明组件工作正常。';
+                    statusEl.style.color = '#00ff00';
+                } else {
+                    statusEl.innerHTML = '❌ 导航组件加载失败！<br>请检查控制台错误信息。';
+                    statusEl.style.color = '#ff0000';
+                }
+            }, 2000);
+        </script>
+    </div>
+</body>
+</html>

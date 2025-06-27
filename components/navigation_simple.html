@@ -1,0 +1,60 @@
+<!-- 简化版导航组件 -->
+<nav class="top-nav" style="
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid #00ffff;
+    padding: 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0, 255, 255, 0.3);
+">
+    <div style="
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+    ">
+        <div style="
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 15px 0;
+            cursor: pointer;
+        " onclick="window.location.href='./index_mystic.html'">
+            🔮 Mystic Hub
+        </div>
+        <ul style="
+            display: flex;
+            list-style: none;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+        ">
+            <li><a href="./index_mystic.html" style="color: #e0e0e0; text-decoration: none; padding: 12px 18px; border-radius: 25px; transition: all 0.3s ease; border: 2px solid transparent; display: block; font-size: 14px; font-weight: 500;">首页</a></li>
+            <li><a href="./pages/bazi/chart.html" style="color: #e0e0e0; text-decoration: none; padding: 12px 18px; border-radius: 25px; transition: all 0.3s ease; border: 2px solid transparent; display: block; font-size: 14px; font-weight: 500;">八字命理</a></li>
+            <li><a href="./pages/astrology/horoscope.html" style="color: #e0e0e0; text-decoration: none; padding: 12px 18px; border-radius: 25px; transition: all 0.3s ease; border: 2px solid transparent; display: block; font-size: 14px; font-weight: 500;">星座占星</a></li>
+            <li><a href="./pages/tarot/daily.html" style="color: #e0e0e0; text-decoration: none; padding: 12px 18px; border-radius: 25px; transition: all 0.3s ease; border: 2px solid transparent; display: block; font-size: 14px; font-weight: 500;">塔罗占卜</a></li>
+            <li><a href="./pages/numerology/life-path.html" style="color: #e0e0e0; text-decoration: none; padding: 12px 18px; border-radius: 25px; transition: all 0.3s ease; border: 2px solid transparent; display: block; font-size: 14px; font-weight: 500;">数字命理</a></li>
+            <li><a href="./pages/palmistry/palm-reading.html" style="color: #e0e0e0; text-decoration: none; padding: 12px 18px; border-radius: 25px; transition: all 0.3s ease; border: 2px solid transparent; display: block; font-size: 14px; font-weight: 500;">手相面相</a></li>
+            <li><a href="./pages/fengshui/home.html" style="color: #e0e0e0; text-decoration: none; padding: 12px 18px; border-radius: 25px; transition: all 0.3s ease; border: 2px solid transparent; display: block; font-size: 14px; font-weight: 500;">风水分析</a></li>
+        </ul>
+        <div>
+            <button style="
+                background: linear-gradient(45deg, #00ffff, #ff00ff);
+                color: #000;
+                border: none;
+                padding: 10px 16px;
+                border-radius: 20px;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 14px;
+            " onclick="alert('语言切换功能开发中')">EN</button>
+        </div>
+    </div>
+</nav>
