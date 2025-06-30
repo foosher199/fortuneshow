@@ -13,18 +13,32 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
         
+        /* 主要内容区域 */
+        .main-container {
+            display: flex;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
         
+        /* 主内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
         
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+        }
         
-        
-        
-        
-        
-        .main-container { margin-top: 70px; padding: 40px; }
         .page-title {
             font-size: 36px;
             background: linear-gradient(45deg, #ff69b4, #ffb6c1);
@@ -198,88 +212,93 @@
         }
         .advice-content {
             color: #ccc;
+            line-height: 1.6;
             font-size: 14px;
-            line-height: 1.5;
         }
         .progress-bar {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            height: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            height: 8px;
+            border-radius: 4px;
             margin: 10px 0;
             overflow: hidden;
         }
         .progress-fill {
             height: 100%;
             background: linear-gradient(45deg, #ff69b4, #ffb6c1);
-            border-radius: 10px;
-            transition: width 1s ease;
+            border-radius: 4px;
+            transition: width 0.8s ease;
         }
     </style>
     <!-- 公共导航栏样式 -->
     <link rel="stylesheet" href="../../components/navigation.css">
+    <link rel="stylesheet" href="../../components/bazi-sidebar.css">
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    
     <div class="main-container">
-        <h1 class="page-title">💕 八字婚配分析</h1>
-        <div class="couple-input">
-            <div class="person-section">
-                <div class="person-title">👨 男方信息</div>
-                <div class="input-group">
-                    <label class="input-label">姓名</label>
-                    <input type="text" id="maleName" class="input-field" placeholder="请输入男方姓名">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">出生日期</label>
-                    <input type="date" id="maleBirthdate" class="input-field">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">出生时间</label>
-                    <input type="time" id="maleBirthtime" class="input-field">
-                </div>
-            </div>
-            <div class="heart-divider">💖</div>
-            <div class="person-section">
-                <div class="person-title">👩 女方信息</div>
-                <div class="input-group">
-                    <label class="input-label">姓名</label>
-                    <input type="text" id="femaleName" class="input-field" placeholder="请输入女方姓名">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">出生日期</label>
-                    <input type="date" id="femaleBirthdate" class="input-field">
-                </div>
-                <div class="input-group">
-                    <label class="input-label">出生时间</label>
-                    <input type="time" id="femaleBirthtime" class="input-field">
-                </div>
-            </div>
-        </div>
-        <button onclick="analyzeCompatibility()" class="analyze-btn">💕 分析婚配</button>
+        <!-- 左侧边栏 -->
+        <aside class="sidebar"></aside>
         
-        <div id="compatibilityResult" class="compatibility-result">
-            <h3 style="color: #ff69b4; text-align: center; margin-bottom: 20px;">婚配分析结果</h3>
-            <div class="compatibility-score">
-                <div class="score-circle">
-                    <div>
-                        <div class="score-text" id="scoreValue">85</div>
-                        <div class="score-label">匹配度</div>
+        <!-- 主要内容区域 -->
+        <main class="content-area">
+            <h1 class="page-title">💕 八字婚配分析</h1>
+            <div class="couple-input">
+                <div class="person-section">
+                    <div class="person-title">👨 男方信息</div>
+                    <div class="input-group">
+                        <label class="input-label">姓名</label>
+                        <input type="text" id="maleName" class="input-field" placeholder="请输入男方姓名">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">出生日期</label>
+                        <input type="date" id="maleBirthdate" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">出生时间</label>
+                        <input type="time" id="maleBirthtime" class="input-field">
                     </div>
                 </div>
-                <div style="color: #ffb6c1; font-size: 18px;" id="compatibilityLevel">天作之合</div>
+                <div class="heart-divider">💖</div>
+                <div class="person-section">
+                    <div class="person-title">👩 女方信息</div>
+                    <div class="input-group">
+                        <label class="input-label">姓名</label>
+                        <input type="text" id="femaleName" class="input-field" placeholder="请输入女方姓名">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">出生日期</label>
+                        <input type="date" id="femaleBirthdate" class="input-field">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">出生时间</label>
+                        <input type="time" id="femaleBirthtime" class="input-field">
+                    </div>
+                </div>
             </div>
-            <div class="compatibility-details" id="detailsGrid">
-                <!-- 详细分析卡片将由JavaScript生成 -->
+            <button onclick="analyzeCompatibility()" class="analyze-btn">💕 分析婚配</button>
+            
+            <div id="compatibilityResult" class="compatibility-result">
+                <h3 style="color: #ff69b4; text-align: center; margin-bottom: 20px;">婚配分析结果</h3>
+                <div class="compatibility-score">
+                    <div class="score-circle">
+                        <div>
+                            <div class="score-text" id="scoreValue">85</div>
+                            <div class="score-label">匹配度</div>
+                        </div>
+                    </div>
+                    <div style="color: #ffb6c1; font-size: 18px;" id="compatibilityLevel">天作之合</div>
+                </div>
+                <div class="compatibility-details" id="detailsGrid">
+                    <!-- 详细分析卡片将由JavaScript生成 -->
+                </div>
             </div>
-        </div>
-        
-        <div id="adviceSection" class="advice-section">
-            <h3 style="color: #ffb6c1; text-align: center; margin-bottom: 20px;">婚姻建议</h3>
-            <div class="advice-grid" id="adviceGrid">
-                <!-- 建议卡片将由JavaScript生成 -->
+            
+            <div id="adviceSection" class="advice-section">
+                <h3 style="color: #ffb6c1; text-align: center; margin-bottom: 20px;">婚姻建议</h3>
+                <div class="advice-grid" id="adviceGrid">
+                    <!-- 建议卡片将由JavaScript生成 -->
+                </div>
             </div>
-        </div>
+        </main>
     </div>
     
     <script>
@@ -343,20 +362,6 @@
                 }
             ]
         };
-
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 100; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = Math.random() * 3 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
-        }
 
         function analyzeCompatibility() {
             const maleName = document.getElementById('maleName').value;
@@ -436,7 +441,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            createStars();
             document.getElementById('maleBirthdate').value = '1990-01-01';
             document.getElementById('femaleBirthdate').value = '1992-06-15';
             document.getElementById('maleBirthtime').value = '10:30';
@@ -559,7 +563,10 @@
         </div>
     </footer>
 
+    <!-- 引用公共组件JavaScript -->
+    <script src="../../components/starfield.js"></script>
+    <script src="../../components/bazi-sidebar.js"></script>
     <!-- 公共导航栏脚本 -->
     <script src="../../components/navigation.js"></script>
 </body>
-</html></html> 
+</html> 

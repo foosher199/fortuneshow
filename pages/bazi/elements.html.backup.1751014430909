@@ -409,7 +409,31 @@
 
     <div class="main-container">
         <!-- 左侧功能菜单 -->
-        <aside class="sidebar"></aside>
+        <aside class="sidebar">
+            <div class="sidebar-category">
+                <div class="category-title">八字命理</div>
+                <ul class="function-list">
+                    <li class="function-item">
+                        <a href="chart.html" class="function-link">八字排盘</a>
+                    </li>
+                    <li class="function-item">
+                        <a href="elements.html" class="function-link active">五行分析</a>
+                    </li>
+                    <li class="function-item">
+                        <a href="nayin.html" class="function-link">纳音五行</a>
+                    </li>
+                    <li class="function-item">
+                        <a href="fortune.html" class="function-link">大运流年</a>
+                    </li>
+                    <li class="function-item">
+                        <a href="gods.html" class="function-link">神煞分析</a>
+                    </li>
+                    <li class="function-item">
+                        <a href="marriage.html" class="function-link">婚姻配对</a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
 
         <!-- 主内容区域 -->
         <main class="content-area">

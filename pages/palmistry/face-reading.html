@@ -32,25 +32,11 @@
         }
 
         /* 星空背景动画 */
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+        
 
-        .star {
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
+        
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+        
         }
 
         
@@ -410,6 +396,7 @@
     </style>
     <!-- 公共导航栏样式 -->
     <link rel="stylesheet" href="../../components/navigation.css">
+    <link rel="stylesheet" href="../../components/starfield.css">
 </head>
 <body>
     <!-- 星空背景 -->
@@ -632,18 +619,7 @@
         let selectedFeatures = {};
         let currentTab = 'comprehensive';
 
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            for (let i = 0; i < 100; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = Math.random() * 3 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
+        
         }
 
         function switchTab(tab) {
@@ -656,7 +632,7 @@
 
         // 添加特征选择事件监听
         document.addEventListener('DOMContentLoaded', () => {
-            createStars();
+            
             
             // 面部特征点击事件
             document.querySelectorAll('.face-feature').forEach(feature => {
@@ -1025,5 +1001,6 @@
 
     <!-- 公共导航栏脚本 -->
     <script src="../../components/navigation.js"></script>
+    <script src="../../components/starfield.js"></script>
 </body>
 </html></html> 

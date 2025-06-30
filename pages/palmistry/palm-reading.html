@@ -78,16 +78,9 @@
             overflow-x: hidden;
         }
 
-        .star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 2s infinite;
-        }
+        
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+        
         }
 
         .container {
@@ -332,14 +325,7 @@
         }
     
         /* 星空背景动画 */
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+        
 
         /* 主要内容区域 */
         .main-container {
@@ -481,12 +467,13 @@
     </script>
     <!-- 公共导航栏样式 -->
     <link rel="stylesheet" href="../../components/navigation.css">
+    <link rel="stylesheet" href="../../components/starfield.css">
 </head>
 <body>
     <!-- 公共导航栏 -->
     <nav class="top-nav" id="topNav"></nav>
     
-    <div class="stars"></div>
+    
     
     
 
@@ -684,20 +671,7 @@
 
     <script>
         // 创建星空背景
-        function createStars() {
-            const starsContainer = document.querySelector('.stars');
-            if (!starsContainer) return;
-            
-            for (let i = 0; i < 200; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.width = Math.random() * 3 + 1 + 'px';
-                star.style.height = star.style.width;
-                star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
-            }
+        
         }
 
         // 选择的特征
@@ -1096,5 +1070,6 @@
 
     <!-- 公共导航栏脚本 -->
     <script src="../../components/navigation.js"></script>
+    <script src="../../components/starfield.js"></script>
 </body>
 </html></html> 
