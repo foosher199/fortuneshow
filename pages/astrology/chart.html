@@ -3,21 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 基础SEO标签 -->
-    <meta name="description" content="专业的星座运势服务，为您提供准确的预测和分析指导">
-    <meta name="keywords" content="星座运势,chart,预测分析,神秘学">
+    
+    <!-- 星座占星模块公共组件 -->
+    <link rel="stylesheet" href="../../components/astrology-sidebar.css">
+    <script src="../../components/astrology-sidebar.js" defer></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <!-- SEO优化meta标签 -->
+    <meta name="description" content="专业星盘分析服务，详细解读您的出生星盘，包括行星位置、宫位分析、相位解释。深入了解您的性格特质、人生方向和潜在能力。">
+    <meta name="keywords" content="星盘分析,出生星盘,占星分析,行星位置,宫位解读,相位分析">
     <meta name="author" content="神秘学预测中心">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mystic-prediction.com/pages/astrology/chart.html">
+    <meta property="og:title" content="星盘分析 - 专业出生星盘解读 | 神秘学预测中心">
+    <meta property="og:description" content="专业星盘分析服务，详细解读您的出生星盘，包括行星位置、宫位分析、相位解释。深入了解您的性格特质、人生方向和潜在能力。">
+    <meta property="og:image" content="https://mystic-prediction.com/images/og-image.jpg">
+    <meta property="og:site_name" content="神秘学预测中心">
+    <meta property="og:locale" content="zh_CN">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mystic-prediction.com/pages/astrology/chart.html">
+    <meta property="twitter:title" content="星盘分析 - 专业出生星盘解读 | 神秘学预测中心">
+    <meta property="twitter:description" content="专业星盘分析服务，详细解读您的出生星盘，包括行星位置、宫位分析、相位解释。深入了解您的性格特质、人生方向和潜在能力。">
+    <meta property="twitter:image" content="https://mystic-prediction.com/images/twitter-image.jpg">
+    
+    <!-- 规范链接 -->
     <link rel="canonical" href="https://mystic-prediction.com/pages/astrology/chart.html">
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="星座运势 - chart | 神秘学预测中心">
-    <meta property="og:description" content="专业的星座运势服务，为您提供准确的预测和分析指导">
-    <meta property="og:url" content="https://mystic-prediction.com/pages/astrology/chart.html">
-    <meta property="og:type" content="website">
-    <title>星座运势 - chart | 神秘学预测中心</title>
+    <title>星盘分析 - 专业出生星盘解读 | 神秘学预测中心</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
@@ -25,55 +52,42 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-        
-        
-        
-        
-        
-        
-        
-        
-        .main-container { display: flex; margin-top: 70px; min-height: calc(100vh - 70px); }
-        .sidebar {
-            width: 280px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-right: 2px solid #00ffff;
-            padding: 20px 0;
+
+        /* 星空背景动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
-        .category-title {
-            color: #00ffff;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-            margin-bottom: 10px;
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
         }
-        .function-list { list-style: none; }
-        .function-item { margin: 2px 0; }
-        .function-link {
-            display: block;
-            padding: 12px 20px;
-            color: #ccc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
-        .function-link:hover {
-            background: rgba(0, 255, 255, 0.1);
-            color: #00ffff;
-            border-left-color: #00ffff;
-            transform: translateX(5px);
+
+        /* 主要内容区域 */
+        .main-container {
+            margin-left: 280px;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
         }
-        .function-link.active {
-            background: rgba(0, 255, 255, 0.2);
-            color: #00ffff;
-            border-left-color: #00ffff;
+
+        /* 主内容区域 */
+        .content-area { 
+            flex: 1; 
+            padding: 40px; 
         }
-        .content-area { flex: 1; padding: 40px; }
+
         .page-title {
             font-size: 36px;
             background: linear-gradient(45deg, #00ffff, #ff00ff);
@@ -231,26 +245,97 @@
             font-size: 12px;
             line-height: 1.4;
         }
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                margin-left: 0;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .input-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .chart-visual {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .analysis-results {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* 页面加载动画 */
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .content-area {
+            animation: pageLoad 0.8s ease-out;
+        }
     </style>
-    <!-- 公共导航栏样式 -->
-    <link rel="stylesheet" href="../../components/navigation.css">
 </head>
 <body>
+    <!-- 星空背景 -->
     <div class="stars" id="stars"></div>
-    
-    <div class="main-container">
-        <aside class="sidebar">
-            <div class="sidebar-category">
-                <div class="category-title">星座占星</div>
-                <ul class="function-list">
-                    <li class="function-item"><a href="horoscope.html" class="function-link">星座运势</a></li>
-                    <li class="function-item"><a href="chart.html" class="function-link active">星盘分析</a></li>
-                    <li class="function-item"><a href="compatibility.html" class="function-link">星座配对</a></li>
-                    <li class="function-item"><a href="moon-phase.html" class="function-link">月相占卜</a></li>
-                    <li class="function-item"><a href="planetary.html" class="function-link">行星影响</a></li>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <a href="../../index_mystic.html" style="color: inherit; text-decoration: none;">🔮 神秘学预测中心</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../bazi/chart.html" class="nav-link">八字命理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../astrology/horoscope.html" class="nav-link active">星座占星</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../tarot/daily.html" class="nav-link">塔罗牌</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../numerology/life-path.html" class="nav-link">数字命理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../palmistry/palm-reading.html" class="nav-link">手相面相</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../divination/lots.html" class="nav-link">占卜游戏</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../fengshui/home.html" class="nav-link">风水分析</a>
+                    </li>
                 </ul>
             </div>
-        </aside>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- 左侧功能菜单 -->
+        <aside class="sidebar"></aside>
+
+        <!-- 主内容区域 -->
         <main class="content-area">
             <h1 class="page-title">🌟 星盘分析</h1>
             <div class="input-section">
@@ -716,4 +801,4 @@
     <!-- 公共导航栏脚本 -->
     <script src="../../components/navigation.js"></script>
 </body>
-</html></html> 
+</html> 

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 星座占星模块公共组件 -->
+    <link rel="stylesheet" href="../../components/astrology-sidebar.css">
+    <script src="../../components/astrology-sidebar.js" defer></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <!-- SEO优化meta标签 -->
+    <meta name="description" content="十二星座周运势查询，专业占星师为您解读本周爱情运势、事业发展、健康状况、财富机遇。精准的星座分析，助您把握本周最佳时机。">
+    <meta name="keywords" content="星座运势,十二星座,周运势,星座查询,占星分析,本周运势">
+    <meta name="author" content="神秘学预测中心">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <title>星座周运势查询 - 十二星座本周运势 | 神秘学预测中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 星空背景动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 主要内容区域 */
+        .main-container {
+            margin-left: 280px;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 0, 255, 0.5)); }
+        }
+
+        .week-info {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .week-date {
+            color: #00ffff;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .week-theme {
+            color: #ff00ff;
+            font-size: 16px;
+            font-style: italic;
+        }
+
+        .horoscope-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .zodiac-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zodiac-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .zodiac-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ffff;
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.2);
+        }
+
+        .zodiac-card:hover::before {
+            opacity: 1;
+        }
+
+        .zodiac-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .zodiac-icon {
+            font-size: 48px;
+            margin-right: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .zodiac-info h3 {
+            color: #00ffff;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .zodiac-date {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .week-rating {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .rating-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .rating-label {
+            color: #ccc;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .rating-stars {
+            color: #ffaa00;
+            font-size: 16px;
+        }
+
+        .week-content {
+            color: #e0e0e0;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .week-highlight {
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid #ff00ff;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+        }
+
+        .highlight-title {
+            color: #ff00ff;
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .highlight-text {
+            color: #ddd;
+            font-size: 12px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                margin-left: 0;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .horoscope-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .zodiac-icon {
+                font-size: 36px;
+            }
+            
+            .week-rating {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* 页面加载动画 */
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .content-area {
+            animation: pageLoad 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <a href="../../index_mystic.html" style="color: inherit; text-decoration: none;">🔮 神秘学预测中心</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../bazi/chart.html" class="nav-link">八字命理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../astrology/horoscope.html" class="nav-link active">星座占星</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../tarot/daily.html" class="nav-link">塔罗牌</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../numerology/life-path.html" class="nav-link">数字命理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../palmistry/palm-reading.html" class="nav-link">手相面相</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../divination/lots.html" class="nav-link">占卜游戏</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../fengshui/home.html" class="nav-link">风水分析</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+        
+        <!-- 主内容区域 -->
+        <main class="content-area">
+            <h1 class="page-title">🌟 星座周运势</h1>
+            
+            <div class="week-info">
+                <div class="week-date" id="weekDate">本周运势 (加载中...)</div>
+                <div class="week-theme">✨ 把握时机，创造精彩一周 ✨</div>
+            </div>
+            
+            <div class="horoscope-grid" id="horoscopeGrid">
+                <!-- 星座运势卡片将由JavaScript生成 -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const zodiacData = [
+            { name: '白羊座', icon: '♈', dates: '3月21日-4月19日', element: 'fire' },
+            { name: '金牛座', icon: '♉', dates: '4月20日-5月20日', element: 'earth' },
+            { name: '双子座', icon: '♊', dates: '5月21日-6月20日', element: 'air' },
+            { name: '巨蟹座', icon: '♋', dates: '6月21日-7月22日', element: 'water' },
+            { name: '狮子座', icon: '♌', dates: '7月23日-8月22日', element: 'fire' },
+            { name: '处女座', icon: '♍', dates: '8月23日-9月22日', element: 'earth' },
+            { name: '天秤座', icon: '♎', dates: '9月23日-10月22日', element: 'air' },
+            { name: '天蝎座', icon: '♏', dates: '10月23日-11月21日', element: 'water' },
+            { name: '射手座', icon: '♐', dates: '11月22日-12月21日', element: 'fire' },
+            { name: '摩羯座', icon: '♑', dates: '12月22日-1月19日', element: 'earth' },
+            { name: '水瓶座', icon: '♒', dates: '1月20日-2月18日', element: 'air' },
+            { name: '双鱼座', icon: '♓', dates: '2月19日-3月20日', element: 'water' }
+        ];
+
+        const weeklyFortunes = {
+            '白羊座': {
+                overall: 4, love: 5, career: 4, money: 3, health: 4,
+                content: '本周你的行动力十足，在工作和生活中都能展现出领导才能。周初可能会有新的项目或机会出现，要积极把握。感情方面，主动出击会有不错的收获。',
+                highlight: '周三是你的幸运日，适合做重要决定或开始新计划。'
+            },
+            '金牛座': {
+                overall: 3, love: 4, career: 3, money: 5, health: 4,
+                content: '本周财运不错，可能会有意外收入或投资回报。工作方面保持稳定步伐，不要急于求成。感情生活温馨和谐，适合与伴侣深入交流。',
+                highlight: '本周适合处理财务问题，制定长期的理财计划。'
+            },
+            '双子座': {
+                overall: 5, love: 4, career: 5, money: 3, health: 3,
+                content: '本周你的沟通能力特别出众，在工作中能够很好地协调各方关系。学习运也很旺盛，适合参加培训或学习新技能。社交活动频繁，人际关系良好。',
+                highlight: '周末适合参加社交活动，可能会遇到重要的人脉。'
+            },
+            '巨蟹座': {
+                overall: 4, love: 5, career: 3, money: 4, health: 5,
+                content: '本周家庭和感情生活是重点，与家人的关系更加和谐。直觉力特别敏锐，相信自己的第六感。健康状况良好，心情也比较愉悦。',
+                highlight: '本周适合处理家庭事务，营造温馨的居家环境。'
+            },
+            '狮子座': {
+                overall: 5, love: 4, career: 5, money: 4, health: 3,
+                content: '本周是你发光发热的时候，在工作中能够展现出色的表现，得到上司和同事的认可。创意灵感丰富，适合展示自己的才华。',
+                highlight: '周中适合做重要演示或发表意见，你的想法会得到支持。'
+            },
+            '处女座': {
+                overall: 4, love: 3, career: 5, money: 4, health: 4,
+                content: '本周工作效率很高，能够很好地处理各种细节问题。分析能力出众，适合做重要的规划和决策。注意不要过于追求完美而给自己压力。',
+                highlight: '本周适合整理和优化工作流程，提高效率。'
+            },
+            '天秤座': {
+                overall: 4, love: 5, career: 3, money: 4, health: 4,
+                content: '本周人际关系和合作运势良好，能够在团队中发挥协调作用。美感和审美能力得到发挥，适合从事创意相关的工作。',
+                highlight: '本周适合处理人际关系问题，化解矛盾冲突。'
+            },
+            '天蝎座': {
+                overall: 5, love: 4, career: 4, money: 5, health: 3,
+                content: '本周洞察力特别敏锐，能够看透事情的本质。投资运不错，但要谨慎选择。感情方面可能会有深度的发展，要珍惜机会。',
+                highlight: '本周适合进行深度思考和分析，做重要的人生规划。'
+            },
+            '射手座': {
+                overall: 5, love: 4, career: 4, money: 3, health: 5,
+                content: '本周运势活跃，适合外出旅行或拓展视野。学习运和考试运都不错，是充电的好时机。乐观的心态会为你带来好运。',
+                highlight: '本周适合制定旅行计划或学习新的知识技能。'
+            },
+            '摩羯座': {
+                overall: 4, love: 3, career: 5, money: 4, health: 4,
+                content: '本周事业运势强劲，在工作中能够得到重要的机会或提升。责任感和执行力得到认可。要注意工作与生活的平衡。',
+                highlight: '本周适合制定长期的职业规划和目标。'
+            },
+            '水瓶座': {
+                overall: 4, love: 4, career: 4, money: 3, health: 4,
+                content: '本周思维活跃，创新能力突出，能够提出独特的想法和解决方案。朋友运不错，可能会从朋友那里得到帮助或机会。',
+                highlight: '本周适合参与团体活动，发挥你的创新精神。'
+            },
+            '双鱼座': {
+                overall: 4, love: 5, career: 3, money: 4, health: 4,
+                content: '本周直觉力和艺术灵感特别丰富，适合从事创意相关的工作。感情生活浪漫温馨，与伴侣的关系更加深入。要相信自己的内心感受。',
+                highlight: '本周适合表达内心情感，创作艺术作品或处理感情问题。'
+            }
+        };
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function getWeekDateRange() {
+            const now = new Date();
+            const startOfWeek = new Date(now);
+            const day = now.getDay();
+            const diff = now.getDate() - day + (day === 0 ? -6 : 1); // 周一开始
+            startOfWeek.setDate(diff);
+            
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+            
+            const formatDate = (date) => {
+                return `${date.getMonth() + 1}月${date.getDate()}日`;
+            };
+            
+            return `${formatDate(startOfWeek)} - ${formatDate(endOfWeek)}`;
+        }
+
+        function generateStars(rating) {
+            return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+        }
+
+        function generateHoroscopeCards() {
+            const grid = document.getElementById('horoscopeGrid');
+            grid.innerHTML = '';
+            
+            zodiacData.forEach(zodiac => {
+                const fortune = weeklyFortunes[zodiac.name];
+                const card = document.createElement('div');
+                card.className = 'zodiac-card';
+                
+                card.innerHTML = `
+                    <div class="zodiac-header">
+                        <div class="zodiac-icon">${zodiac.icon}</div>
+                        <div class="zodiac-info">
+                            <h3>${zodiac.name}</h3>
+                            <div class="zodiac-date">${zodiac.dates}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="week-rating">
+                        <div class="rating-item">
+                            <div class="rating-label">综合运势</div>
+                            <div class="rating-stars">${generateStars(fortune.overall)}</div>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-label">爱情运势</div>
+                            <div class="rating-stars">${generateStars(fortune.love)}</div>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-label">事业运势</div>
+                            <div class="rating-stars">${generateStars(fortune.career)}</div>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-label">财运</div>
+                            <div class="rating-stars">${generateStars(fortune.money)}</div>
+                        </div>
+                        <div class="rating-item">
+                            <div class="rating-label">健康运势</div>
+                            <div class="rating-stars">${generateStars(fortune.health)}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="week-content">
+                        ${fortune.content}
+                    </div>
+                    
+                    <div class="week-highlight">
+                        <div class="highlight-title">🌟 本周重点</div>
+                        <div class="highlight-text">${fortune.highlight}</div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            document.getElementById('weekDate').textContent = `本周运势 (${getWeekDateRange()})`;
+            generateHoroscopeCards();
+        });
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+</body>
+</html> 

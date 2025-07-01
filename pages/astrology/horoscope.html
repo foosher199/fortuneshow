@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 星座占星模块公共组件 -->
+    <link rel="stylesheet" href="../../components/astrology-sidebar.css">
+    <script src="../../components/astrology-sidebar.js" defer></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
     <!-- SEO优化meta标签 -->
     <meta name="description" content="十二星座每日运势查询，专业占星师为您解读爱情运势、事业发展、健康状况、财富机遇。精准的星座分析，助您把握最佳时机。">
     <meta name="keywords" content="星座运势,十二星座,今日运势,星座查询,占星分析,星座配对">
@@ -99,66 +107,11 @@
             50% { opacity: 1; }
         }
 
-        
-
         /* 主要内容区域 */
         .main-container {
-            display: flex;
+            margin-left: 280px;
             margin-top: 70px;
             min-height: calc(100vh - 70px);
-        }
-
-        /* 左侧功能菜单 */
-        .sidebar {
-            width: 280px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-right: 2px solid #00ffff;
-            padding: 20px 0;
-            overflow-y: auto;
-        }
-
-        .sidebar-category {
-            margin-bottom: 20px;
-        }
-
-        .category-title {
-            color: #00ffff;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .function-list {
-            list-style: none;
-        }
-
-        .function-item {
-            margin: 2px 0;
-        }
-
-        .function-link {
-            display: block;
-            padding: 12px 20px;
-            color: #ccc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .function-link:hover {
-            background: rgba(0, 255, 255, 0.1);
-            color: #00ffff;
-            border-left-color: #00ffff;
-            transform: translateX(5px);
-        }
-
-        .function-link.active {
-            background: rgba(0, 255, 255, 0.2);
-            color: #00ffff;
-            border-left-color: #00ffff;
         }
 
         /* 主内容区域 */
@@ -386,25 +339,48 @@
 
         /* 响应式设计 */
         @media (max-width: 768px) {
-            
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            
-            .main-container {
-                flex-direction: column;
+            body {
+                margin-left: 0;
             }
             
             .content-area {
                 padding: 20px;
             }
             
-            .zodiac-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            .page-title {
+                font-size: 28px;
             }
+            
+            .horoscope-grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 15px;
+            }
+            
+            .fortune-tabs {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .tab-button {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
+        
+        /* 页面加载动画 */
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .content-area {
+            animation: pageLoad 0.8s ease-out;
         }
     </style>
 
@@ -461,44 +437,51 @@
         });
     }
     </script>
-    <!-- 公共导航栏样式 -->
-    <link rel="stylesheet" href="../../components/navigation.css">
 </head>
 <body>
     <!-- 星空背景 -->
     <div class="stars" id="stars"></div>
 
     <!-- 顶部导航栏 -->
-    
-
-    <div class="main-container">
-        <!-- 左侧功能菜单 -->
-        <aside class="sidebar">
-            <div class="sidebar-category">
-                <div class="category-title">星座占星</div>
-                <ul class="function-list">
-                    <li class="function-item">
-                        <a href="horoscope.html" class="function-link active">星座运势</a>
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <a href="../../index_mystic.html" style="color: inherit; text-decoration: none;">🔮 神秘学预测中心</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../bazi/chart.html" class="nav-link">八字命理</a>
                     </li>
-                    <li class="function-item">
-                        <a href="chart.html" class="function-link">星盘分析</a>
+                    <li class="nav-item">
+                        <a href="../astrology/horoscope.html" class="nav-link active">星座占星</a>
                     </li>
-                    <li class="function-item">
-                        <a href="compatibility.html" class="function-link">星座配对</a>
+                    <li class="nav-item">
+                        <a href="../tarot/daily.html" class="nav-link">塔罗牌</a>
                     </li>
-                    <li class="function-item">
-                        <a href="planet.html" class="function-link">行星分析</a>
+                    <li class="nav-item">
+                        <a href="../numerology/life-path.html" class="nav-link">数字命理</a>
                     </li>
-                    <li class="function-item">
-                        <a href="house.html" class="function-link">宫位解析</a>
+                    <li class="nav-item">
+                        <a href="../palmistry/palm-reading.html" class="nav-link">手相面相</a>
                     </li>
-                    <li class="function-item">
-                        <a href="transit.html" class="function-link">流年运势</a>
+                    <li class="nav-item">
+                        <a href="../divination/lots.html" class="nav-link">占卜游戏</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../fengshui/home.html" class="nav-link">风水分析</a>
                     </li>
                 </ul>
             </div>
-        </aside>
+        </div>
+    </nav>
 
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+        
         <!-- 主内容区域 -->
         <main class="content-area">
             <h1 class="page-title"><span itemprop="headline">✨ 星座运势</span></h1>
@@ -844,4 +827,4 @@
     <!-- 公共导航栏脚本 -->
     <script src="../../components/navigation.js"></script>
 </body>
-</html></html> 
+</html> 

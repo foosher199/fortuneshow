@@ -15,9 +15,21 @@
     <meta property="og:description" content="专业的星座运势服务，为您提供准确的预测和分析指导">
     <meta property="og:url" content="https://mystic-prediction.com/pages/astrology/compatibility.html">
     <meta property="og:type" content="website">
-    <title>星座运势 - compatibility | 神秘学预测中心</title>
+    <!-- 星座占星模块公共组件 -->
+    <link rel="stylesheet" href="../../components/astrology-sidebar.css">
+    <script src="../../components/astrology-sidebar.js" defer></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <title>星座配对分析 - 专业配对测试 | 神秘学预测中心</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
@@ -25,608 +37,760 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
-        
-         }
-        
-        
-        
-        
-        
-        
-        
-        
-        .main-container { margin-top: 70px; padding: 40px; }
+
+        /* 星空背景动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 主要内容区域 */
+        .main-container {
+            margin-left: 280px;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
+
         .page-title {
             font-size: 36px;
-            background: linear-gradient(45deg, #ffd700, #ffeb3b);
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
             margin-bottom: 30px;
             animation: glow 2s ease-in-out infinite alternate;
         }
+
         @keyframes glow {
-            from { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5)); }
-            to { filter: drop-shadow(0 0 30px rgba(255, 235, 59, 0.5)); }
+            from { filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(196, 69, 105, 0.5)); }
         }
-        .zodiac-selector {
-            display: grid;
-            grid-template-columns: 1fr 80px 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-            align-items: center;
+
+        .compatibility-container {
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .person-zodiac {
+
+        .selection-section {
             background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffd700;
+            border: 2px solid #ff6b9d;
             border-radius: 20px;
             padding: 30px;
+            margin-bottom: 30px;
             backdrop-filter: blur(10px);
         }
-        .person-title {
-            color: #ffd700;
-            font-size: 20px;
-            font-weight: bold;
+
+        .section-title {
+            color: #ff6b9d;
+            font-size: 24px;
             text-align: center;
             margin-bottom: 20px;
         }
+
+        .zodiac-selection {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .zodiac-selector {
+            text-align: center;
+        }
+
+        .selector-label {
+            color: #ff6b9d;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
         .zodiac-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
         }
-        .zodiac-item {
-            background: rgba(255, 215, 0, 0.1);
+
+        .zodiac-option {
+            background: rgba(255, 255, 255, 0.1);
             border: 2px solid transparent;
-            border-radius: 10px;
+            border-radius: 15px;
             padding: 15px;
-            text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
         }
-        .zodiac-item:hover {
-            border-color: #ffd700;
-            background: rgba(255, 215, 0, 0.2);
-            transform: translateY(-2px);
+
+        .zodiac-option:hover {
+            border-color: #ff6b9d;
+            background: rgba(255, 107, 157, 0.2);
+            transform: scale(1.05);
         }
-        .zodiac-item.selected {
-            border-color: #ffd700;
-            background: rgba(255, 215, 0, 0.3);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+
+        .zodiac-option.selected {
+            border-color: #c44569;
+            background: rgba(196, 69, 105, 0.3);
+            transform: scale(1.1);
         }
+
         .zodiac-icon {
             font-size: 24px;
             margin-bottom: 5px;
         }
+
         .zodiac-name {
-            color: #ffd700;
             font-size: 12px;
-            font-weight: bold;
+            color: #ccc;
         }
-        .vs-divider {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+
+        .vs-icon {
             font-size: 48px;
-            color: #ffd700;
+            color: #ff6b9d;
             animation: pulse 2s ease-in-out infinite;
         }
+
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
         }
-        .analyze-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(45deg, #ffd700, #ffeb3b);
+
+        .analyze-button {
+            display: block;
+            margin: 30px auto 0;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
             border: none;
-            border-radius: 10px;
-            color: #000;
+            border-radius: 25px;
+            color: white;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 30px;
         }
-        .analyze-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+
+        .analyze-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.4);
         }
-        .compatibility-result {
+
+        .analyze-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .results-section {
+            display: none;
             background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffd700;
+            border: 2px solid #ff6b9d;
             border-radius: 20px;
             padding: 30px;
             backdrop-filter: blur(10px);
-            display: none;
-            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease;
         }
-        .compatibility-result.show { display: block; animation: fadeInUp 0.5s ease; }
+
+        .results-section.show {
+            display: block;
+        }
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .compatibility-score {
+
+        .compatibility-header {
             text-align: center;
             margin-bottom: 30px;
         }
+
+        .couple-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .partner {
+            text-align: center;
+            flex: 1;
+        }
+
+        .partner-icon {
+            font-size: 64px;
+            margin-bottom: 10px;
+        }
+
+        .partner-name {
+            font-size: 20px;
+            color: #ff6b9d;
+            font-weight: bold;
+        }
+
+        .compatibility-score {
+            text-align: center;
+            margin: 30px 0;
+        }
+
         .score-display {
             font-size: 48px;
+            color: #ff6b9d;
             font-weight: bold;
-            background: linear-gradient(45deg, #ffd700, #ffeb3b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
         }
-        .compatibility-stars {
-            font-size: 24px;
-            color: #ffd700;
-            margin: 10px 0;
+
+        .score-label {
+            color: #ccc;
+            font-size: 16px;
         }
-        .compatibility-details {
+
+        .score-bar {
+            width: 100%;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b9d, #c44569);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .compatibility-aspects {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
+            margin-top: 30px;
         }
-        .detail-card {
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid #ffd700;
+
+        .aspect-card {
+            background: rgba(255, 107, 157, 0.1);
+            border: 1px solid #ff6b9d;
             border-radius: 15px;
             padding: 20px;
         }
-        .detail-title {
-            color: #ffd700;
+
+        .aspect-title {
+            color: #ff6b9d;
             font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        .detail-content {
+
+        .aspect-content {
             color: #ccc;
             line-height: 1.6;
-            font-size: 14px;
-        }
-        .zodiac-traits {
-            background: rgba(0, 0, 0, 0.6);
-            border: 2px solid #ffeb3b;
-            border-radius: 20px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            display: none;
-        }
-        .zodiac-traits.show { display: block; animation: fadeInUp 0.5s ease; }
-        .traits-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        .trait-section {
-            background: rgba(255, 235, 59, 0.1);
-            border: 1px solid #ffeb3b;
-            border-radius: 15px;
-            padding: 20px;
-        }
-        .trait-section h4 {
-            color: #ffeb3b;
             margin-bottom: 15px;
-            text-align: center;
-        }
-        .trait-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .trait-label {
-            color: #ffd700;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .trait-value {
-            color: #ccc;
-            font-size: 14px;
-        }
-    </style>
-    <!-- 公共导航栏样式 -->
-    <link rel="stylesheet" href="../../components/navigation.css">
-    <link rel="stylesheet" href="../../components/starfield.css">
-</head>
-<body>
-    <div class="stars" id="stars"></div>
-    
-    <div class="main-container">
-        <h1 class="page-title">✨ 星座配对分析</h1>
-        <div class="zodiac-selector">
-            <div class="person-zodiac">
-                <div class="person-title">选择第一个星座</div>
-                <div class="zodiac-grid" id="zodiac1Grid">
-                    <!-- 星座选择器将由JavaScript生成 -->
-                </div>
-            </div>
-            <div class="vs-divider">💫</div>
-            <div class="person-zodiac">
-                <div class="person-title">选择第二个星座</div>
-                <div class="zodiac-grid" id="zodiac2Grid">
-                    <!-- 星座选择器将由JavaScript生成 -->
-                </div>
-            </div>
-        </div>
-        <button onclick="analyzeCompatibility()" class="analyze-btn">✨ 分析配对</button>
-        
-        <div id="compatibilityResult" class="compatibility-result">
-            <h3 style="color: #ffd700; text-align: center; margin-bottom: 20px;">配对分析结果</h3>
-            <div class="compatibility-score">
-                <div class="score-display" id="scoreDisplay">88%</div>
-                <div class="compatibility-stars" id="starsDisplay">★★★★☆</div>
-                <div style="color: #ffeb3b; font-size: 18px;" id="compatibilityLevel">配对指数很高</div>
-            </div>
-            <div class="compatibility-details" id="detailsGrid">
-                <!-- 详细分析卡片将由JavaScript生成 -->
-            </div>
-        </div>
-        
-        <div id="zodiacTraits" class="zodiac-traits">
-            <h3 style="color: #ffeb3b; text-align: center; margin-bottom: 20px;">星座特质对比</h3>
-            <div class="traits-grid" id="traitsGrid">
-                <!-- 特质对比将由JavaScript生成 -->
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        const zodiacData = [
-            { name: '白羊座', icon: '♈', element: '火', quality: '基本', dates: '3/21-4/19' },
-            { name: '金牛座', icon: '♉', element: '土', quality: '固定', dates: '4/20-5/20' },
-            { name: '双子座', icon: '♊', element: '风', quality: '变动', dates: '5/21-6/21' },
-            { name: '巨蟹座', icon: '♋', element: '水', quality: '基本', dates: '6/22-7/22' },
-            { name: '狮子座', icon: '♌', element: '火', quality: '固定', dates: '7/23-8/22' },
-            { name: '处女座', icon: '♍', element: '土', quality: '变动', dates: '8/23-9/22' },
-            { name: '天秤座', icon: '♎', element: '风', quality: '基本', dates: '9/23-10/23' },
-            { name: '天蝎座', icon: '♏', element: '水', quality: '固定', dates: '10/24-11/22' },
-            { name: '射手座', icon: '♐', element: '火', quality: '变动', dates: '11/23-12/21' },
-            { name: '摩羯座', icon: '♑', element: '土', quality: '基本', dates: '12/22-1/19' },
-            { name: '水瓶座', icon: '♒', element: '风', quality: '固定', dates: '1/20-2/18' },
-            { name: '双鱼座', icon: '♓', element: '水', quality: '变动', dates: '2/19-3/20' }
-        ];
-
-        const compatibilityMatrix = {
-            '白羊座': { '狮子座': 95, '射手座': 90, '双子座': 85, '水瓶座': 80, '天秤座': 75 },
-            '金牛座': { '处女座': 95, '摩羯座': 90, '巨蟹座': 85, '双鱼座': 80, '天蝎座': 75 },
-            '双子座': { '天秤座': 95, '水瓶座': 90, '白羊座': 85, '狮子座': 80, '射手座': 75 },
-            '巨蟹座': { '天蝎座': 95, '双鱼座': 90, '金牛座': 85, '处女座': 80, '摩羯座': 75 },
-            '狮子座': { '白羊座': 95, '射手座': 90, '双子座': 85, '天秤座': 80, '水瓶座': 75 },
-            '处女座': { '金牛座': 95, '摩羯座': 90, '巨蟹座': 85, '天蝎座': 80, '双鱼座': 75 },
-            '天秤座': { '双子座': 95, '水瓶座': 90, '狮子座': 85, '白羊座': 80, '射手座': 75 },
-            '天蝎座': { '巨蟹座': 95, '双鱼座': 90, '处女座': 85, '金牛座': 80, '摩羯座': 75 },
-            '射手座': { '白羊座': 95, '狮子座': 90, '水瓶座': 85, '天秤座': 80, '双子座': 75 },
-            '摩羯座': { '金牛座': 95, '处女座': 90, '天蝎座': 85, '双鱼座': 80, '巨蟹座': 75 },
-            '水瓶座': { '双子座': 95, '天秤座': 90, '射手座': 85, '白羊座': 80, '狮子座': 75 },
-            '双鱼座': { '巨蟹座': 95, '天蝎座': 90, '摩羯座': 85, '金牛座': 80, '处女座': 75 }
-        };
-
-        let selectedZodiac1 = null;
-        let selectedZodiac2 = null;
-
-        
         }
 
-        function createZodiacGrid(containerId, gridId) {
-            const grid = document.getElementById(gridId);
-            zodiacData.forEach((zodiac, index) => {
-                const item = document.createElement('div');
-                item.className = 'zodiac-item';
-                item.onclick = () => selectZodiac(zodiac.name, gridId, item);
-                item.innerHTML = `
-                    <div class="zodiac-icon">${zodiac.icon}</div>
-                    <div class="zodiac-name">${zodiac.name}</div>
-                `;
-                grid.appendChild(item);
-            });
-        }
-
-        function selectZodiac(zodiacName, gridId, element) {
-            // 清除同一网格中的其他选择
-            const grid = document.getElementById(gridId);
-            grid.querySelectorAll('.zodiac-item').forEach(item => {
-                item.classList.remove('selected');
-            });
-            
-            // 选中当前项
-            element.classList.add('selected');
-            
-            // 设置选中的星座
-            if (gridId === 'zodiac1Grid') {
-                selectedZodiac1 = zodiacName;
-            } else {
-                selectedZodiac2 = zodiacName;
-            }
-        }
-
-        function analyzeCompatibility() {
-            if (!selectedZodiac1 || !selectedZodiac2) {
-                alert('请选择两个星座进行配对分析！');
-                return;
-            }
-
-            const compatibility = calculateCompatibility(selectedZodiac1, selectedZodiac2);
-            displayCompatibilityResult(compatibility);
-            displayZodiacTraits();
-            
-            document.getElementById('compatibilityResult').classList.add('show');
-            document.getElementById('zodiacTraits').classList.add('show');
-        }
-
-        function calculateCompatibility(zodiac1, zodiac2) {
-            const matrix1 = compatibilityMatrix[zodiac1] || {};
-            const matrix2 = compatibilityMatrix[zodiac2] || {};
-            
-            let score = matrix1[zodiac2] || matrix2[zodiac1] || Math.floor(Math.random() * 40) + 60;
-            
-            return {
-                score: score,
-                level: getCompatibilityLevel(score),
-                stars: getStarRating(score)
-            };
-        }
-
-        function getCompatibilityLevel(score) {
-            if (score >= 90) return '完美绝配';
-            if (score >= 80) return '配对指数很高';
-            if (score >= 70) return '比较合适';
-            if (score >= 60) return '需要磨合';
-            return '挑战较大';
-        }
-
-        function getStarRating(score) {
-            const stars = Math.round(score / 20);
-            return '★'.repeat(stars) + '☆'.repeat(5 - stars);
-        }
-
-        function displayCompatibilityResult(compatibility) {
-            document.getElementById('scoreDisplay').textContent = compatibility.score + '%';
-            document.getElementById('starsDisplay').textContent = compatibility.stars;
-            document.getElementById('compatibilityLevel').textContent = compatibility.level;
-            
-            const detailsGrid = document.getElementById('detailsGrid');
-            detailsGrid.innerHTML = '';
-            
-            const details = [
-                {
-                    title: '💕 情感指数',
-                    content: `两个星座在感情方面的契合度为${compatibility.score}%，${getEmotionAnalysis(compatibility.score)}`
-                },
-                {
-                    title: '🗣️ 沟通指数',
-                    content: `沟通交流方面${getCommunicationAnalysis(selectedZodiac1, selectedZodiac2)}`
-                },
-                {
-                    title: '⚖️ 价值观念',
-                    content: `在人生价值观和生活理念方面${getValueAnalysis(selectedZodiac1, selectedZodiac2)}`
-                },
-                {
-                    title: '🎯 共同目标',
-                    content: `两人在未来规划和目标设定上${getGoalAnalysis(selectedZodiac1, selectedZodiac2)}`
-                }
-            ];
-            
-            details.forEach(detail => {
-                const card = document.createElement('div');
-                card.className = 'detail-card';
-                card.innerHTML = `
-                    <div class="detail-title">${detail.title}</div>
-                    <div class="detail-content">${detail.content}</div>
-                `;
-                detailsGrid.appendChild(card);
-            });
-        }
-
-        function displayZodiacTraits() {
-            const traitsGrid = document.getElementById('traitsGrid');
-            traitsGrid.innerHTML = '';
-            
-            const zodiac1Data = zodiacData.find(z => z.name === selectedZodiac1);
-            const zodiac2Data = zodiacData.find(z => z.name === selectedZodiac2);
-            
-            [zodiac1Data, zodiac2Data].forEach((zodiac, index) => {
-                const section = document.createElement('div');
-                section.className = 'trait-section';
-                section.innerHTML = `
-                    <h4>${zodiac.icon} ${zodiac.name}</h4>
-                    <div class="trait-item">
-                        <div class="trait-label">元素属性</div>
-                        <div class="trait-value">${zodiac.element}象星座</div>
-                    </div>
-                    <div class="trait-item">
-                        <div class="trait-label">星座性质</div>
-                        <div class="trait-value">${zodiac.quality}星座</div>
-                    </div>
-                    <div class="trait-item">
-                        <div class="trait-label">出生日期</div>
-                        <div class="trait-value">${zodiac.dates}</div>
-                    </div>
-                    <div class="trait-item">
-                        <div class="trait-label">性格特点</div>
-                        <div class="trait-value">${getPersonalityTraits(zodiac.name)}</div>
-                    </div>
-                `;
-                traitsGrid.appendChild(section);
-            });
-        }
-
-        function getEmotionAnalysis(score) {
-            if (score >= 90) return '情感深度契合，能够产生强烈的共鸣';
-            if (score >= 80) return '感情发展顺利，互相理解支持';
-            if (score >= 70) return '需要时间培养默契，但前景良好';
-            return '需要更多耐心和理解';
-        }
-
-        function getCommunicationAnalysis(zodiac1, zodiac2) {
-            const element1 = zodiacData.find(z => z.name === zodiac1).element;
-            const element2 = zodiacData.find(z => z.name === zodiac2).element;
-            
-            if (element1 === element2) return '沟通频率相近，容易理解彼此';
-            if ((element1 === '火' && element2 === '风') || (element1 === '风' && element2 === '火')) {
-                return '思维活跃，交流热烈有趣';
-            }
-            if ((element1 === '土' && element2 === '水') || (element1 === '水' && element2 === '土')) {
-                return '互补性强，能够深度交流';
-            }
-            return '需要找到合适的沟通方式';
-        }
-
-        function getValueAnalysis(zodiac1, zodiac2) {
-            return '存在一定差异，但可以通过理解和包容找到平衡点';
-        }
-
-        function getGoalAnalysis(zodiac1, zodiac2) {
-            return '能够制定共同目标，相互支持实现梦想';
-        }
-
-        function getPersonalityTraits(zodiacName) {
-            const traits = {
-                '白羊座': '热情冲动，积极主动，喜欢挑战',
-                '金牛座': '稳重实际，坚持不懈，追求安全',
-                '双子座': '机智灵活，好奇心强，善于交际',
-                '巨蟹座': '敏感细腻，重视家庭，情感丰富',
-                '狮子座': '自信大方，领导力强，喜欢被关注',
-                '处女座': '完美主义，注重细节，理性分析',
-                '天秤座': '优雅和谐，追求平衡，重视关系',
-                '天蝎座': '神秘深沉，直觉敏锐，意志坚强',
-                '射手座': '自由乐观，热爱冒险，哲学思维',
-                '摩羯座': '务实严谨，有责任心，目标明确',
-                '水瓶座': '独立创新，思维前卫，重视友谊',
-                '双鱼座': '浪漫梦幻，富有同情心，艺术气质'
-            };
-            return traits[zodiacName] || '独特个性，魅力十足';
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            createZodiacGrid('zodiac1Grid', 'zodiac1Grid');
-            createZodiacGrid('zodiac2Grid', 'zodiac2Grid');
-        });
-    </script>
-
-    <!-- 引入通用页脚 -->
-    <style>
-        .mystic-footer {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.95));
-            backdrop-filter: blur(10px);
-            border-top: 2px solid rgba(0, 255, 255, 0.3);
-            padding: 20px;
-            text-align: center;
-            margin-top: 40px;
-            position: relative;
-            z-index: 100;
-        }
-
-        .mystic-footer .disclaimer-main {
-            font-size: 15px;
-            color: #ffaa00;
-            font-weight: bold;
-            margin-bottom: 12px;
-            animation: footerGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes footerGlow {
-            from { text-shadow: 0 0 5px #ffaa00, 0 0 10px #ffaa00; }
-            to { text-shadow: 0 0 8px #ffaa00, 0 0 15px #ffaa00, 0 0 20px #ffaa00; }
-        }
-
-        .mystic-footer .disclaimer {
-            font-size: 13px;
-            color: #ccc;
-            line-height: 1.5;
-            margin-bottom: 15px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .mystic-footer .footer-links {
+        .aspect-rating {
             display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 12px;
+            align-items: center;
+            gap: 10px;
         }
 
-        .mystic-footer .footer-links a {
-            color: #888;
-            text-decoration: none;
-            padding: 6px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            transition: all 0.3s ease;
-            font-size: 12px;
+        .rating-label {
+            color: #ff6b9d;
+            font-size: 14px;
         }
 
-        .mystic-footer .footer-links a:hover {
-            color: #00ffff;
-            border-color: #00ffff;
-            background: rgba(0, 255, 255, 0.1);
-            transform: translateY(-1px);
-        }
-
-        .mystic-footer .copyright {
-            font-size: 11px;
-            color: #666;
-            margin-top: 10px;
-        }
-
-        .mystic-footer .wisdom-quote {
-            font-size: 12px;
-            color: #999;
-            font-style: italic;
-            opacity: 0.8;
-            margin-bottom: 8px;
+        .rating-hearts {
+            color: #ff6b9d;
+            font-size: 16px;
         }
 
         /* 响应式设计 */
         @media (max-width: 768px) {
-            .mystic-footer .footer-links {
+            body {
+                margin-left: 0;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .zodiac-selection {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .zodiac-grid {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 300px;
+            }
+            
+            .vs-icon {
+                font-size: 32px;
+                transform: rotate(90deg);
+            }
+            
+            .couple-display {
                 flex-direction: column;
-                gap: 8px;
+                gap: 20px;
             }
             
-            .mystic-footer .disclaimer-main {
-                font-size: 13px;
-            }
-            
-            .mystic-footer .disclaimer {
-                font-size: 12px;
+            .compatibility-aspects {
+                grid-template-columns: 1fr;
             }
         }
     </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <a href="../../index_mystic.html" style="color: inherit; text-decoration: none;">🔮 神秘学预测中心</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../bazi/chart.html" class="nav-link">八字命理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../astrology/horoscope.html" class="nav-link active">星座占星</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../tarot/daily.html" class="nav-link">塔罗牌</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../numerology/life-path.html" class="nav-link">数字命理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../palmistry/palm-reading.html" class="nav-link">手相面相</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../divination/lots.html" class="nav-link">占卜游戏</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../fengshui/home.html" class="nav-link">风水分析</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <footer class="mystic-footer">
-        <div class="disclaimer-main">
-            ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
-        </div>
-        <div class="disclaimer">
-            🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
-            🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
-        </div>
-        <div class="footer-links">
-            <a href="../../index_mystic.html">返回首页</a>
-            <a href="#" onclick="return false;">服务条款</a>
-            <a href="#" onclick="return false;">隐私政策</a>
-            <a href="#" onclick="return false;">免责声明</a>
-            <a href="#" onclick="return false;">联系我们</a>
-        </div>
-        <div class="wisdom-quote">
-            "知命不惧，知而无畏" - 探索未知，拥抱可能
-        </div>
-        <div class="copyright">
-            © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
-        </div>
-    </footer>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+        
+        <!-- 主内容区域 -->
+        <main class="content-area">
+            <h1 class="page-title">💕 星座配对分析</h1>
+            
+            <div class="compatibility-container">
+                <div class="selection-section">
+                    <h2 class="section-title">选择你们的星座</h2>
+                    
+                    <div class="zodiac-selection">
+                        <div class="zodiac-selector">
+                            <div class="selector-label">你的星座</div>
+                            <div class="zodiac-grid" id="yourZodiacGrid">
+                                <!-- 星座选项将由JavaScript生成 -->
+                            </div>
+                        </div>
+                        
+                        <div class="vs-icon">💝</div>
+                        
+                        <div class="zodiac-selector">
+                            <div class="selector-label">TA的星座</div>
+                            <div class="zodiac-grid" id="partnerZodiacGrid">
+                                <!-- 星座选项将由JavaScript生成 -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="analyze-button" onclick="analyzeCompatibility()" disabled>
+                        开始配对分析
+                    </button>
+                </div>
+                
+                <div class="results-section" id="resultsSection">
+                    <div class="compatibility-header">
+                        <div class="couple-display">
+                            <div class="partner">
+                                <div class="partner-icon" id="yourIcon">♈</div>
+                                <div class="partner-name" id="yourName">你的星座</div>
+                            </div>
+                            <div class="vs-icon">💕</div>
+                            <div class="partner">
+                                <div class="partner-icon" id="partnerIcon">♈</div>
+                                <div class="partner-name" id="partnerName">TA的星座</div>
+                            </div>
+                        </div>
+                        
+                        <div class="compatibility-score">
+                            <div class="score-display" id="scoreDisplay">85%</div>
+                            <div class="score-label">配对指数</div>
+                            <div class="score-bar">
+                                <div class="score-fill" id="scoreFill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="compatibility-aspects" id="aspectsContainer">
+                        <!-- 配对分析内容将由JavaScript生成 -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const zodiacData = [
+            { name: '白羊座', icon: '♈', element: 'fire', traits: ['热情', '冲动', '领导力'] },
+            { name: '金牛座', icon: '♉', element: 'earth', traits: ['稳重', '固执', '实际'] },
+            { name: '双子座', icon: '♊', element: 'air', traits: ['机智', '善变', '好奇'] },
+            { name: '巨蟹座', icon: '♋', element: 'water', traits: ['温柔', '敏感', '家庭'] },
+            { name: '狮子座', icon: '♌', element: 'fire', traits: ['自信', '慷慨', '戏剧性'] },
+            { name: '处女座', icon: '♍', element: 'earth', traits: ['完美', '分析', '服务'] },
+            { name: '天秤座', icon: '♎', element: 'air', traits: ['和谐', '优雅', '犹豫'] },
+            { name: '天蝎座', icon: '♏', element: 'water', traits: ['神秘', '强烈', '深刻'] },
+            { name: '射手座', icon: '♐', element: 'fire', traits: ['自由', '乐观', '哲学'] },
+            { name: '摩羯座', icon: '♑', element: 'earth', traits: ['雄心', '传统', '责任'] },
+            { name: '水瓶座', icon: '♒', element: 'air', traits: ['独立', '创新', '理想'] },
+            { name: '双鱼座', icon: '♓', element: 'water', traits: ['梦幻', '同情', '直觉'] }
+        ];
+
+        const compatibilityData = {
+            fire: { fire: 85, earth: 65, air: 80, water: 70 },
+            earth: { fire: 65, earth: 90, air: 60, water: 75 },
+            air: { fire: 80, earth: 60, air: 85, water: 65 },
+            water: { fire: 70, earth: 75, air: 65, water: 90 }
+        };
+
+        let selectedYour = null;
+        let selectedPartner = null;
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function createZodiacGrid(containerId, gridId) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = '';
+            
+            zodiacData.forEach((zodiac, index) => {
+                const option = document.createElement('div');
+                option.className = 'zodiac-option';
+                option.onclick = () => selectZodiac(containerId, index);
+                
+                option.innerHTML = `
+                    <div class="zodiac-icon">${zodiac.icon}</div>
+                    <div class="zodiac-name">${zodiac.name}</div>
+                `;
+                
+                grid.appendChild(option);
+            });
+        }
+
+        function selectZodiac(containerId, index) {
+            const grid = document.getElementById(containerId);
+            
+            // 移除之前的选中状态
+            grid.querySelectorAll('.zodiac-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // 添加新的选中状态
+            grid.children[index].classList.add('selected');
+            
+            if (containerId === 'yourZodiacGrid') {
+                selectedYour = index;
+            } else {
+                selectedPartner = index;
+            }
+            
+            // 检查是否可以开始分析
+            updateAnalyzeButton();
+        }
+
+        function updateAnalyzeButton() {
+            const button = document.querySelector('.analyze-button');
+            if (selectedYour !== null && selectedPartner !== null) {
+                button.disabled = false;
+                button.textContent = '开始配对分析';
+            } else {
+                button.disabled = true;
+                button.textContent = '请先选择双方星座';
+            }
+        }
+
+        function analyzeCompatibility() {
+            if (selectedYour === null || selectedPartner === null) return;
+            
+            const yourZodiac = zodiacData[selectedYour];
+            const partnerZodiac = zodiacData[selectedPartner];
+            
+            // 更新显示
+            document.getElementById('yourIcon').textContent = yourZodiac.icon;
+            document.getElementById('yourName').textContent = yourZodiac.name;
+            document.getElementById('partnerIcon').textContent = partnerZodiac.icon;
+            document.getElementById('partnerName').textContent = partnerZodiac.name;
+            
+            // 计算配对指数
+            const baseScore = compatibilityData[yourZodiac.element][partnerZodiac.element];
+            const randomFactor = Math.floor(Math.random() * 21) - 10; // -10到10的随机数
+            const finalScore = Math.max(30, Math.min(100, baseScore + randomFactor));
+            
+            document.getElementById('scoreDisplay').textContent = finalScore + '%';
+            
+            // 动画更新分数条
+            setTimeout(() => {
+                document.getElementById('scoreFill').style.width = finalScore + '%';
+            }, 300);
+            
+            // 生成详细分析
+            generateCompatibilityAnalysis(yourZodiac, partnerZodiac, finalScore);
+            
+            // 显示结果
+            document.getElementById('resultsSection').classList.add('show');
+            
+            // 滚动到结果区域
+            setTimeout(() => {
+                document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+
+        function generateCompatibilityAnalysis(your, partner, score) {
+            const aspects = [
+                {
+                    icon: '💕',
+                    title: '感情兼容性',
+                    content: generateAspectContent('love', your, partner, score)
+                },
+                {
+                    icon: '🗣️',
+                    title: '沟通交流',
+                    content: generateAspectContent('communication', your, partner, score)
+                },
+                {
+                    icon: '⚖️',
+                    title: '价值观匹配',
+                    content: generateAspectContent('values', your, partner, score)
+                },
+                {
+                    icon: '🎯',
+                    title: '共同目标',
+                    content: generateAspectContent('goals', your, partner, score)
+                },
+                {
+                    icon: '🔥',
+                    title: '激情指数',
+                    content: generateAspectContent('passion', your, partner, score)
+                },
+                {
+                    icon: '🏠',
+                    title: '长期发展',
+                    content: generateAspectContent('longterm', your, partner, score)
+                }
+            ];
+            
+            const container = document.getElementById('aspectsContainer');
+            container.innerHTML = '';
+            
+            aspects.forEach(aspect => {
+                const rating = Math.floor(score / 20) + Math.floor(Math.random() * 2);
+                const card = document.createElement('div');
+                card.className = 'aspect-card';
+                
+                card.innerHTML = `
+                    <div class="aspect-title">
+                        <span>${aspect.icon}</span>
+                        <span>${aspect.title}</span>
+                    </div>
+                    <div class="aspect-content">${aspect.content}</div>
+                    <div class="aspect-rating">
+                        <span class="rating-label">匹配度:</span>
+                        <span class="rating-hearts">${'💖'.repeat(rating)}${'🤍'.repeat(5-rating)}</span>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        function generateAspectContent(aspect, your, partner, score) {
+            const templates = {
+                love: {
+                    high: [
+                        `${your.name}和${partner.name}在感情上非常契合，你们的爱情充满激情和理解。`,
+                        `两人的感情世界丰富多彩，能够给彼此带来深度的情感满足。`,
+                        `你们的爱情模式互补，能够在感情中找到完美的平衡。`
+                    ],
+                    medium: [
+                        `${your.name}和${partner.name}的感情需要更多的理解和包容。`,
+                        `两人在感情表达上可能存在差异，但通过努力可以达成共识。`,
+                        `你们的感情基础稳固，需要在沟通上多加努力。`
+                    ],
+                    low: [
+                        `${your.name}和${partner.name}在感情上面临一些挑战，需要更多耐心。`,
+                        `两人的感情观念存在较大差异，需要大量的磨合时间。`,
+                        `感情发展可能较为缓慢，但真诚的努力会带来改善。`
+                    ]
+                },
+                communication: {
+                    high: [
+                        `你们的沟通非常顺畅，能够轻松理解对方的想法和感受。`,
+                        `两人在交流中总能找到共同话题，对话充满乐趣和深度。`,
+                        `你们的思维模式相似，很少出现沟通障碍。`
+                    ],
+                    medium: [
+                        `你们的沟通基本顺利，偶尔会有小的误解需要澄清。`,
+                        `两人需要学会更好地表达自己的想法和倾听对方。`,
+                        `通过努力改善沟通方式，关系会变得更加和谐。`
+                    ],
+                    low: [
+                        `你们在沟通上可能经常遇到困难，需要更多的耐心和理解。`,
+                        `两人的表达方式差异较大，容易产生误解。`,
+                        `建议学习更有效的沟通技巧来改善关系。`
+                    ]
+                },
+                values: {
+                    high: [
+                        `你们的价值观高度一致，对人生有着相似的看法和追求。`,
+                        `两人在重要问题上总能达成共识，很少发生价值观冲突。`,
+                        `你们的人生目标和理想非常相近，是理想的人生伴侣。`
+                    ],
+                    medium: [
+                        `你们的价值观基本相符，在一些细节上可能有不同看法。`,
+                        `两人需要更多讨论来协调不同的价值观念。`,
+                        `通过互相理解和尊重，可以建立稳固的价值观基础。`
+                    ],
+                    low: [
+                        `你们的价值观存在较大差异，需要大量的沟通和妥协。`,
+                        `两人在人生观和世界观上有明显分歧，需要相互包容。`,
+                        `建议多进行深度交流，寻找共同的价值观基础。`
+                    ]
+                },
+                goals: {
+                    high: [
+                        `你们的人生目标高度一致，能够携手共同奋斗。`,
+                        `两人对未来有着相似的规划和期待，是完美的合作伙伴。`,
+                        `你们的梦想相互支持，能够共同实现人生理想。`
+                    ],
+                    medium: [
+                        `你们的目标基本一致，在实现方式上可能有所不同。`,
+                        `两人需要协调各自的计划，找到共同的发展方向。`,
+                        `通过合理规划，你们可以实现共同的人生目标。`
+                    ],
+                    low: [
+                        `你们的人生目标存在较大分歧，需要重新规划共同未来。`,
+                        `两人在追求上有明显差异，需要寻找平衡点。`,
+                        `建议多讨论未来规划，尝试融合各自的目标。`
+                    ]
+                },
+                passion: {
+                    high: [
+                        `你们之间充满激情和活力，关系始终保持新鲜感。`,
+                        `两人的互动充满火花，能够激发彼此最好的一面。`,
+                        `你们的关系充满浪漫和惊喜，永远不会感到乏味。`
+                    ],
+                    medium: [
+                        `你们的关系稳定温馨，偶尔需要增加一些激情元素。`,
+                        `两人的互动平和舒适，可以尝试更多浪漫举动。`,
+                        `通过增加共同活动和惊喜，可以提升关系活力。`
+                    ],
+                    low: [
+                        `你们的关系相对平淡，需要主动创造激情时刻。`,
+                        `两人需要更多努力来维持关系的新鲜感和活力。`,
+                        `建议尝试新的活动和体验来增进彼此感情。`
+                    ]
+                },
+                longterm: {
+                    high: [
+                        `你们非常适合长期发展，有着建立稳固关系的所有要素。`,
+                        `两人的兼容性极高，是理想的终身伴侣。`,
+                        `你们的关系具有很强的发展潜力和稳定性。`
+                    ],
+                    medium: [
+                        `你们有良好的长期发展基础，需要继续努力维护关系。`,
+                        `两人的关系稳定，通过持续的投入可以长久发展。`,
+                        `你们的未来充满希望，需要共同经营和维护。`
+                    ],
+                    low: [
+                        `你们的长期发展面临一些挑战，需要双方共同努力。`,
+                        `两人需要更多时间和精力来建立稳固的长期关系。`,
+                        `建议多关注彼此需求，增强关系的稳定性。`
+                    ]
+                }
+            };
+            
+            let level;
+            if (score >= 75) level = 'high';
+            else if (score >= 50) level = 'medium';
+            else level = 'low';
+            
+            const options = templates[aspect][level];
+            return options[Math.floor(Math.random() * options.length)];
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            createZodiacGrid('yourZodiacGrid', 'yourZodiacGrid');
+            createZodiacGrid('partnerZodiacGrid', 'partnerZodiacGrid');
+        });
+    </script>
 
     <!-- 公共导航栏脚本 -->
     <script src="../../components/navigation.js"></script>
-    <script src="../../components/starfield.js"></script>
 </body>
-</html></html> 
+</html> 

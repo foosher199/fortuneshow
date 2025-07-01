@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 星座占星模块公共组件 -->
+    <link rel="stylesheet" href="../../components/astrology-sidebar.css">
+    <script src="../../components/astrology-sidebar.js" defer></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <!-- SEO优化meta标签 -->
+    <meta name="description" content="十二星座月运势查询，专业占星师为您解读本月爱情运势、事业发展、健康状况、财富机遇。深度的星座分析，助您把握整月运势走向。">
+    <meta name="keywords" content="星座运势,十二星座,月运势,星座查询,占星分析,本月运势">
+    <meta name="author" content="神秘学预测中心">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <title>星座月运势查询 - 十二星座本月运势 | 神秘学预测中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 月光背景动画 */
+        .moonlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 20%, rgba(135, 206, 235, 0.1) 0%, transparent 50%);
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        /* 主要内容区域 */
+        .main-container {
+            margin-left: 280px;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 42px;
+            background: linear-gradient(45deg, #87ceeb, #9370db, #4169e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 25px rgba(135, 206, 235, 0.6)); }
+            to { filter: drop-shadow(0 0 40px rgba(147, 112, 219, 0.8)); }
+        }
+
+        .month-info {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(147, 112, 219, 0.1));
+            border: 2px solid #87ceeb;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(135, 206, 235, 0.1);
+        }
+
+        .month-date {
+            color: #87ceeb;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .month-theme {
+            color: #9370db;
+            font-size: 18px;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .horoscope-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .zodiac-card {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(135, 206, 235, 0.05));
+            border: 2px solid transparent;
+            border-radius: 25px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zodiac-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(135, 206, 235, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .zodiac-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: #87ceeb;
+            box-shadow: 0 20px 50px rgba(135, 206, 235, 0.25);
+        }
+
+        .zodiac-card:hover::before {
+            opacity: 1;
+        }
+
+        .zodiac-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .zodiac-icon {
+            font-size: 56px;
+            margin-right: 20px;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .zodiac-info h3 {
+            color: #87ceeb;
+            font-size: 26px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .zodiac-date {
+            color: #9370db;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .month-overview {
+            background: rgba(147, 112, 219, 0.1);
+            border: 1px solid #9370db;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .overview-title {
+            color: #9370db;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .overview-text {
+            color: #e0e0e0;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .month-aspects {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .aspect-item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            border-radius: 12px;
+            padding: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .aspect-item:hover {
+            border-color: #87ceeb;
+            transform: translateY(-2px);
+        }
+
+        .aspect-title {
+            color: #87ceeb;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .aspect-rating {
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .aspect-text {
+            color: #ccc;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .month-forecast {
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(65, 105, 225, 0.1));
+            border: 2px solid #4169e1;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .forecast-title {
+            color: #4169e1;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .forecast-content {
+            color: #e0e0e0;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .lucky-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(65, 105, 225, 0.3);
+        }
+
+        .lucky-item {
+            text-align: center;
+            padding: 8px;
+        }
+
+        .lucky-label {
+            color: #4169e1;
+            font-size: 11px;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .lucky-value {
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                margin-left: 0;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .page-title {
+                font-size: 32px;
+            }
+            
+            .horoscope-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .zodiac-icon {
+                font-size: 42px;
+            }
+            
+            .month-aspects {
+                grid-template-columns: 1fr;
+            }
+            
+            .lucky-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 页面加载动画 */
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .content-area {
+            animation: pageLoad 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <!-- 顶部导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <div class="nav-left">
+                <div class="logo">
+                    <a href="../../index_mystic.html" style="color: inherit; text-decoration: none;">🔮 神秘学预测中心</a>
+                </div>
+            </div>
+            <div class="nav-right">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="../bazi/chart.html" class="nav-link">八字命理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../astrology/horoscope.html" class="nav-link active">星座占星</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../tarot/daily.html" class="nav-link">塔罗牌</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../numerology/life-path.html" class="nav-link">数字命理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../palmistry/palm-reading.html" class="nav-link">手相面相</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../divination/lots.html" class="nav-link">占卜游戏</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../fengshui/home.html" class="nav-link">风水分析</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 月光背景 -->
+    <div class="moonlight"></div>
+    <div class="floating-particles" id="particles"></div>
+
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+        
+        <!-- 主内容区域 -->
+        <main class="content-area">
+            <h1 class="page-title">🌙 星座月运势</h1>
+            
+            <div class="month-info">
+                <div class="month-date" id="monthDate">本月运势 (加载中...)</div>
+                <div class="month-theme">🌟 深度解析整月运势变化，洞察人生起伏规律 🌟</div>
+            </div>
+            
+            <div class="horoscope-grid" id="horoscopeGrid">
+                <!-- 星座运势卡片将由JavaScript生成 -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const zodiacData = [
+            { name: '白羊座', icon: '♈', dates: '3月21日-4月19日', element: 'fire' },
+            { name: '金牛座', icon: '♉', dates: '4月20日-5月20日', element: 'earth' },
+            { name: '双子座', icon: '♊', dates: '5月21日-6月20日', element: 'air' },
+            { name: '巨蟹座', icon: '♋', dates: '6月21日-7月22日', element: 'water' },
+            { name: '狮子座', icon: '♌', dates: '7月23日-8月22日', element: 'fire' },
+            { name: '处女座', icon: '♍', dates: '8月23日-9月22日', element: 'earth' },
+            { name: '天秤座', icon: '♎', dates: '9月23日-10月22日', element: 'air' },
+            { name: '天蝎座', icon: '♏', dates: '10月23日-11月21日', element: 'water' },
+            { name: '射手座', icon: '♐', dates: '11月22日-12月21日', element: 'fire' },
+            { name: '摩羯座', icon: '♑', dates: '12月22日-1月19日', element: 'earth' },
+            { name: '水瓶座', icon: '♒', dates: '1月20日-2月18日', element: 'air' },
+            { name: '双鱼座', icon: '♓', dates: '2月19日-3月20日', element: 'water' }
+        ];
+
+        const monthlyFortunes = {
+            '白羊座': {
+                overview: '本月你的能量特别充沛，适合开展新的项目和挑战。火星的影响让你在各个领域都表现出色，但要注意控制脾气，避免冲动行事。',
+                love: { rating: 4, text: '感情生活充满激情，单身者有机会遇到心仪对象' },
+                career: { rating: 5, text: '工作上表现突出，有机会获得晋升或重要项目' },
+                money: { rating: 3, text: '收入稳定，但支出较大，需要合理规划财务' },
+                health: { rating: 4, text: '精力充沛，运动能力强，注意不要过度劳累' },
+                forecast: '月中会有重要的机会出现，需要果断抓住。月末可能会有意外的好消息传来，与事业发展相关。',
+                lucky: { color: '红色', number: '9', day: '周二', stone: '红宝石' }
+            },
+            '金牛座': {
+                overview: '本月重点关注稳定和安全感，是积累财富和巩固基础的好时机。金星带来的温和能量让你在人际关系方面表现出色。',
+                love: { rating: 5, text: '感情稳定发展，已有伴侣的感情更加深厚' },
+                career: { rating: 3, text: '工作按部就班，虽然没有大突破但很稳定' },
+                money: { rating: 5, text: '财运极佳，投资理财都有不错的收益' },
+                health: { rating: 4, text: '身体状况良好，适合调养和休息' },
+                forecast: '本月的投资决策会在未来几个月带来丰厚回报。家庭关系和谐，可能会有添丁或置业的好消息。',
+                lucky: { color: '绿色', number: '6', day: '周五', stone: '翡翠' }
+            },
+            '双子座': {
+                overview: '本月你的好奇心和学习欲望特别强烈，适合学习新技能或拓展知识面。沟通能力出众，人际网络不断扩大。',
+                love: { rating: 4, text: '通过朋友介绍可能遇到合适的对象' },
+                career: { rating: 5, text: '沟通协调能力受到赞赏，团队合作顺利' },
+                money: { rating: 3, text: '收入来源多样化，但需要注意理财规划' },
+                health: { rating: 3, text: '神经系统较敏感，需要充足休息和放松' },
+                forecast: '月底会有重要的学习或旅行机会，这将为你的未来发展打开新的方向。信息交流特别频繁。',
+                lucky: { color: '黄色', number: '3', day: '周三', stone: '黄水晶' }
+            },
+            '巨蟹座': {
+                overview: '本月家庭和情感生活是重点，直觉力特别敏锐。月亮的能量增强了你的感受力，适合进行内心的探索和成长。',
+                love: { rating: 5, text: '感情生活温馨浪漫，家庭和谐美满' },
+                career: { rating: 3, text: '工作需要更多耐心，避免情绪化影响判断' },
+                money: { rating: 4, text: '家庭支出增加，但整体财务状况稳定' },
+                health: { rating: 5, text: '身心状态良好，情绪平稳' },
+                forecast: '家庭会有值得庆祝的事情发生，可能与孩子或长辈相关。直觉在重要决策中发挥关键作用。',
+                lucky: { color: '银白色', number: '2', day: '周一', stone: '月光石' }
+            },
+            '狮子座': {
+                overview: '本月是你发光发热的时候，创造力和表现力都达到高峰。太阳的能量让你充满自信，在各个领域都能展现领导才能。',
+                love: { rating: 4, text: '魅力四射，吸引力强，但要避免过于自我' },
+                career: { rating: 5, text: '创意项目表现出色，领导能力得到认可' },
+                money: { rating: 4, text: '收入增加，但娱乐支出也较大' },
+                health: { rating: 3, text: '精力充沛但要注意心脏和血压健康' },
+                forecast: '本月会有展示才华的重要机会，可能是演讲、表演或创作方面。自信的表现会为你赢得更多机会。',
+                lucky: { color: '金色', number: '1', day: '周日', stone: '黄金' }
+            },
+            '处女座': {
+                overview: '本月适合整理和优化生活的各个方面，工作效率特别高。注重细节的特质让你在专业领域表现出色。',
+                love: { rating: 3, text: '感情需要更多沟通，避免过于挑剔' },
+                career: { rating: 5, text: '工作效率极高，专业能力受到肯定' },
+                money: { rating: 4, text: '理财规划得当，支出控制良好' },
+                health: { rating: 4, text: '注重养生保健，整体健康状况良好' },
+                forecast: '工作上的努力会在月末得到回报，可能是加薪或职位提升。健康管理的成果开始显现。',
+                lucky: { color: '深蓝色', number: '8', day: '周四', stone: '蓝宝石' }
+            },
+            '天秤座': {
+                overview: '本月人际关系和合作运势极佳，美感和协调能力得到充分发挥。金星的影响让你在艺术和美学方面有特殊灵感。',
+                love: { rating: 5, text: '感情生活和谐美满，伴侣关系更加平衡' },
+                career: { rating: 4, text: '团队合作顺利，协调能力备受赞赏' },
+                money: { rating: 4, text: '合作投资有收益，财务状况平衡' },
+                health: { rating: 4, text: '身心平衡，皮肤和外貌状态良好' },
+                forecast: '艺术创作或美学相关的项目会带来意外收获。重要的合作关系在本月确立，影响深远。',
+                lucky: { color: '粉色', number: '7', day: '周六', stone: '玫瑰石英' }
+            },
+            '天蝎座': {
+                overview: '本月你的洞察力和直觉力达到顶峰，适合进行深度的研究和分析。冥王星的能量帮助你实现内在的转化和成长。',
+                love: { rating: 4, text: '感情深度发展，但要避免过于控制' },
+                career: { rating: 4, text: '研究分析能力突出，适合处理复杂问题' },
+                money: { rating: 5, text: '投资眼光独到，有可能获得丰厚回报' },
+                health: { rating: 3, text: '注意生殖系统和心理健康' },
+                forecast: '重要的投资决策会在本月做出，结果将超出预期。神秘事物或深度学习为你打开新的视野。',
+                lucky: { color: '深红色', number: '4', day: '周二', stone: '石榴石' }
+            },
+            '射手座': {
+                overview: '本月运势活跃，适合扩展视野和追求新的体验。木星的影响带来学习和旅行的机会，乐观态度为你带来好运。',
+                love: { rating: 4, text: '可能遇到来自远方的缘分，异地恋发展顺利' },
+                career: { rating: 4, text: '国际业务或跨领域合作有突破' },
+                money: { rating: 3, text: '旅行和学习支出较大，需要预算规划' },
+                health: { rating: 5, text: '精力充沛，适合户外运动和冒险' },
+                forecast: '重要的学习或旅行计划在本月确定，这将改变你的人生轨迹。与外国人或远方朋友的联系加强。',
+                lucky: { color: '紫色', number: '9', day: '周四', stone: '紫水晶' }
+            },
+            '摩羯座': {
+                overview: '本月事业运势强劲，土星的能量帮助你建立稳固的基础。责任感和执行力得到认可，长期目标取得重要进展。',
+                love: { rating: 3, text: '感情需要更多时间经营，避免工作影响感情' },
+                career: { rating: 5, text: '事业达到新高度，权威地位得到确立' },
+                money: { rating: 4, text: '收入稳定增长，长期投资收益可观' },
+                health: { rating: 4, text: '注意骨骼和关节健康，适度运动' },
+                forecast: '职业生涯的重要里程碑在本月达成，可能是晋升或重要项目的成功。社会地位显著提升。',
+                lucky: { color: '黑色', number: '10', day: '周六', stone: '黑曜石' }
+            },
+            '水瓶座': {
+                overview: '本月创新精神特别活跃，天王星带来突破性的想法和机会。科技和人道主义相关的活动让你特别有成就感。',
+                love: { rating: 4, text: '通过网络或朋友圈可能遇到特别的人' },
+                career: { rating: 4, text: '创新项目受到关注，团队协作效果显著' },
+                money: { rating: 3, text: '新兴投资机会出现，但需要谨慎评估' },
+                health: { rating: 4, text: '神经系统活跃，注意休息和放松' },
+                forecast: '革命性的想法在本月成形，可能与科技或社会改革相关。朋友网络为你带来意想不到的机会。',
+                lucky: { color: '电蓝色', number: '11', day: '周三', stone: '海蓝宝石' }
+            },
+            '双鱼座': {
+                overview: '本月直觉力和艺术灵感达到高峰，海王星的能量增强了你的感受力和创造力。适合从事艺术创作和精神修养。',
+                love: { rating: 5, text: '感情生活浪漫梦幻，心灵契合度很高' },
+                career: { rating: 3, text: '创意工作表现出色，但要注意现实执行' },
+                money: { rating: 4, text: '直觉投资可能有意外收获，但要谨慎' },
+                health: { rating: 4, text: '心理状态良好，注意睡眠质量' },
+                forecast: '艺术创作或精神修行会带来深刻的内在体验。梦境和直觉在重要决策中发挥指导作用。',
+                lucky: { color: '海绿色', number: '12', day: '周一', stone: '海蓝宝' }
+            }
+        };
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function getCurrentMonth() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth() + 1;
+            return `${year}年${month}月`;
+        }
+
+        function generateStars(rating) {
+            return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+        }
+
+        function generateHoroscopeCards() {
+            const grid = document.getElementById('horoscopeGrid');
+            grid.innerHTML = '';
+            
+            zodiacData.forEach(zodiac => {
+                const fortune = monthlyFortunes[zodiac.name];
+                const card = document.createElement('div');
+                card.className = 'zodiac-card';
+                
+                card.innerHTML = `
+                    <div class="zodiac-header">
+                        <div class="zodiac-icon">${zodiac.icon}</div>
+                        <div class="zodiac-info">
+                            <h3>${zodiac.name}</h3>
+                            <div class="zodiac-date">${zodiac.dates}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="month-overview">
+                        <div class="overview-title">🌟 本月概述</div>
+                        <div class="overview-text">${fortune.overview}</div>
+                    </div>
+                    
+                    <div class="month-aspects">
+                        <div class="aspect-item">
+                            <div class="aspect-title">💕 爱情运势</div>
+                            <div class="aspect-rating">${generateStars(fortune.love.rating)}</div>
+                            <div class="aspect-text">${fortune.love.text}</div>
+                        </div>
+                        <div class="aspect-item">
+                            <div class="aspect-title">💼 事业运势</div>
+                            <div class="aspect-rating">${generateStars(fortune.career.rating)}</div>
+                            <div class="aspect-text">${fortune.career.text}</div>
+                        </div>
+                        <div class="aspect-item">
+                            <div class="aspect-title">💰 财富运势</div>
+                            <div class="aspect-rating">${generateStars(fortune.money.rating)}</div>
+                            <div class="aspect-text">${fortune.money.text}</div>
+                        </div>
+                        <div class="aspect-item">
+                            <div class="aspect-title">🏥 健康运势</div>
+                            <div class="aspect-rating">${generateStars(fortune.health.rating)}</div>
+                            <div class="aspect-text">${fortune.health.text}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="month-forecast">
+                        <div class="forecast-title">🔮 月度预测</div>
+                        <div class="forecast-content">${fortune.forecast}</div>
+                        
+                        <div class="lucky-info">
+                            <div class="lucky-item">
+                                <div class="lucky-label">幸运色</div>
+                                <div class="lucky-value">${fortune.lucky.color}</div>
+                            </div>
+                            <div class="lucky-item">
+                                <div class="lucky-label">幸运数字</div>
+                                <div class="lucky-value">${fortune.lucky.number}</div>
+                            </div>
+                            <div class="lucky-item">
+                                <div class="lucky-label">幸运日</div>
+                                <div class="lucky-value">${fortune.lucky.day}</div>
+                            </div>
+                            <div class="lucky-item">
+                                <div class="lucky-label">幸运石</div>
+                                <div class="lucky-value">${fortune.lucky.stone}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            document.getElementById('monthDate').textContent = `本月运势 (${getCurrentMonth()})`;
+            generateHoroscopeCards();
+        });
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+</body>
+</html> 
