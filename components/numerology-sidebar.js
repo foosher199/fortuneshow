@@ -1,135 +1,114 @@
-// 数字命理模块 - 侧边栏功能
+/**
+ * 数字命理模块 - 公共侧边栏组件
+ * 自动生成统一的数字命理功能菜单
+ */
+
 class NumerologySidebar {
     constructor() {
+        this.menuItems = [
+            { href: 'life-path.html', text: '生命数字分析', icon: '✨' },
+            { href: 'life-number.html', text: '命运数字', icon: '🔢' },
+            { href: 'soul-number.html', text: '灵魂数字', icon: '💫' },
+            { href: 'name-number.html', text: '姓名数字', icon: '📝' }
+        ];
+        
         this.init();
     }
 
+    // 初始化侧边栏
     init() {
-        this.createSidebar();
-        this.setupEventListeners();
-        this.setActiveLink();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.render());
+        } else {
+            this.render();
+        }
     }
 
-    createSidebar() {
-        // 检查是否已存在侧边栏
-        const existingSidebar = document.querySelector('.sidebar');
-        if (existingSidebar) {
-            existingSidebar.remove();
+    // 渲染侧边栏
+    render() {
+        const sidebarContainer = document.querySelector('.sidebar');
+        if (!sidebarContainer) {
+            console.warn('NumerologySidebar: 找不到 .sidebar 容器');
+            return;
         }
 
-        // 创建侧边栏HTML结构
-        const sidebarHTML = `
-            <div class="sidebar">
-                <div class="sidebar-category">
-                    <div class="category-title">📊 数字命理</div>
-                    <ul class="function-list">
-                        <li class="function-item">
-                            <a href="life-path.html" class="function-link" data-page="life-path">✨ 生命数字分析</a>
-                        </li>
-                        <li class="function-item">
-                            <a href="name-number.html" class="function-link" data-page="name-number">🔤 姓名数字解析</a>
-                        </li>
-                        <li class="function-item">
-                            <a href="soul-number.html" class="function-link" data-page="soul-number">💫 灵魂数字测算</a>
-                        </li>
-                        <li class="function-item">
-                            <a href="life-number.html" class="function-link" data-page="life-number">🎯 幸运数字分析</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <button class="mobile-menu-toggle" id="mobileMenuToggle">☰</button>
-        `;
-
-        // 插入到页面开头
-        document.body.insertAdjacentHTML('afterbegin', sidebarHTML);
-    }
-
-    setupEventListeners() {
-        // 移动端菜单切换
-        const mobileToggle = document.getElementById('mobileMenuToggle');
-        const sidebar = document.querySelector('.sidebar');
+        // 获取当前页面文件名
+        const currentPage = this.getCurrentPageName();
         
-        if (mobileToggle && sidebar) {
-            mobileToggle.addEventListener('click', () => {
-                sidebar.classList.toggle('mobile-open');
-                // 切换按钮图标
-                mobileToggle.textContent = sidebar.classList.contains('mobile-open') ? '✕' : '☰';
-            });
+        // 生成侧边栏HTML
+        const sidebarHTML = this.generateSidebarHTML(currentPage);
+        
+        // 更新侧边栏内容
+        sidebarContainer.innerHTML = sidebarHTML;
+    }
 
-            // 点击页面其他区域关闭移动端菜单
-            document.addEventListener('click', (e) => {
-                if (!sidebar.contains(e.target) && !mobileToggle.contains(e.target)) {
-                    sidebar.classList.remove('mobile-open');
-                    mobileToggle.textContent = '☰';
-                }
-            });
-        }
+    // 获取当前页面文件名
+    getCurrentPageName() {
+        const path = window.location.pathname;
+        const fileName = path.split('/').pop();
+        return fileName || 'life-path.html'; // 默认为生命数字分析页面
+    }
 
-        // 监听窗口大小变化
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                sidebar.classList.remove('mobile-open');
-                mobileToggle.textContent = '☰';
+    // 生成侧边栏HTML
+    generateSidebarHTML(currentPage) {
+        const menuHTML = this.menuItems.map(item => {
+            const isActive = item.href === currentPage ? 'active' : '';
+            return `
+                <li class="function-item">
+                    <a href="${item.href}" class="function-link ${isActive}">
+                        ${item.icon} ${item.text}
+                    </a>
+                </li>
+            `;
+        }).join('');
+
+        return `
+            <div class="sidebar-category">
+                <div class="category-title">数字命理</div>
+                <ul class="function-list">
+                    ${menuHTML}
+                </ul>
+            </div>
+        `;
+    }
+
+    // 更新活跃状态（当页面动态切换时使用）
+    updateActiveState(activePage) {
+        const links = document.querySelectorAll('.function-link');
+        links.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === activePage) {
+                link.classList.add('active');
             }
         });
     }
 
-    setActiveLink() {
-        // 获取当前页面文件名
-        const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
-        
-        // 移除所有active类
-        const links = document.querySelectorAll('.function-link');
-        links.forEach(link => link.classList.remove('active'));
-        
-        // 设置当前页面链接为active
-        const activeLink = document.querySelector(`[data-page="${currentPage}"]`);
-        if (activeLink) {
-            activeLink.classList.add('active');
-        }
+    // 添加新菜单项
+    addMenuItem(item) {
+        this.menuItems.push(item);
+        this.render();
     }
 
-    // 获取当前模块名称
-    getModuleName() {
-        return '数字命理';
-    }
-
-    // 获取当前页面的中文名称
-    getCurrentPageName() {
-        const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
-        const pageNames = {
-            'life-path': '生命数字分析',
-            'name-number': '姓名数字解析', 
-            'soul-number': '灵魂数字测算',
-            'life-number': '幸运数字分析'
-        };
-        return pageNames[currentPage] || '数字命理';
-    }
-
-    // 更新页面标题
-    updatePageTitle() {
-        const moduleName = this.getModuleName();
-        const pageName = this.getCurrentPageName();
-        
-        // 更新文档标题
-        document.title = `${pageName} - ${moduleName} | 神秘学预测中心`;
-        
-        // 更新页面标题元素（如果存在）
-        const pageTitle = document.querySelector('.page-title');
-        if (pageTitle) {
-            pageTitle.innerHTML = `<span itemprop="headline">✨ ${pageName}</span>`;
-        }
+    // 移除菜单项
+    removeMenuItem(href) {
+        this.menuItems = this.menuItems.filter(item => item.href !== href);
+        this.render();
     }
 }
 
-// 页面加载完成后初始化侧边栏
-document.addEventListener('DOMContentLoaded', () => {
-    const numerologySidebar = new NumerologySidebar();
-    numerologySidebar.updatePageTitle();
-});
+// 全局可用
+window.NumerologySidebar = NumerologySidebar;
 
-// 导出类以供其他脚本使用
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = NumerologySidebar;
+// 自动初始化数字命理侧边栏
+if (typeof window !== 'undefined') {
+    // 检查当前页面是否在数字命理模块中
+    const currentPath = window.location.pathname;
+    if (currentPath.includes('/pages/numerology/')) {
+        window.addEventListener('load', () => {
+            // 检查是否已经有侧边栏实例
+            if (!window.numerologySidebar) {
+                window.numerologySidebar = new NumerologySidebar();
+            }
+        });
+    }
 } 
