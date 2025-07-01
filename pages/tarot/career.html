@@ -20,13 +20,12 @@
             color: #e0e0e0;
             min-height: 100vh;
             overflow-x: hidden;
-            margin-left: 280px;
         }
         .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
         @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
         
-        .main-container { display: flex; min-height: 100vh; }
+        .main-container { margin-left: 280px; margin-top: 70px; min-height: calc(100vh - 70px); }
         
         .content-area { flex: 1; padding: 40px; }
         .page-title {
@@ -221,6 +220,7 @@
 </head>
 <body>
     <div class="stars" id="stars"></div>
+
     <div class="main-container">
         <!-- 左侧功能菜单 - 使用公共组件 -->
         <aside class="sidebar"></aside>
