@@ -23,12 +23,11 @@
     font-size: 18px;
     font-weight: bold;
     color: #dda0dd;
+    padding: 15px 20px 10px;
     margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid rgba(153, 102, 204, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    text-align: left;
+    border-bottom: 1px solid rgba(221, 160, 221, 0.3);
+    line-height: 1.4;
 }
 
 .function-list {
@@ -43,12 +42,12 @@
 
 .function-link {
     display: block;
-    padding: 12px 15px;
+    padding: 15px 20px;
     color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     border-radius: 8px;
     transition: all 0.3s ease;
-    font-size: 14px;
+    font-size: 16px;
     border: 1px solid transparent;
 }
 
@@ -101,6 +100,11 @@
     .mobile-menu-toggle:hover {
         background: #9966cc;
         transform: scale(1.1);
+    }
+    
+    .function-link {
+        padding: 12px 15px;
+        font-size: 14px;
     }
 }
 

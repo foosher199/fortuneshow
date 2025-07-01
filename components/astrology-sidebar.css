@@ -21,9 +21,11 @@
     color: #00ffff;
     font-size: 18px;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 15px 20px 10px;
+    margin-bottom: 15px;
+    text-align: left;
     border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-    margin-bottom: 10px;
+    line-height: 1.4;
 }
 
 .function-list {
@@ -36,11 +38,12 @@
 
 .function-link {
     display: block;
-    padding: 12px 20px;
+    padding: 15px 20px;
     color: #ccc;
     text-decoration: none;
     transition: all 0.3s ease;
     border-left: 3px solid transparent;
+    font-size: 16px;
 }
 
 .function-link:hover {
@@ -102,5 +105,10 @@
     .mobile-menu-btn:hover {
         background: rgba(0, 255, 255, 1);
         transform: scale(1.05);
+    }
+    
+    .function-link {
+        padding: 12px 15px;
+        font-size: 14px;
     }
 } 

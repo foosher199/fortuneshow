@@ -38,11 +38,11 @@
     font-size: 18px;
     font-weight: bold;
     color: #00ffff;
-    text-align: center;
-    padding: 20px 15px 15px;
-    margin: 0;
-    border-bottom: 2px solid rgba(0, 255, 255, 0.3);
-    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    padding: 15px 20px 10px;
+    margin-bottom: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+    line-height: 1.4;
 }
 
 /* 功能列表 */

@@ -22,9 +22,11 @@
     color: #00ffff;
     font-size: 18px;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 15px 20px 10px;
+    margin-bottom: 15px;
+    text-align: left;
     border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-    margin-bottom: 10px;
+    line-height: 1.4;
 }
 
 .function-list {
@@ -41,9 +43,10 @@
     display: block;
     color: #ccc;
     text-decoration: none;
-    padding: 12px 20px;
+    padding: 15px 20px;
     transition: all 0.3s ease;
     border-left: 4px solid transparent;
+    font-size: 16px;
 }
 
 .function-link:hover {
@@ -85,5 +88,10 @@
 
     .sidebar-overlay.show {
         display: block;
+    }
+    
+    .function-link {
+        padding: 12px 15px;
+        font-size: 14px;
     }
 } 
