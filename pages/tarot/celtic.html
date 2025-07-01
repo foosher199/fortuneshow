@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 塔罗牌模块公共组件 -->
+    <link rel="stylesheet" href="../../components/tarot-sidebar.css">
+    <script src="../../components/tarot-sidebar.js"></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <title>凯尔特十字 - 神秘学预测中心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin-left: 280px;
+        }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        
+        .main-container { display: flex; min-height: 100vh; }
+        .content-area { flex: 1; padding: 40px; }
+        
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #ffd700, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 107, 53, 0.5)); }
+        }
+        
+        .intro-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+        
+        .question-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .question-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        .question-input:focus {
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+            outline: none;
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ffd700, #ff6b35);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .celtic-cross {
+            display: grid;
+            grid-template-columns: 1fr 120px 120px 120px 1fr;
+            grid-template-rows: repeat(5, 120px);
+            gap: 20px;
+            max-width: 800px;
+            margin: 40px auto;
+            position: relative;
+        }
+        
+        .card-slot {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed #666;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .card-slot.filled {
+            border: 2px solid #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+        
+        .card-slot:hover {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.05);
+        }
+        
+        /* 十字布局位置 */
+        .position-1 { grid-column: 3; grid-row: 3; } /* 现状 */
+        .position-2 { grid-column: 3; grid-row: 3; transform: rotate(90deg); z-index: 2; } /* 挑战 */
+        .position-3 { grid-column: 3; grid-row: 2; } /* 远程过去 */
+        .position-4 { grid-column: 3; grid-row: 4; } /* 可能未来 */
+        .position-5 { grid-column: 2; grid-row: 3; } /* 近期过去 */
+        .position-6 { grid-column: 4; grid-row: 3; } /* 近期未来 */
+        
+        /* 右侧塔位 */
+        .position-7 { grid-column: 5; grid-row: 5; } /* 你的方法 */
+        .position-8 { grid-column: 5; grid-row: 4; } /* 外界影响 */
+        .position-9 { grid-column: 5; grid-row: 3; } /* 希望与恐惧 */
+        .position-10 { grid-column: 5; grid-row: 2; } /* 最终结果 */
+        
+        .position-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #ffd700;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+        
+        .tarot-card {
+            width: 100px;
+            height: 160px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .tarot-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+        
+        .card-back, .card-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px;
+        }
+        
+        .card-back {
+            background: linear-gradient(45deg, #ffd700, #ff6b35);
+        }
+        
+        .card-front {
+            background: rgba(0, 0, 0, 0.9);
+            transform: rotateY(180deg);
+        }
+        
+        .tarot-card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-pattern {
+            font-size: 48px;
+            color: #000;
+        }
+        
+        .card-icon { font-size: 36px; margin-bottom: 10px; }
+        .card-name {
+            font-size: 11px;
+            color: #ffd700;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .deck-area {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .reading-result {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        .reading-result.show { display: block; animation: fadeInUp 0.5s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .result-title {
+            color: #ffd700;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .interpretation {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #ffd700;
+        }
+        
+        .interpretation h4 {
+            color: #ff6b35;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .interpretation p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body { margin-left: 0; }
+            .main-container { flex-direction: column; }
+            .content-area { padding: 20px; }
+            .celtic-cross {
+                grid-template-columns: repeat(3, 80px);
+                grid-template-rows: repeat(6, 80px);
+                gap: 10px;
+                transform: scale(0.8);
+            }
+            .tarot-card { width: 70px; height: 110px; }
+            .position-label { font-size: 10px; bottom: -20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+
+        <main class="content-area">
+            <h1 class="page-title">✨ 凯尔特十字塔罗</h1>
+            
+            <div class="intro-section">
+                <h3 style="color: #ffd700; margin-bottom: 15px;">🔮 关于凯尔特十字牌阵</h3>
+                <p style="color: #ccc; line-height: 1.6;">
+                    凯尔特十字是塔罗占卜中最经典和最全面的牌阵之一，使用10张牌来深入分析您的问题。
+                    这个牌阵能够揭示过去的影响、现在的状况、未来的可能性以及各种内外因素的作用。
+                </p>
+            </div>
+            
+            <div class="question-section">
+                <h3 style="color: #ffd700; margin-bottom: 15px;">💭 请输入您的问题</h3>
+                <textarea id="celticQuestion" class="question-input" placeholder="请详细描述您想要咨询的问题，凯尔特十字能为您提供全面深入的分析..."></textarea>
+                <button onclick="startCelticReading()" class="start-btn">🃏 开始凯尔特十字占卜</button>
+            </div>
+            
+            <div id="celticLayout" class="celtic-cross" style="display: none;">
+                <div class="card-slot position-1" onclick="selectPosition(1)">
+                    <div class="position-label">现状</div>
+                </div>
+                <div class="card-slot position-2" onclick="selectPosition(2)">
+                    <div class="position-label">挑战/阻碍</div>
+                </div>
+                <div class="card-slot position-3" onclick="selectPosition(3)">
+                    <div class="position-label">远程过去</div>
+                </div>
+                <div class="card-slot position-4" onclick="selectPosition(4)">
+                    <div class="position-label">可能未来</div>
+                </div>
+                <div class="card-slot position-5" onclick="selectPosition(5)">
+                    <div class="position-label">近期过去</div>
+                </div>
+                <div class="card-slot position-6" onclick="selectPosition(6)">
+                    <div class="position-label">近期未来</div>
+                </div>
+                <div class="card-slot position-7" onclick="selectPosition(7)">
+                    <div class="position-label">你的方法</div>
+                </div>
+                <div class="card-slot position-8" onclick="selectPosition(8)">
+                    <div class="position-label">外界影响</div>
+                </div>
+                <div class="card-slot position-9" onclick="selectPosition(9)">
+                    <div class="position-label">希望与恐惧</div>
+                </div>
+                <div class="card-slot position-10" onclick="selectPosition(10)">
+                    <div class="position-label">最终结果</div>
+                </div>
+            </div>
+            
+            <div id="deckArea" class="deck-area" style="display: none;">
+                <!-- 牌堆将由JavaScript生成 -->
+            </div>
+            
+            <div id="readingResult" class="reading-result">
+                <div class="result-title">🔮 凯尔特十字解读</div>
+                <div id="interpretations">
+                    <!-- 解读内容将由JavaScript生成 -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const celticTarotCards = [
+            { name: '愚者', icon: '🃏', meaning: '新的开始，保持开放心态，勇敢踏出第一步' },
+            { name: '魔术师', icon: '🎩', meaning: '意志力与行动力，具备实现目标的所有资源' },
+            { name: '女祭司', icon: '🔮', meaning: '直觉与内在智慧，倾听内心的声音' },
+            { name: '皇后', icon: '👸', meaning: '创造力与丰饶，母性的关爱与滋养' },
+            { name: '皇帝', icon: '👑', meaning: '权威与秩序，稳定的结构与领导力' },
+            { name: '教皇', icon: '⛪', meaning: '传统智慧与指导，寻求精神导师' },
+            { name: '恋人', icon: '💕', meaning: '选择与合作，重要的人际关系' },
+            { name: '战车', icon: '🏆', meaning: '意志力与胜利，克服困难前进' },
+            { name: '力量', icon: '🦁', meaning: '内在力量与勇气，温柔地克服挑战' },
+            { name: '隐者', icon: '🕯️', meaning: '内省与寻求，独立思考找到答案' },
+            { name: '命运之轮', icon: '🎡', meaning: '变化与机遇，生命的转折点' },
+            { name: '正义', icon: '⚖️', meaning: '公平与平衡，正确的判断与决定' },
+            { name: '倒吊人', icon: '🙃', meaning: '牺牲与等待，换个角度看问题' },
+            { name: '死神', icon: '💀', meaning: '转变与重生，结束带来新开始' },
+            { name: '节制', icon: '🧘', meaning: '平衡与调和，耐心地整合不同元素' },
+            { name: '魔鬼', icon: '😈', meaning: '束缚与诱惑，需要觉察并解脱' },
+            { name: '塔', icon: '🗼', meaning: '突然变化，旧结构的瓦解' },
+            { name: '星星', icon: '⭐', meaning: '希望与灵感，对未来的信心' },
+            { name: '月亮', icon: '🌙', meaning: '幻象与直觉，面对内在的恐惧' },
+            { name: '太阳', icon: '☀️', meaning: '成功与喜悦，积极正面的能量' },
+            { name: '审判', icon: '📯', meaning: '觉醒与重生，重新评估与选择' },
+            { name: '世界', icon: '🌍', meaning: '完成与成就，达到目标的满足感' }
+        ];
+
+        let selectedCards = [];
+        let currentPosition = 0;
+        let deckCards = [];
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function startCelticReading() {
+            const question = document.getElementById('celticQuestion').value.trim();
+            if (!question) {
+                alert('请输入您的问题！');
+                return;
+            }
+
+            // 重置状态
+            selectedCards = [];
+            currentPosition = 0;
+            
+            // 洗牌并准备牌堆
+            deckCards = [...celticTarotCards].sort(() => Math.random() - 0.5);
+            
+            // 显示牌阵和牌堆
+            document.getElementById('celticLayout').style.display = 'grid';
+            document.getElementById('deckArea').style.display = 'flex';
+            
+            // 清空之前的结果
+            document.getElementById('readingResult').classList.remove('show');
+            
+            // 重置所有位置
+            for (let i = 1; i <= 10; i++) {
+                const slot = document.querySelector(`.position-${i}`);
+                slot.classList.remove('filled');
+                slot.innerHTML = `<div class="position-label">${getPositionName(i)}</div>`;
+            }
+            
+            createDeck();
+        }
+
+        function createDeck() {
+            const deckArea = document.getElementById('deckArea');
+            deckArea.innerHTML = '<p style="color: #ffd700; margin-bottom: 20px;">请依次点击牌堆抽取10张牌，放入对应位置</p>';
+            
+            // 创建牌堆
+            for (let i = 0; i < 10; i++) {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'tarot-card';
+                cardElement.onclick = () => drawCard(cardElement, i);
+                
+                cardElement.innerHTML = `
+                    <div class="card-back">
+                        <div class="card-pattern">✨</div>
+                    </div>
+                    <div class="card-front">
+                        <div class="card-icon">${deckCards[i].icon}</div>
+                        <div class="card-name">${deckCards[i].name}</div>
+                    </div>
+                `;
+                
+                deckArea.appendChild(cardElement);
+            }
+        }
+
+        function drawCard(cardElement, cardIndex) {
+            if (cardElement.classList.contains('flipped') || currentPosition >= 10) return;
+            
+            cardElement.classList.add('flipped');
+            const card = deckCards[cardIndex];
+            
+            setTimeout(() => {
+                placeCardInPosition(card, currentPosition + 1);
+                currentPosition++;
+                
+                if (currentPosition === 10) {
+                    setTimeout(() => generateCelticReading(), 1000);
+                }
+            }, 300);
+        }
+
+        function placeCardInPosition(card, position) {
+            const slot = document.querySelector(`.position-${position}`);
+            slot.classList.add('filled');
+            
+            slot.innerHTML = `
+                <div class="tarot-card">
+                    <div class="card-front" style="transform: none; position: relative;">
+                        <div class="card-icon">${card.icon}</div>
+                        <div class="card-name">${card.name}</div>
+                    </div>
+                </div>
+                <div class="position-label">${getPositionName(position)}</div>
+            `;
+            
+            selectedCards[position - 1] = card;
+        }
+
+        function getPositionName(position) {
+            const names = [
+                '现状', '挑战/阻碍', '远程过去', '可能未来', '近期过去',
+                '近期未来', '你的方法', '外界影响', '希望与恐惧', '最终结果'
+            ];
+            return names[position - 1];
+        }
+
+        function generateCelticReading() {
+            const question = document.getElementById('celticQuestion').value;
+            const interpretations = document.getElementById('interpretations');
+            
+            interpretations.innerHTML = `
+                <div style="background: rgba(255, 215, 0, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h4 style="color: #ffd700; margin-bottom: 10px;">📝 您的问题</h4>
+                    <p style="color: #ccc;">${question}</p>
+                </div>
+            `;
+            
+            selectedCards.forEach((card, index) => {
+                const interpretation = document.createElement('div');
+                interpretation.className = 'interpretation';
+                
+                const positionMeaning = getCelticPositionMeaning(index + 1, card);
+                
+                interpretation.innerHTML = `
+                    <h4>${card.icon} ${getPositionName(index + 1)} - ${card.name}</h4>
+                    <p>${positionMeaning}</p>
+                `;
+                
+                interpretations.appendChild(interpretation);
+            });
+            
+            // 添加总结
+            const summary = document.createElement('div');
+            summary.className = 'interpretation';
+            summary.style.background = 'rgba(255, 107, 53, 0.1)';
+            summary.style.borderLeftColor = '#ff6b35';
+            
+            summary.innerHTML = `
+                <h4>🔮 综合解读</h4>
+                <p>${generateCelticSummary()}</p>
+            `;
+            
+            interpretations.appendChild(summary);
+            
+            document.getElementById('readingResult').classList.add('show');
+        }
+
+        function getCelticPositionMeaning(position, card) {
+            const baseMeaning = card.meaning;
+            
+            switch (position) {
+                case 1: return `当前状况：${baseMeaning}。这代表您现在所处的核心状态。`;
+                case 2: return `挑战阻碍：${baseMeaning}。这是您需要面对和克服的主要障碍。`;
+                case 3: return `远程过去：${baseMeaning}。这个影响来自较远的过去，影响着当前情况的根源。`;
+                case 4: return `可能未来：${baseMeaning}。如果当前趋势继续发展，这是可能的结果。`;
+                case 5: return `近期过去：${baseMeaning}。这是近期发生的事件对现状的影响。`;
+                case 6: return `近期未来：${baseMeaning}。这是即将发生或短期内可能出现的情况。`;
+                case 7: return `你的方法：${baseMeaning}。这建议您采取的态度和方法来处理问题。`;
+                case 8: return `外界影响：${baseMeaning}。这代表环境、他人或外部因素对您的影响。`;
+                case 9: return `希望恐惧：${baseMeaning}。这反映您内心深处的希望或担忧。`;
+                case 10: return `最终结果：${baseMeaning}。这是整个情况的最终走向和结果。`;
+                default: return baseMeaning;
+            }
+        }
+
+        function generateCelticSummary() {
+            const summaries = [
+                '凯尔特十字为您揭示了问题的全貌。从过去的根源到未来的可能，从内在的心理到外在的环境，所有因素都在这次占卜中得到了体现。请综合考虑所有牌的信息，做出最明智的决定。',
+                '这次占卜显示了您当前处境的复杂性。过去的经历造就了现在的状况，而您的选择将决定未来的走向。注意内外因素的平衡，保持开放的心态面对变化。',
+                '通过凯尔特十字，您可以看到问题的多个层面。每张牌都为您提供了重要的洞察，帮助您更好地理解当前的挑战和机遇。相信您的智慧，做出正确的选择。'
+            ];
+            return summaries[Math.floor(Math.random() * summaries.length)];
+        }
+
+        document.addEventListener('DOMContentLoaded', createStars);
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+</body>
+</html> 

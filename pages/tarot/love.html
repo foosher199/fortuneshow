@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 塔罗牌模块公共组件 -->
+    <link rel="stylesheet" href="../../components/tarot-sidebar.css">
+    <script src="../../components/tarot-sidebar.js"></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
     <title>爱情塔罗 - 神秘学预测中心</title>
     <style>
         * {
@@ -17,6 +25,7 @@
             color: #e0e0e0;
             min-height: 100vh;
             overflow-x: hidden;
+            margin-left: 280px;
         }
 
         /* 星空背景动画 */
@@ -41,66 +50,10 @@
             50% { opacity: 1; }
         }
 
-        
-
         /* 主要内容区域 */
         .main-container {
             display: flex;
-            margin-top: 70px;
-            min-height: calc(100vh - 70px);
-        }
-
-        /* 左侧功能菜单 */
-        .sidebar {
-            width: 280px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-right: 2px solid #ff69b4;
-            padding: 20px 0;
-            overflow-y: auto;
-        }
-
-        .sidebar-category {
-            margin-bottom: 20px;
-        }
-
-        .category-title {
-            color: #ff69b4;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-bottom: 1px solid rgba(255, 105, 180, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .function-list {
-            list-style: none;
-        }
-
-        .function-item {
-            margin: 2px 0;
-        }
-
-        .function-link {
-            display: block;
-            padding: 12px 20px;
-            color: #ccc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .function-link:hover {
-            background: rgba(255, 105, 180, 0.1);
-            color: #ff69b4;
-            border-left-color: #ff69b4;
-            transform: translateX(5px);
-        }
-
-        .function-link.active {
-            background: rgba(255, 105, 180, 0.2);
-            color: #ff69b4;
-            border-left-color: #ff69b4;
+            min-height: 100vh;
         }
 
         /* 主内容区域 */
@@ -209,7 +162,7 @@
             box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
         }
 
-        .reading-container {
+        .reading-area {
             background: rgba(0, 0, 0, 0.6);
             border: 2px solid #ff69b4;
             border-radius: 20px;
@@ -218,22 +171,11 @@
             display: none;
         }
 
-        .reading-container.show {
-            display: block;
-            animation: fadeInUp 0.5s ease;
-        }
+        .reading-area.show { display: block; animation: fadeInUp 0.5s ease; }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        .spread-title {
-            text-align: center;
-            color: #ff1493;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 30px;
         }
 
         .question-section {
@@ -260,28 +202,39 @@
             box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
         }
 
-        .card-deck {
+        .cards-section {
             display: flex;
             justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 30px;
-            min-height: 200px;
         }
 
-        .love-tarot-card {
-            width: 120px;
-            height: 200px;
+        .card-position {
+            text-align: center;
+        }
+
+        .position-title {
+            color: #ff69b4;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .tarot-card {
+            width: 150px;
+            height: 250px;
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             border: 2px solid #ff69b4;
-            border-radius: 10px;
+            border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             transform-style: preserve-3d;
+            margin-bottom: 15px;
         }
 
-        .love-tarot-card:hover {
+        .tarot-card:hover {
             transform: translateY(-10px) scale(1.05);
             box-shadow: 0 15px 30px rgba(255, 105, 180, 0.4);
         }
@@ -291,12 +244,12 @@
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
-            border-radius: 8px;
+            border-radius: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            padding: 10px;
+            padding: 15px;
         }
 
         .card-back {
@@ -309,53 +262,33 @@
             transform: rotateY(180deg);
         }
 
-        .love-tarot-card.flipped {
+        .tarot-card.flipped {
             transform: rotateY(180deg);
         }
 
         .card-pattern {
-            font-size: 48px;
+            font-size: 60px;
             color: #000;
         }
 
         .card-name {
             color: #ff1493;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
             text-align: center;
             margin-bottom: 10px;
         }
 
         .card-icon {
-            font-size: 36px;
-            margin-bottom: 10px;
+            font-size: 48px;
+            margin-bottom: 15px;
         }
 
         .card-meaning {
             color: #ccc;
-            font-size: 12px;
+            font-size: 13px;
             text-align: center;
             line-height: 1.4;
-        }
-
-        .spread-layout {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            margin: 40px 0;
-            flex-wrap: wrap;
-        }
-
-        .position-label {
-            position: absolute;
-            top: -30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #ff1493;
-            font-size: 14px;
-            font-weight: bold;
-            text-align: center;
         }
 
         .reading-result {
@@ -367,10 +300,7 @@
             display: none;
         }
 
-        .reading-result.show {
-            display: block;
-            animation: fadeInUp 0.5s ease;
-        }
+        .reading-result.show { display: block; animation: fadeInUp 0.5s ease; }
 
         .result-title {
             color: #ff1493;
@@ -380,7 +310,7 @@
             margin-bottom: 20px;
         }
 
-        .card-interpretation {
+        .interpretation {
             margin-bottom: 20px;
             padding: 20px;
             background: rgba(0, 0, 0, 0.3);
@@ -420,57 +350,28 @@
             line-height: 1.6;
         }
 
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .action-button {
+        .new-reading-button {
             background: linear-gradient(45deg, #ff69b4, #ff1493);
             border: none;
             border-radius: 25px;
-            padding: 15px 30px;
+            padding: 15px 40px;
             color: #000;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto;
         }
 
-        .action-button:hover {
+        .new-reading-button:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
         }
 
-        /* 语言切换器 */
-        .language-switcher {
-            margin-left: auto;
-        }
-
-        .lang-button {
-            background: rgba(255, 105, 180, 0.2);
-            border: 1px solid #ff69b4;
-            color: #ff69b4;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .lang-button:hover {
-            background: #ff69b4;
-            color: #fff;
-        }
-
         /* 响应式设计 */
         @media (max-width: 768px) {
-            
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
+            body {
+                margin-left: 0;
             }
             
             .main-container {
@@ -481,49 +382,26 @@
                 padding: 20px;
             }
             
-            .spread-selector {
+            .cards-section {
                 flex-direction: column;
                 align-items: center;
+                gap: 20px;
             }
             
-            .card-spread {
-                flex-wrap: wrap;
+            .tarot-card {
+                width: 120px;
+                height: 200px;
             }
         }
     </style>
-    <!-- 公共导航栏样式 -->
-    <link rel="stylesheet" href="../../components/navigation.css">
 </head>
 <body>
-    <!-- 星空背景 -->
     <div class="stars" id="stars"></div>
 
-    <!-- 顶部导航栏 -->
-    
-
     <div class="main-container">
-        <!-- 左侧功能菜单 -->
-        <aside class="sidebar">
-            <div class="sidebar-category">
-                <div class="category-title">塔罗占卜</div>
-                <ul class="function-list">
-                    <li class="function-item">
-                        <a href="daily.html" class="function-link">每日塔罗</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="love.html" class="function-link active">爱情塔罗</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="career.html" class="function-link">事业塔罗</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="general.html" class="function-link">综合占卜</a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
 
-        <!-- 主内容区域 -->
         <main class="content-area">
             <h1 class="page-title">💕 爱情塔罗占卜</h1>
             
@@ -557,7 +435,7 @@
                 </div>
             </div>
             
-            <div id="readingContainer" class="reading-container">
+            <div id="readingContainer" class="reading-area">
                 <div class="spread-title" id="spreadTitle">爱情塔罗解读</div>
                 
                 <div class="question-section">
@@ -566,7 +444,7 @@
                     <p style="color: #ccc; font-size: 14px;">专注于您的感情状况，让塔罗牌为您揭示爱情的秘密</p>
                 </div>
                 
-                <div class="card-deck" id="cardDeck">
+                <div class="cards-section" id="cardDeck">
                     <!-- 塔罗牌将由JavaScript生成 -->
                 </div>
                 
@@ -575,7 +453,7 @@
                     <button class="action-button" onclick="drawRandomCards()">随机抽牌</button>
                 </div>
                 
-                <div id="spreadLayout" class="spread-layout">
+                <div id="spreadLayout" class="cards-section">
                     <!-- 牌阵布局将由JavaScript生成 -->
                 </div>
                 
@@ -668,7 +546,7 @@
             
             displayCards.forEach((card, index) => {
                 const cardElement = document.createElement('div');
-                cardElement.className = 'love-tarot-card';
+                cardElement.className = 'tarot-card';
                 cardElement.onclick = () => selectLoveCard(card, cardElement);
                 
                 cardElement.innerHTML = `
@@ -721,7 +599,7 @@
             
             // 添加位置标签
             const label = document.createElement('div');
-            label.className = 'position-label';
+            label.className = 'card-position';
             label.textContent = getLovePositionLabel(position);
             newCard.appendChild(label);
             
@@ -765,7 +643,7 @@
             interpretations.innerHTML = '';
             drawnCards.forEach((card, index) => {
                 const interpretation = document.createElement('div');
-                interpretation.className = 'card-interpretation';
+                interpretation.className = 'interpretation';
                 
                 const positionMeaning = getLovePositionMeaning(index, card);
                 
@@ -856,7 +734,7 @@
         }
 
         function shuffleDeck() {
-            const cards = document.querySelectorAll('.love-tarot-card');
+            const cards = document.querySelectorAll('.tarot-card');
             cards.forEach(card => {
                 card.classList.remove('flipped');
                 card.style.order = Math.random();
@@ -870,7 +748,7 @@
         function drawRandomCards() {
             if (drawnCards.length > 0) return;
             
-            const cards = document.querySelectorAll('.love-tarot-card:not(.flipped)');
+            const cards = document.querySelectorAll('.tarot-card:not(.flipped)');
             const maxCards = getMaxCardsForLoveReading();
             const randomCards = [];
             
@@ -1024,4 +902,4 @@
     <!-- 公共导航栏脚本 -->
     <script src="../../components/navigation.js"></script>
 </body>
-</html></html> 
+</html> 

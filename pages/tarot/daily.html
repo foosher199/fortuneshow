@@ -35,6 +35,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
+    <!-- 塔罗牌模块公共组件 -->
+    <link rel="stylesheet" href="../../components/tarot-sidebar.css">
+    <script src="../../components/tarot-sidebar.js"></script>
+    
     <!-- 结构化数据 -->
     <script type="application/ld+json">
     {
@@ -75,6 +79,7 @@
             color: #e0e0e0;
             min-height: 100vh;
             overflow-x: hidden;
+            margin-left: 280px;
         }
 
         /* 星空背景动画 */
@@ -99,66 +104,10 @@
             50% { opacity: 1; }
         }
 
-        
-
         /* 主要内容区域 */
         .main-container {
             display: flex;
-            margin-top: 70px;
-            min-height: calc(100vh - 70px);
-        }
-
-        /* 左侧功能菜单 */
-        .sidebar {
-            width: 280px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-right: 2px solid #00ffff;
-            padding: 20px 0;
-            overflow-y: auto;
-        }
-
-        .sidebar-category {
-            margin-bottom: 20px;
-        }
-
-        .category-title {
-            color: #00ffff;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .function-list {
-            list-style: none;
-        }
-
-        .function-item {
-            margin: 2px 0;
-        }
-
-        .function-link {
-            display: block;
-            padding: 12px 20px;
-            color: #ccc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .function-link:hover {
-            background: rgba(0, 255, 255, 0.1);
-            color: #00ffff;
-            border-left-color: #00ffff;
-            transform: translateX(5px);
-        }
-
-        .function-link.active {
-            background: rgba(0, 255, 255, 0.2);
-            color: #00ffff;
-            border-left-color: #00ffff;
+            min-height: 100vh;
         }
 
         /* 主内容区域 */
@@ -484,12 +433,8 @@
 
         /* 响应式设计 */
         @media (max-width: 768px) {
-            
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
+            body {
+                margin-left: 0;
             }
             
             .main-container {
@@ -576,32 +521,8 @@
     
 
     <div class="main-container">
-        <!-- 左侧功能菜单 -->
-        <aside class="sidebar">
-            <div class="sidebar-category">
-                <div class="category-title">塔罗占卜</div>
-                <ul class="function-list">
-                    <li class="function-item">
-                        <a href="daily.html" class="function-link active">每日塔罗</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="career.html" class="function-link">事业塔罗</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="love.html" class="function-link">爱情塔罗</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="Celtic.html" class="function-link">凯尔特十字</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="three-card.html" class="function-link">三张牌占卜</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="monthly.html" class="function-link">月运势</a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
 
         <!-- 主内容区域 -->
         <main class="content-area">

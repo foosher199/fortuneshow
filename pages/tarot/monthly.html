@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 塔罗牌模块公共组件 -->
+    <link rel="stylesheet" href="../../components/tarot-sidebar.css">
+    <script src="../../components/tarot-sidebar.js"></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <title>月运势 - 神秘学预测中心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin-left: 280px;
+        }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        
+        .main-container { display: flex; min-height: 100vh; }
+        .content-area { flex: 1; padding: 40px; }
+        
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #9966cc, #6a5acd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(153, 102, 204, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(106, 90, 205, 0.5)); }
+        }
+        
+        .month-selector {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9966cc;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .selector-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .input-label {
+            color: #9966cc;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .zodiac-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+        }
+        
+        .zodiac-item {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #666;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .zodiac-item:hover {
+            border-color: #9966cc;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(153, 102, 204, 0.3);
+        }
+        
+        .zodiac-item.selected {
+            border-color: #6a5acd;
+            background: rgba(153, 102, 204, 0.2);
+        }
+        
+        .zodiac-icon {
+            font-size: 24px;
+        }
+        
+        .zodiac-name {
+            font-size: 12px;
+            color: #ccc;
+        }
+        
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+        }
+        
+        .month-item {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #666;
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .month-item:hover {
+            border-color: #9966cc;
+            transform: scale(1.05);
+        }
+        
+        .month-item.selected {
+            border-color: #6a5acd;
+            background: rgba(153, 102, 204, 0.2);
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #9966cc, #6a5acd);
+            border: none;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(153, 102, 204, 0.3);
+        }
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .reading-layout {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .fortune-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9966cc;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .fortune-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(153, 102, 204, 0.3);
+        }
+        
+        .card-title {
+            color: #9966cc;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .tarot-card {
+            width: 120px;
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid #9966cc;
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tarot-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(153, 102, 204, 0.4);
+        }
+        
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .card-name {
+            font-size: 16px;
+            color: #9966cc;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .card-description {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        .fortune-level {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .star-rating {
+            color: #ffd700;
+            font-size: 20px;
+        }
+        
+        .advice-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9966cc;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        
+        .advice-title {
+            color: #9966cc;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .advice-content {
+            color: #ccc;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        
+        .new-reading-btn {
+            background: linear-gradient(45deg, #9966cc, #6a5acd);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto;
+        }
+        .new-reading-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(153, 102, 204, 0.4);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body { margin-left: 0; }
+            .main-container { flex-direction: column; }
+            .content-area { padding: 20px; }
+            .selector-group { grid-template-columns: 1fr; }
+            .zodiac-grid { grid-template-columns: repeat(4, 1fr); }
+            .month-grid { grid-template-columns: repeat(3, 1fr); }
+            .reading-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+
+        <main class="content-area">
+            <h1 class="page-title">🌙 月运势占卜</h1>
+            
+            <div class="month-selector" id="monthSelector">
+                <div class="selector-group">
+                    <div class="input-group">
+                        <div class="input-label">✨ 选择您的星座</div>
+                        <div class="zodiac-grid" id="zodiacGrid">
+                            <!-- 星座选项由JavaScript生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <div class="input-label">📅 选择月份</div>
+                        <div class="month-grid" id="monthGrid">
+                            <!-- 月份选项由JavaScript生成 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button onclick="generateMonthlyReading()" class="generate-btn" id="generateBtn" disabled>
+                    🔮 生成月运势占卜
+                </button>
+            </div>
+            
+            <div id="readingLayout" class="reading-layout">
+                <div class="fortune-card">
+                    <div class="card-title">💝 爱情运势</div>
+                    <div class="tarot-card" id="loveCard">
+                        <!-- 爱情牌 -->
+                    </div>
+                    <div class="fortune-level" id="loveLevel">
+                        <!-- 运势等级 -->
+                    </div>
+                    <div class="card-description" id="loveDescription">
+                        <!-- 爱情运势描述 -->
+                    </div>
+                </div>
+                
+                <div class="fortune-card">
+                    <div class="card-title">💼 事业运势</div>
+                    <div class="tarot-card" id="careerCard">
+                        <!-- 事业牌 -->
+                    </div>
+                    <div class="fortune-level" id="careerLevel">
+                        <!-- 运势等级 -->
+                    </div>
+                    <div class="card-description" id="careerDescription">
+                        <!-- 事业运势描述 -->
+                    </div>
+                </div>
+                
+                <div class="fortune-card">
+                    <div class="card-title">💰 财运</div>
+                    <div class="tarot-card" id="wealthCard">
+                        <!-- 财运牌 -->
+                    </div>
+                    <div class="fortune-level" id="wealthLevel">
+                        <!-- 运势等级 -->
+                    </div>
+                    <div class="card-description" id="wealthDescription">
+                        <!-- 财运描述 -->
+                    </div>
+                </div>
+                
+                <div class="fortune-card">
+                    <div class="card-title">🏥 健康运势</div>
+                    <div class="tarot-card" id="healthCard">
+                        <!-- 健康牌 -->
+                    </div>
+                    <div class="fortune-level" id="healthLevel">
+                        <!-- 运势等级 -->
+                    </div>
+                    <div class="card-description" id="healthDescription">
+                        <!-- 健康运势描述 -->
+                    </div>
+                </div>
+            </div>
+            
+            <div id="adviceSection" class="advice-section">
+                <div class="advice-title">🌟 本月建议</div>
+                <div class="advice-content" id="adviceContent">
+                    <!-- 综合建议 -->
+                </div>
+                <button onclick="newReading()" class="new-reading-btn">🔄 重新占卜</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const zodiacSigns = [
+            { name: '白羊座', icon: '♈', dates: '3.21-4.19' },
+            { name: '金牛座', icon: '♉', dates: '4.20-5.20' },
+            { name: '双子座', icon: '♊', dates: '5.21-6.21' },
+            { name: '巨蟹座', icon: '♋', dates: '6.22-7.22' },
+            { name: '狮子座', icon: '♌', dates: '7.23-8.22' },
+            { name: '处女座', icon: '♍', dates: '8.23-9.22' },
+            { name: '天秤座', icon: '♎', dates: '9.23-10.23' },
+            { name: '天蝎座', icon: '♏', dates: '10.24-11.22' },
+            { name: '射手座', icon: '♐', dates: '11.23-12.21' },
+            { name: '摩羯座', icon: '♑', dates: '12.22-1.19' },
+            { name: '水瓶座', icon: '♒', dates: '1.20-2.18' },
+            { name: '双鱼座', icon: '♓', dates: '2.19-3.20' }
+        ];
+
+        const months = [
+            '1月', '2月', '3月', '4月', '5月', '6月',
+            '7月', '8月', '9月', '10月', '11月', '12月'
+        ];
+
+        const monthlyTarotCards = [
+            { name: '愚者', icon: '🃏', meanings: {
+                love: '新恋情的开始，保持开放的心态',
+                career: '新项目或工作机会，勇于尝试',
+                wealth: '投资需谨慎，避免盲目决策',
+                health: '注意休息，保持活力'
+            }},
+            { name: '魔术师', icon: '🎩', meanings: {
+                love: '展现魅力，主动出击',
+                career: '发挥才能，创造机会',
+                wealth: '理财有方，收益可观',
+                health: '精力充沛，状态良好'
+            }},
+            { name: '女祭司', icon: '🔮', meanings: {
+                love: '倾听内心，等待时机',
+                career: '需要深思熟虑，静观其变',
+                wealth: '理性投资，谨慎理财',
+                health: '注意心理健康，保持平静'
+            }},
+            { name: '皇后', icon: '👸', meanings: {
+                love: '关系和谐，充满温暖',
+                career: '创造力爆发，成果丰硕',
+                wealth: '收入稳定，财运亨通',
+                health: '身心愉悦，生机勃勃'
+            }},
+            { name: '皇帝', icon: '👑', meanings: {
+                love: '稳定关系，承担责任',
+                career: '领导能力强，成就卓越',
+                wealth: '财务管理有序，积累财富',
+                health: '体魄强健，精神饱满'
+            }},
+            { name: '教皇', icon: '⛪', meanings: {
+                love: '传统价值，寻求指导',
+                career: '遵循规则，稳步发展',
+                wealth: '保守投资，稳定收益',
+                health: '规律生活，维持健康'
+            }},
+            { name: '恋人', icon: '💕', meanings: {
+                love: '爱情甜蜜，关系升华',
+                career: '合作顺利，团队和谐',
+                wealth: '投资选择，需要决断',
+                health: '情感愉悦，身心健康'
+            }},
+            { name: '战车', icon: '🏆', meanings: {
+                love: '克服障碍，勇敢追求',
+                career: '目标明确，勇往直前',
+                wealth: '积极进取，财运上升',
+                health: '意志坚定，克服困难'
+            }},
+            { name: '力量', icon: '🦁', meanings: {
+                love: '温柔坚持，化解矛盾',
+                career: '内在力量，稳定发展',
+                wealth: '耐心投资，长期收益',
+                health: '身心平衡，内在强大'
+            }},
+            { name: '隐者', icon: '🕯️', meanings: {
+                love: '内省思考，寻找真爱',
+                career: '独立思考，寻求突破',
+                wealth: '理性分析，谨慎投资',
+                health: '独处调养，恢复元气'
+            }},
+            { name: '命运之轮', icon: '🎡', meanings: {
+                love: '转机出现，命运改变',
+                career: '机遇来临，把握时机',
+                wealth: '财运转变，起伏波动',
+                health: '状况改善，循环向好'
+            }},
+            { name: '正义', icon: '⚖️', meanings: {
+                love: '公平对待，诚实相待',
+                career: '公正评价，获得认可',
+                wealth: '合理分配，公平收益',
+                health: '平衡饮食，规律作息'
+            }}
+        ];
+
+        let selectedZodiac = null;
+        let selectedMonth = null;
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function initializeSelectors() {
+            // 创建星座选择
+            const zodiacGrid = document.getElementById('zodiacGrid');
+            zodiacSigns.forEach((zodiac, index) => {
+                const item = document.createElement('div');
+                item.className = 'zodiac-item';
+                item.onclick = () => selectZodiac(index);
+                item.innerHTML = `
+                    <div class="zodiac-icon">${zodiac.icon}</div>
+                    <div class="zodiac-name">${zodiac.name}</div>
+                `;
+                zodiacGrid.appendChild(item);
+            });
+
+            // 创建月份选择
+            const monthGrid = document.getElementById('monthGrid');
+            months.forEach((month, index) => {
+                const item = document.createElement('div');
+                item.className = 'month-item';
+                item.onclick = () => selectMonth(index);
+                item.textContent = month;
+                monthGrid.appendChild(item);
+            });
+        }
+
+        function selectZodiac(index) {
+            // 移除之前的选择
+            document.querySelectorAll('.zodiac-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // 选择新的星座
+            document.querySelectorAll('.zodiac-item')[index].classList.add('selected');
+            selectedZodiac = index;
+            
+            checkSelections();
+        }
+
+        function selectMonth(index) {
+            // 移除之前的选择
+            document.querySelectorAll('.month-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // 选择新的月份
+            document.querySelectorAll('.month-item')[index].classList.add('selected');
+            selectedMonth = index;
+            
+            checkSelections();
+        }
+
+        function checkSelections() {
+            const generateBtn = document.getElementById('generateBtn');
+            if (selectedZodiac !== null && selectedMonth !== null) {
+                generateBtn.disabled = false;
+            } else {
+                generateBtn.disabled = true;
+            }
+        }
+
+        function generateMonthlyReading() {
+            if (selectedZodiac === null || selectedMonth === null) {
+                alert('请选择星座和月份！');
+                return;
+            }
+
+            // 为每个方面随机选择塔罗牌
+            const selectedCards = {
+                love: monthlyTarotCards[Math.floor(Math.random() * monthlyTarotCards.length)],
+                career: monthlyTarotCards[Math.floor(Math.random() * monthlyTarotCards.length)],
+                wealth: monthlyTarotCards[Math.floor(Math.random() * monthlyTarotCards.length)],
+                health: monthlyTarotCards[Math.floor(Math.random() * monthlyTarotCards.length)]
+            };
+
+            // 显示占卜结果
+            displayMonthlyReading(selectedCards);
+            
+            // 显示布局
+            document.getElementById('readingLayout').style.display = 'grid';
+            document.getElementById('adviceSection').style.display = 'block';
+        }
+
+        function displayMonthlyReading(cards) {
+            const aspects = ['love', 'career', 'wealth', 'health'];
+            
+            aspects.forEach(aspect => {
+                const card = cards[aspect];
+                const cardElement = document.getElementById(`${aspect}Card`);
+                const levelElement = document.getElementById(`${aspect}Level`);
+                const descriptionElement = document.getElementById(`${aspect}Description`);
+                
+                // 设置卡牌显示
+                cardElement.innerHTML = `
+                    <div class="card-icon">${card.icon}</div>
+                    <div class="card-name">${card.name}</div>
+                `;
+                
+                // 计算运势等级（1-5星）
+                const level = Math.floor(Math.random() * 5) + 1;
+                levelElement.innerHTML = generateStarRating(level);
+                
+                // 设置描述
+                descriptionElement.textContent = card.meanings[aspect];
+            });
+            
+            // 生成综合建议
+            generateMonthlyAdvice();
+        }
+
+        function generateStarRating(level) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                stars += i <= level ? '⭐' : '☆';
+            }
+            return `<span class="star-rating">${stars}</span>`;
+        }
+
+        function generateMonthlyAdvice() {
+            const zodiac = zodiacSigns[selectedZodiac];
+            const month = months[selectedMonth];
+            
+            const advices = [
+                `${zodiac.name}的您在${month}里，建议保持积极乐观的心态，相信自己的直觉和判断力。`,
+                `本月对于${zodiac.name}来说是一个转折期，建议您抓住机会，勇敢面对挑战。`,
+                `${month}的能量非常适合${zodiac.name}进行自我提升和学习新技能。`,
+                `建议${zodiac.name}在${month}多关注人际关系，与朋友家人保持良好沟通。`,
+                `这个月适合${zodiac.name}制定长远计划，为未来做好准备。`
+            ];
+            
+            const randomAdvice = advices[Math.floor(Math.random() * advices.length)];
+            document.getElementById('adviceContent').textContent = randomAdvice;
+        }
+
+        function newReading() {
+            // 重置选择
+            selectedZodiac = null;
+            selectedMonth = null;
+            
+            // 清除选中状态
+            document.querySelectorAll('.zodiac-item, .month-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // 禁用生成按钮
+            document.getElementById('generateBtn').disabled = true;
+            
+            // 隐藏结果
+            document.getElementById('readingLayout').style.display = 'none';
+            document.getElementById('adviceSection').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            initializeSelectors();
+        });
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+</body>
+</html> 

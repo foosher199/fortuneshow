@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 塔罗牌模块公共组件 -->
+    <link rel="stylesheet" href="../../components/tarot-sidebar.css">
+    <script src="../../components/tarot-sidebar.js"></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <title>三张牌占卜 - 神秘学预测中心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin-left: 280px;
+        }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        
+        .main-container { display: flex; min-height: 100vh; }
+        .content-area { flex: 1; padding: 40px; }
+        
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #9966cc, #6a5acd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(153, 102, 204, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(106, 90, 205, 0.5)); }
+        }
+        
+        .spread-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .spread-option {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9966cc;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .spread-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(153, 102, 204, 0.3);
+            border-color: #6a5acd;
+        }
+        
+        .spread-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #9966cc;
+        }
+        
+        .spread-title {
+            font-size: 20px;
+            color: #9966cc;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .spread-description {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .question-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9966cc;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        
+        .question-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        .question-input:focus {
+            border-color: #9966cc;
+            box-shadow: 0 0 15px rgba(153, 102, 204, 0.3);
+            outline: none;
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #9966cc, #6a5acd);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(153, 102, 204, 0.3);
+        }
+        
+        .three-card-layout {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            display: none;
+        }
+        
+        .card-position {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed #666;
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 160px;
+            transition: all 0.3s ease;
+        }
+        
+        .card-position.filled {
+            border: 2px solid #9966cc;
+            background: rgba(153, 102, 204, 0.1);
+        }
+        
+        .position-title {
+            color: #9966cc;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .tarot-card {
+            width: 120px;
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 2px solid #9966cc;
+            border-radius: 15px;
+            margin: 0 auto 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .tarot-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(153, 102, 204, 0.4);
+        }
+        
+        .card-back, .card-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 15px;
+        }
+        
+        .card-back {
+            background: linear-gradient(45deg, #9966cc, #6a5acd);
+        }
+        
+        .card-front {
+            background: rgba(0, 0, 0, 0.9);
+            transform: rotateY(180deg);
+        }
+        
+        .tarot-card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-pattern {
+            font-size: 48px;
+            color: #fff;
+        }
+        
+        .card-icon { font-size: 48px; margin-bottom: 15px; }
+        .card-name {
+            font-size: 14px;
+            color: #9966cc;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+        
+        .card-meaning {
+            color: #ccc;
+            font-size: 12px;
+            text-align: center;
+            line-height: 1.4;
+        }
+        
+        .deck-area {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            display: none;
+        }
+        
+        .reading-result {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9966cc;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+        .reading-result.show { display: block; animation: fadeInUp 0.5s ease; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .result-title {
+            color: #9966cc;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .interpretation {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(153, 102, 204, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #9966cc;
+        }
+        
+        .interpretation h4 {
+            color: #6a5acd;
+            margin-bottom: 10px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .interpretation p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .new-reading-btn {
+            background: linear-gradient(45deg, #9966cc, #6a5acd);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto;
+        }
+        .new-reading-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(153, 102, 204, 0.4);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body { margin-left: 0; }
+            .main-container { flex-direction: column; }
+            .content-area { padding: 20px; }
+            .three-card-layout { 
+                flex-direction: column; 
+                align-items: center;
+                gap: 20px;
+            }
+            .tarot-card { width: 100px; height: 160px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+
+        <main class="content-area">
+            <h1 class="page-title">🃏 三张牌占卜</h1>
+            
+            <div class="spread-selector" id="spreadSelector">
+                <div class="spread-option" onclick="selectSpread('past-present-future')">
+                    <div class="spread-icon">⏳</div>
+                    <div class="spread-title">过去-现在-未来</div>
+                    <div class="spread-description">了解过去的影响、现在的状况和未来的发展趋势</div>
+                </div>
+                
+                <div class="spread-option" onclick="selectSpread('situation-action-outcome')">
+                    <div class="spread-icon">🎯</div>
+                    <div class="spread-title">状况-行动-结果</div>
+                    <div class="spread-description">分析当前状况、建议的行动和可能的结果</div>
+                </div>
+                
+                <div class="spread-option" onclick="selectSpread('mind-body-spirit')">
+                    <div class="spread-icon">🧘</div>
+                    <div class="spread-title">心灵-身体-精神</div>
+                    <div class="spread-description">全面了解您在不同层面上的状态和需求</div>
+                </div>
+                
+                <div class="spread-option" onclick="selectSpread('stop-start-continue')">
+                    <div class="spread-icon">🔄</div>
+                    <div class="spread-title">停止-开始-继续</div>
+                    <div class="spread-description">指导您应该停止什么、开始什么、继续什么</div>
+                </div>
+            </div>
+            
+            <div class="question-section" id="questionSection">
+                <h3 style="color: #9966cc; margin-bottom: 15px;" id="spreadTitle">💭 请输入您的问题</h3>
+                <textarea id="threeCardQuestion" class="question-input" placeholder="请输入您想要咨询的具体问题..."></textarea>
+                <button onclick="startThreeCardReading()" class="start-btn">🃏 开始三张牌占卜</button>
+            </div>
+            
+            <div id="threeCardLayout" class="three-card-layout">
+                <div class="card-position" id="position1">
+                    <div class="position-title" id="title1">第一张牌</div>
+                </div>
+                <div class="card-position" id="position2">
+                    <div class="position-title" id="title2">第二张牌</div>
+                </div>
+                <div class="card-position" id="position3">
+                    <div class="position-title" id="title3">第三张牌</div>
+                </div>
+            </div>
+            
+            <div id="deckArea" class="deck-area">
+                <!-- 牌堆将由JavaScript生成 -->
+            </div>
+            
+            <div id="readingResult" class="reading-result">
+                <div class="result-title" id="resultTitle">🔮 三张牌解读</div>
+                <div id="interpretations">
+                    <!-- 解读内容将由JavaScript生成 -->
+                </div>
+                <button onclick="newReading()" class="new-reading-btn">🔄 重新占卜</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const threeCardTarotCards = [
+            { name: '愚者', icon: '🃏', meaning: '新的开始与冒险，保持纯真的心态' },
+            { name: '魔术师', icon: '🎩', meaning: '行动力与创造力，运用智慧实现目标' },
+            { name: '女祭司', icon: '🔮', meaning: '直觉与内在智慧，倾听心灵的声音' },
+            { name: '皇后', icon: '👸', meaning: '创造力与丰饶，母性的关爱与滋养' },
+            { name: '皇帝', icon: '👑', meaning: '权威与秩序，建立稳定的结构' },
+            { name: '教皇', icon: '⛪', meaning: '传统智慧与精神指导，寻求导师' },
+            { name: '恋人', icon: '💕', meaning: '选择与结合，重要的人际关系' },
+            { name: '战车', icon: '🏆', meaning: '意志力与胜利，坚持不懈' },
+            { name: '力量', icon: '🦁', meaning: '内在力量与勇气，温柔而坚定' },
+            { name: '隐者', icon: '🕯️', meaning: '内省与寻求，独立思考' },
+            { name: '命运之轮', icon: '🎡', meaning: '变化与机遇，命运的转折' },
+            { name: '正义', icon: '⚖️', meaning: '公平与平衡，正确的判断' },
+            { name: '倒吊人', icon: '🙃', meaning: '牺牲与等待，换位思考' },
+            { name: '死神', icon: '💀', meaning: '转变与重生，结束与新开始' },
+            { name: '节制', icon: '🧘', meaning: '平衡与调和，中庸之道' },
+            { name: '魔鬼', icon: '😈', meaning: '束缚与诱惑，需要觉醒' },
+            { name: '塔', icon: '🗼', meaning: '突然变化，破除幻象' },
+            { name: '星星', icon: '⭐', meaning: '希望与灵感，指引方向' },
+            { name: '月亮', icon: '🌙', meaning: '幻象与直觉，面对恐惧' },
+            { name: '太阳', icon: '☀️', meaning: '成功与喜悦，正面能量' },
+            { name: '审判', icon: '📯', meaning: '觉醒与重生，重新评估' },
+            { name: '世界', icon: '🌍', meaning: '完成与成就，圆满结局' }
+        ];
+
+        let currentSpread = '';
+        let selectedCards = [];
+        let currentPosition = 0;
+        let deckCards = [];
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function selectSpread(spreadType) {
+            currentSpread = spreadType;
+            
+            // 隐藏选择器，显示问题输入
+            document.getElementById('spreadSelector').style.display = 'none';
+            document.getElementById('questionSection').style.display = 'block';
+            
+            // 设置标题和位置名称
+            const spreadConfigs = {
+                'past-present-future': {
+                    title: '⏳ 过去-现在-未来 三张牌占卜',
+                    positions: ['过去', '现在', '未来']
+                },
+                'situation-action-outcome': {
+                    title: '🎯 状况-行动-结果 三张牌占卜',
+                    positions: ['状况', '行动', '结果']
+                },
+                'mind-body-spirit': {
+                    title: '🧘 心灵-身体-精神 三张牌占卜',
+                    positions: ['心灵', '身体', '精神']
+                },
+                'stop-start-continue': {
+                    title: '🔄 停止-开始-继续 三张牌占卜',
+                    positions: ['停止', '开始', '继续']
+                }
+            };
+            
+            const config = spreadConfigs[spreadType];
+            document.getElementById('spreadTitle').textContent = config.title;
+            
+            // 设置位置标题
+            for (let i = 0; i < 3; i++) {
+                document.getElementById(`title${i + 1}`).textContent = config.positions[i];
+            }
+        }
+
+        function startThreeCardReading() {
+            const question = document.getElementById('threeCardQuestion').value.trim();
+            if (!question) {
+                alert('请输入您的问题！');
+                return;
+            }
+
+            // 重置状态
+            selectedCards = [];
+            currentPosition = 0;
+            
+            // 洗牌
+            deckCards = [...threeCardTarotCards].sort(() => Math.random() - 0.5);
+            
+            // 显示牌阵和牌堆
+            document.getElementById('threeCardLayout').style.display = 'flex';
+            document.getElementById('deckArea').style.display = 'flex';
+            
+            // 清空之前的结果
+            document.getElementById('readingResult').classList.remove('show');
+            
+            // 重置位置
+            for (let i = 1; i <= 3; i++) {
+                const position = document.getElementById(`position${i}`);
+                position.classList.remove('filled');
+                position.innerHTML = `<div class="position-title">${document.getElementById(`title${i}`).textContent}</div>`;
+            }
+            
+            createThreeCardDeck();
+        }
+
+        function createThreeCardDeck() {
+            const deckArea = document.getElementById('deckArea');
+            deckArea.innerHTML = '<p style="color: #9966cc; margin-bottom: 20px;">请依次抽取三张牌</p>';
+            
+            // 创建15张牌供选择
+            for (let i = 0; i < 15; i++) {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'tarot-card';
+                cardElement.onclick = () => drawThreeCard(cardElement, i);
+                
+                cardElement.innerHTML = `
+                    <div class="card-back">
+                        <div class="card-pattern">🌟</div>
+                    </div>
+                    <div class="card-front">
+                        <div class="card-icon">${deckCards[i].icon}</div>
+                        <div class="card-name">${deckCards[i].name}</div>
+                        <div class="card-meaning">${deckCards[i].meaning}</div>
+                    </div>
+                `;
+                
+                deckArea.appendChild(cardElement);
+            }
+        }
+
+        function drawThreeCard(cardElement, cardIndex) {
+            if (cardElement.classList.contains('flipped') || currentPosition >= 3) return;
+            
+            cardElement.classList.add('flipped');
+            const card = deckCards[cardIndex];
+            
+            setTimeout(() => {
+                placeThreeCardInPosition(card, currentPosition + 1);
+                currentPosition++;
+                
+                if (currentPosition === 3) {
+                    setTimeout(() => generateThreeCardReading(), 1000);
+                }
+            }, 300);
+        }
+
+        function placeThreeCardInPosition(card, position) {
+            const positionElement = document.getElementById(`position${position}`);
+            positionElement.classList.add('filled');
+            
+            positionElement.innerHTML = `
+                <div class="position-title">${document.getElementById(`title${position}`).textContent}</div>
+                <div class="tarot-card">
+                    <div class="card-front" style="transform: none; position: relative;">
+                        <div class="card-icon">${card.icon}</div>
+                        <div class="card-name">${card.name}</div>
+                        <div class="card-meaning">${card.meaning}</div>
+                    </div>
+                </div>
+            `;
+            
+            selectedCards[position - 1] = card;
+        }
+
+        function generateThreeCardReading() {
+            const question = document.getElementById('threeCardQuestion').value;
+            const interpretations = document.getElementById('interpretations');
+            
+            interpretations.innerHTML = `
+                <div style="background: rgba(153, 102, 204, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h4 style="color: #9966cc; margin-bottom: 10px;">📝 您的问题</h4>
+                    <p style="color: #ccc;">${question}</p>
+                </div>
+            `;
+            
+            selectedCards.forEach((card, index) => {
+                const interpretation = document.createElement('div');
+                interpretation.className = 'interpretation';
+                
+                const positionTitle = document.getElementById(`title${index + 1}`).textContent;
+                const positionMeaning = getThreeCardPositionMeaning(index + 1, card);
+                
+                interpretation.innerHTML = `
+                    <h4>${card.icon} ${positionTitle} - ${card.name}</h4>
+                    <p>${positionMeaning}</p>
+                `;
+                
+                interpretations.appendChild(interpretation);
+            });
+            
+            // 添加综合解读
+            const summary = document.createElement('div');
+            summary.className = 'interpretation';
+            summary.style.background = 'rgba(106, 90, 205, 0.1)';
+            summary.style.borderLeftColor = '#6a5acd';
+            
+            summary.innerHTML = `
+                <h4>🔮 综合解读</h4>
+                <p>${generateThreeCardSummary()}</p>
+            `;
+            
+            interpretations.appendChild(summary);
+            
+            document.getElementById('readingResult').classList.add('show');
+        }
+
+        function getThreeCardPositionMeaning(position, card) {
+            const baseMeaning = card.meaning;
+            const positionTitle = document.getElementById(`title${position}`).textContent;
+            
+            const meanings = {
+                '过去': `过去的影响：${baseMeaning}。这个能量影响了您当前的状况。`,
+                '现在': `当前状况：${baseMeaning}。这是您现在需要关注的核心问题。`,
+                '未来': `未来趋势：${baseMeaning}。如果按当前趋势发展，这是可能的结果。`,
+                '状况': `当前状况：${baseMeaning}。这代表您现在面临的主要情况。`,
+                '行动': `建议行动：${baseMeaning}。这是您应该采取的行动方向。`,
+                '结果': `可能结果：${baseMeaning}。如果按建议行动，这是可能的结果。`,
+                '心灵': `心灵状态：${baseMeaning}。这反映了您内心的想法和情感状态。`,
+                '身体': `身体状态：${baseMeaning}。这关于您的健康和物质层面的状况。`,
+                '精神': `精神状态：${baseMeaning}。这代表您的精神追求和灵性成长。`,
+                '停止': `应该停止：${baseMeaning}。这提醒您需要停止或改变的方面。`,
+                '开始': `应该开始：${baseMeaning}。这建议您应该开始尝试的新方向。`,
+                '继续': `应该继续：${baseMeaning}。这是您应该坚持和发展的方面。`
+            };
+            
+            return meanings[positionTitle] || `${positionTitle}：${baseMeaning}`;
+        }
+
+        function generateThreeCardSummary() {
+            const summaries = {
+                'past-present-future': '通过过去-现在-未来的三张牌，您可以清楚地看到事情的发展脉络。过去的经历影响着现在，而现在的选择将塑造未来。请综合考虑时间线上的所有信息，做出明智的决定。',
+                'situation-action-outcome': '状况-行动-结果的占卜为您提供了解决问题的清晰路径。了解现状、采取正确行动、获得理想结果。每一步都很重要，请按照指引前进。',
+                'mind-body-spirit': '心灵-身体-精神的占卜帮您了解全面的自我状态。平衡这三个层面是健康生活的关键。注意每个方面的需求，寻求整体的和谐。',
+                'stop-start-continue': '停止-开始-继续的指引为您的人生提供了明确的方向。知道什么该放下，什么该开始，什么该坚持，是智慧生活的体现。'
+            };
+            
+            return summaries[currentSpread] || '三张牌为您提供了宝贵的洞察。请仔细考虑每张牌的含义，它们共同为您指明了前进的方向。';
+        }
+
+        function newReading() {
+            // 重置所有状态
+            currentSpread = '';
+            selectedCards = [];
+            currentPosition = 0;
+            deckCards = [];
+            
+            // 显示选择器，隐藏其他部分
+            document.getElementById('spreadSelector').style.display = 'grid';
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('threeCardLayout').style.display = 'none';
+            document.getElementById('deckArea').style.display = 'none';
+            document.getElementById('readingResult').classList.remove('show');
+            
+            // 清空问题输入
+            document.getElementById('threeCardQuestion').value = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', createStars);
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+</body>
+</html> 
