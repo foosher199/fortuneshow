@@ -2,9 +2,9 @@
 .sidebar {
     position: fixed;
     left: 0;
-    top: 0;
+    top: 70px; /* 从顶部导航栏下方开始 */
     width: 280px;
-    height: 100vh;
+    height: calc(100vh - 70px); /* 减去顶部导航栏的高度 */
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(10px);
     border-right: 2px solid #00ffff;

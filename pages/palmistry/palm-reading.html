@@ -81,12 +81,13 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-            margin-left: 280px; /* 为侧边栏留出空间 */
         }
 
-        
-
-        
+        /* 主要内容区域 */
+        .main-container {
+            margin-left: 280px;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
         }
 
         .container {
@@ -96,8 +97,6 @@
             position: relative;
             z-index: 1;
         }
-
-        
 
         .page-title {
             text-align: center;
@@ -333,13 +332,6 @@
         /* 星空背景动画 */
         
 
-        /* 主要内容区域 */
-        .main-container {
-            display: flex;
-            margin-top: 70px;
-            min-height: calc(100vh - 70px);
-        }
-
         /* 左侧功能菜单 */
         .sidebar {
             width: 280px;
@@ -486,180 +478,183 @@
     <div class="main-container">
         <aside class="sidebar"></aside>
 
-        <div class="content-area"><article itemscope itemtype="https://schema.org/Article">
+        <div class="content-area">
+            <div class="container">
+                <article itemscope itemtype="https://schema.org/Article">
 
-        <h1 class="page-title"><span itemprop="headline">👋 手相分析</span></h1>
+                <h1 class="page-title"><span itemprop="headline">�� 手相分析</span></h1>
 
-        <div class="palm-analyzer">
-            <div class="palm-diagram">
-                <h3 style="color: #4facfe; margin-bottom: 20px; text-align: center;">🖐️ 手掌图解</h3>
-                <svg class="palm-svg" viewBox="0 0 300 400">
-                    <!-- 手掌轮廓 -->
-                    <path d="M50 350 Q45 340 50 330 L60 250 Q65 180 80 120 Q85 100 95 85 Q100 75 110 70 L140 65 Q160 60 180 65 L210 70 Q220 75 225 85 Q235 100 240 120 Q255 180 260 250 L270 330 Q275 340 270 350 Q265 360 250 365 L70 365 Q55 360 50 350 Z" fill="#f5deb3" stroke="#d2b48c" stroke-width="2"/>
-                    
-                    <!-- 生命线 -->
-                    <path id="lifeLine" d="M80 120 Q100 200 120 300" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line"/>
-                    
-                    <!-- 智慧线 -->
-                    <path id="headLine" d="M85 140 Q150 150 220 160" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line"/>
-                    
-                    <!-- 感情线 -->
-                    <path id="heartLine" d="M85 110 Q150 105 220 120" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line"/>
-                    
-                    <!-- 事业线 -->
-                    <path id="careerLine" d="M160 350 Q165 250 170 150" stroke="#8b4513" stroke-width="2" fill="none" class="palm-line"/>
-                    
-                    <!-- 手指 -->
-                    <rect x="90" y="45" width="15" height="35" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
-                    <rect x="120" y="35" width="15" height="45" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
-                    <rect x="150" y="40" width="15" height="40" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
-                    <rect x="180" y="45" width="15" height="35" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
-                    
-                    <!-- 拇指 -->
-                    <ellipse cx="60" cy="200" rx="12" ry="25" fill="#f5deb3" stroke="#d2b48c"/>
-                    
-                    <!-- 标签 -->
-                    <text x="85" y="130" fill="#8b4513" font-size="10">感情线</text>
-                    <text x="85" y="155" fill="#8b4513" font-size="10">智慧线</text>
-                    <text x="85" y="200" fill="#8b4513" font-size="10">生命线</text>
-                    <text x="175" y="180" fill="#8b4513" font-size="10">事业线</text>
-                </svg>
-            </div>
+                <div class="palm-analyzer">
+                    <div class="palm-diagram">
+                        <h3 style="color: #4facfe; margin-bottom: 20px; text-align: center;">🖐️ 手掌图解</h3>
+                        <svg class="palm-svg" viewBox="0 0 300 400">
+                            <!-- 手掌轮廓 -->
+                            <path d="M50 350 Q45 340 50 330 L60 250 Q65 180 80 120 Q85 100 95 85 Q100 75 110 70 L140 65 Q160 60 180 65 L210 70 Q220 75 225 85 Q235 100 240 120 Q255 180 260 250 L270 330 Q275 340 270 350 Q265 360 250 365 L70 365 Q55 360 50 350 Z" fill="#f5deb3" stroke="#d2b48c" stroke-width="2"/>
+                            
+                            <!-- 生命线 -->
+                            <path id="lifeLine" d="M80 120 Q100 200 120 300" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line"/>
+                            
+                            <!-- 智慧线 -->
+                            <path id="headLine" d="M85 140 Q150 150 220 160" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line"/>
+                            
+                            <!-- 感情线 -->
+                            <path id="heartLine" d="M85 110 Q150 105 220 120" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line"/>
+                            
+                            <!-- 事业线 -->
+                            <path id="careerLine" d="M160 350 Q165 250 170 150" stroke="#8b4513" stroke-width="2" fill="none" class="palm-line"/>
+                            
+                            <!-- 手指 -->
+                            <rect x="90" y="45" width="15" height="35" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                            <rect x="120" y="35" width="15" height="45" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                            <rect x="150" y="40" width="15" height="40" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                            <rect x="180" y="45" width="15" height="35" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                            
+                            <!-- 拇指 -->
+                            <ellipse cx="60" cy="200" rx="12" ry="25" fill="#f5deb3" stroke="#d2b48c"/>
+                            
+                            <!-- 标签 -->
+                            <text x="85" y="130" fill="#8b4513" font-size="10">感情线</text>
+                            <text x="85" y="155" fill="#8b4513" font-size="10">智慧线</text>
+                            <text x="85" y="200" fill="#8b4513" font-size="10">生命线</text>
+                            <text x="175" y="180" fill="#8b4513" font-size="10">事业线</text>
+                        </svg>
+                    </div>
 
-            <div class="line-features">
-                <div class="feature-group">
-                    <h3 class="feature-title">❤️ 感情线特征</h3>
-                    <div class="feature-options">
-                        <div class="feature-option" data-feature="heart" data-value="deep">深刻清晰</div>
-                        <div class="feature-option" data-feature="heart" data-value="shallow">浅淡模糊</div>
-                        <div class="feature-option" data-feature="heart" data-value="long">长而延伸</div>
-                        <div class="feature-option" data-feature="heart" data-value="short">短而有力</div>
-                        <div class="feature-option" data-feature="heart" data-value="curved">弧度明显</div>
-                        <div class="feature-option" data-feature="heart" data-value="straight">较为平直</div>
+                    <div class="line-features">
+                        <div class="feature-group">
+                            <h3 class="feature-title">❤️ 感情线特征</h3>
+                            <div class="feature-options">
+                                <div class="feature-option" data-feature="heart" data-value="deep">深刻清晰</div>
+                                <div class="feature-option" data-feature="heart" data-value="shallow">浅淡模糊</div>
+                                <div class="feature-option" data-feature="heart" data-value="long">长而延伸</div>
+                                <div class="feature-option" data-feature="heart" data-value="short">短而有力</div>
+                                <div class="feature-option" data-feature="heart" data-value="curved">弧度明显</div>
+                                <div class="feature-option" data-feature="heart" data-value="straight">较为平直</div>
+                            </div>
+                        </div>
+
+                        <div class="feature-group">
+                            <h3 class="feature-title">🧠 智慧线特征</h3>
+                            <div class="feature-options">
+                                <div class="feature-option" data-feature="head" data-value="long">长而清晰</div>
+                                <div class="feature-option" data-feature="head" data-value="short">短而有力</div>
+                                <div class="feature-option" data-feature="head" data-value="straight">笔直延伸</div>
+                                <div class="feature-option" data-feature="head" data-value="curved">向下弯曲</div>
+                                <div class="feature-option" data-feature="head" data-value="forked">末端分叉</div>
+                                <div class="feature-option" data-feature="head" data-value="broken">中断或断续</div>
+                            </div>
+                        </div>
+
+                        <div class="feature-group">
+                            <h3 class="feature-title">🌟 生命线特征</h3>
+                            <div class="feature-options">
+                                <div class="feature-option" data-feature="life" data-value="strong">深而有力</div>
+                                <div class="feature-option" data-feature="life" data-value="weak">细而浅淡</div>
+                                <div class="feature-option" data-feature="life" data-value="long">长而绕拇指</div>
+                                <div class="feature-option" data-feature="life" data-value="short">较短较直</div>
+                                <div class="feature-option" data-feature="life" data-value="double">有双重线</div>
+                                <div class="feature-option" data-feature="life" data-value="chained">呈链状</div>
+                            </div>
+                        </div>
+
+                        <div class="feature-group">
+                            <h3 class="feature-title">💼 事业线特征</h3>
+                            <div class="feature-options">
+                                <div class="feature-option" data-feature="career" data-value="clear">清晰笔直</div>
+                                <div class="feature-option" data-feature="career" data-value="faint">模糊不清</div>
+                                <div class="feature-option" data-feature="career" data-value="multiple">多条并行</div>
+                                <div class="feature-option" data-feature="career" data-value="broken">中断断续</div>
+                                <div class="feature-option" data-feature="career" data-value="late">中年出现</div>
+                                <div class="feature-option" data-feature="career" data-value="none">无明显线</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="feature-group">
-                    <h3 class="feature-title">🧠 智慧线特征</h3>
-                    <div class="feature-options">
-                        <div class="feature-option" data-feature="head" data-value="long">长而清晰</div>
-                        <div class="feature-option" data-feature="head" data-value="short">短而有力</div>
-                        <div class="feature-option" data-feature="head" data-value="straight">笔直延伸</div>
-                        <div class="feature-option" data-feature="head" data-value="curved">向下弯曲</div>
-                        <div class="feature-option" data-feature="head" data-value="forked">末端分叉</div>
-                        <div class="feature-option" data-feature="head" data-value="broken">中断或断续</div>
-                    </div>
-                </div>
+                <button class="analyze-btn" onclick="analyzePalm()">🔍 开始分析</button>
 
-                <div class="feature-group">
-                    <h3 class="feature-title">🌟 生命线特征</h3>
-                    <div class="feature-options">
-                        <div class="feature-option" data-feature="life" data-value="strong">深而有力</div>
-                        <div class="feature-option" data-feature="life" data-value="weak">细而浅淡</div>
-                        <div class="feature-option" data-feature="life" data-value="long">长而绕拇指</div>
-                        <div class="feature-option" data-feature="life" data-value="short">较短较直</div>
-                        <div class="feature-option" data-feature="life" data-value="double">有双重线</div>
-                        <div class="feature-option" data-feature="life" data-value="chained">呈链状</div>
+                <div class="result-section" id="resultSection">
+                    <div class="fortune-score">
+                        <div class="score-circle">
+                            <div class="score-inner">
+                                <div class="score-number" id="totalScore">85</div>
+                                <div class="score-label">综合评分</div>
+                            </div>
+                        </div>
+                        <h3 style="color: #4facfe; margin-top: 10px;" id="fortuneLevel">运势良好</h3>
                     </div>
-                </div>
 
-                <div class="feature-group">
-                    <h3 class="feature-title">💼 事业线特征</h3>
-                    <div class="feature-options">
-                        <div class="feature-option" data-feature="career" data-value="clear">清晰笔直</div>
-                        <div class="feature-option" data-feature="career" data-value="faint">模糊不清</div>
-                        <div class="feature-option" data-feature="career" data-value="multiple">多条并行</div>
-                        <div class="feature-option" data-feature="career" data-value="broken">中断断续</div>
-                        <div class="feature-option" data-feature="career" data-value="late">中年出现</div>
-                        <div class="feature-option" data-feature="career" data-value="none">无明显线</div>
+                    <div class="analysis-tabs">
+                        <button class="tab-btn active" onclick="switchTab('personality')">性格特质</button>
+                        <button class="tab-btn" onclick="switchTab('career')">事业发展</button>
+                        <button class="tab-btn" onclick="switchTab('wealth')">财富运势</button>
+                        <button class="tab-btn" onclick="switchTab('love')">感情生活</button>
+                        <button class="tab-btn" onclick="switchTab('health')">健康状况</button>
+                        <button class="tab-btn" onclick="switchTab('advice')">生活建议</button>
+                    </div>
+
+                    <div id="personality" class="tab-content active">
+                        <div class="analysis-card">
+                            <h3 class="card-title">🌟 性格分析</h3>
+                            <div class="card-content" id="personalityAnalysis">
+                                <!-- 动态生成内容 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="career" class="tab-content">
+                        <div class="analysis-card">
+                            <h3 class="card-title">💼 事业运势</h3>
+                            <div class="card-content" id="careerAnalysis">
+                                <!-- 动态生成内容 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="wealth" class="tab-content">
+                        <div class="analysis-card">
+                            <h3 class="card-title">💰 财富运势</h3>
+                            <div class="card-content" id="wealthAnalysis">
+                                <!-- 动态生成内容 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="love" class="tab-content">
+                        <div class="analysis-card">
+                            <h3 class="card-title">❤️ 感情生活</h3>
+                            <div class="card-content" id="loveAnalysis">
+                                <!-- 动态生成内容 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="health" class="tab-content">
+                        <div class="analysis-card">
+                            <h3 class="card-title">🏥 健康状况</h3>
+                            <div class="card-content" id="healthAnalysis">
+                                <!-- 动态生成内容 -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="advice" class="tab-content">
+                        <div class="analysis-card">
+                            <h3 class="card-title">💡 生活建议</h3>
+                            <div class="card-content" id="adviceAnalysis">
+                                <!-- 动态生成内容 -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <button class="analyze-btn" onclick="analyzePalm()">🔍 开始分析</button>
-
-        <div class="result-section" id="resultSection">
-            <div class="fortune-score">
-                <div class="score-circle">
-                    <div class="score-inner">
-                        <div class="score-number" id="totalScore">85</div>
-                        <div class="score-label">综合评分</div>
-                    </div>
-                </div>
-                <h3 style="color: #4facfe; margin-top: 10px;" id="fortuneLevel">运势良好</h3>
-            </div>
-
-            <div class="analysis-tabs">
-                <button class="tab-btn active" onclick="switchTab('personality')">性格特质</button>
-                <button class="tab-btn" onclick="switchTab('career')">事业发展</button>
-                <button class="tab-btn" onclick="switchTab('wealth')">财富运势</button>
-                <button class="tab-btn" onclick="switchTab('love')">感情生活</button>
-                <button class="tab-btn" onclick="switchTab('health')">健康状况</button>
-                <button class="tab-btn" onclick="switchTab('advice')">生活建议</button>
-            </div>
-
-            <div id="personality" class="tab-content active">
-                <div class="analysis-card">
-                    <h3 class="card-title">🌟 性格分析</h3>
-                    <div class="card-content" id="personalityAnalysis">
-                        <!-- 动态生成内容 -->
-                    </div>
-                </div>
-            </div>
-
-            <div id="career" class="tab-content">
-                <div class="analysis-card">
-                    <h3 class="card-title">💼 事业运势</h3>
-                    <div class="card-content" id="careerAnalysis">
-                        <!-- 动态生成内容 -->
-                    </div>
-                </div>
-            </div>
-
-            <div id="wealth" class="tab-content">
-                <div class="analysis-card">
-                    <h3 class="card-title">💰 财富运势</h3>
-                    <div class="card-content" id="wealthAnalysis">
-                        <!-- 动态生成内容 -->
-                    </div>
-                </div>
-            </div>
-
-            <div id="love" class="tab-content">
-                <div class="analysis-card">
-                    <h3 class="card-title">❤️ 感情生活</h3>
-                    <div class="card-content" id="loveAnalysis">
-                        <!-- 动态生成内容 -->
-                    </div>
-                </div>
-            </div>
-
-            <div id="health" class="tab-content">
-                <div class="analysis-card">
-                    <h3 class="card-title">🏥 健康状况</h3>
-                    <div class="card-content" id="healthAnalysis">
-                        <!-- 动态生成内容 -->
-                    </div>
-                </div>
-            </div>
-
-            <div id="advice" class="tab-content">
-                <div class="analysis-card">
-                    <h3 class="card-title">💡 生活建议</h3>
-                    <div class="card-content" id="adviceAnalysis">
-                        <!-- 动态生成内容 -->
-                    </div>
-                </div>
-            </div>
-        </div>
-            </div>
-            </article></div>
     </div>
 
     <script>
         // 创建星空背景
-        
+        function createStarfield() {
+            // 星空背景代码
         }
 
         // 选择的特征
