@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-CN" itemscope itemtype="http://schema.org/WebPage">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="专业花园庭院风水分析，提供植物配置、水景布局、园路设计等风水指导，营造祥和自然环境">
+    <meta name="keywords" content="花园风水,庭院风水,植物风水,水景风水,园林设计,自然和谐">
+    <meta name="author" content="神秘学预测中心">
+    <meta property="og:title" content="花园风水分析 - 营造自然和谐环境">
+    <meta property="og:description" content="专业的花园庭院风水分析服务，优化园林布局，提升居住环境的自然和谐">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yoursite.com/pages/fengshui/garden.html">
+    <title>花园风水分析 - 营造自然和谐环境 | 神秘学预测中心</title>
+    
+    <!-- 引入共享的风水侧边栏样式 -->
+    <link rel="stylesheet" href="../../components/fengshui-sidebar.css">
+    <!-- 引入公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a3a3a 0%, #1a5a5a 50%, #0a3a3a 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 星空动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 主要布局 */
+        .main-container {
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #20b2aa, #008080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(32, 178, 170, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(0, 128, 128, 0.5)); }
+        }
+
+        .garden-analysis {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #20b2aa;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .analysis-title {
+            color: #20b2aa;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .garden-types {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .garden-card {
+            background: linear-gradient(135deg, rgba(32, 178, 170, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border: 2px solid rgba(32, 178, 170, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .garden-card:hover {
+            border-color: #20b2aa;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(32, 178, 170, 0.3);
+        }
+
+        .garden-card.selected {
+            border-color: #20b2aa;
+            background: linear-gradient(135deg, rgba(32, 178, 170, 0.2) 0%, rgba(0, 0, 0, 0.4) 100%);
+            box-shadow: 0 0 30px rgba(32, 178, 170, 0.5);
+        }
+
+        .garden-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .garden-name {
+            color: #20b2aa;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .garden-desc {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .input-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #20b2aa;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            color: #20b2aa;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .input-field, .input-select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(32, 178, 170, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus, .input-select:focus {
+            outline: none;
+            border-color: #20b2aa;
+            box-shadow: 0 0 15px rgba(32, 178, 170, 0.3);
+        }
+
+        .analyze-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #20b2aa, #008080);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .analyze-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(32, 178, 170, 0.4);
+        }
+
+        .result-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #20b2aa;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .feng-shui-score {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-display {
+            font-size: 64px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #20b2aa, #008080);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .score-level {
+            font-size: 24px;
+            color: #20b2aa;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .score-description {
+            color: #ccc;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .analysis-item {
+            background: rgba(32, 178, 170, 0.1);
+            border: 1px solid rgba(32, 178, 170, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .analysis-item-title {
+            color: #20b2aa;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .analysis-item-content {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 15px;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .garden-types {
+                grid-template-columns: 1fr;
+            }
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 页脚样式 */
+        .mystic-footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(32, 178, 170, 0.1) 100%);
+            color: #ccc;
+            padding: 40px 20px 20px;
+            text-align: center;
+            border-top: 2px solid rgba(32, 178, 170, 0.3);
+            margin-top: 50px;
+        }
+
+        .disclaimer-main {
+            font-size: 16px;
+            color: #20b2aa;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .disclaimer {
+            font-size: 14px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            margin: 20px 0;
+        }
+
+        .footer-links a {
+            color: #20b2aa;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #008080;
+        }
+
+        .wisdom-quote {
+            font-style: italic;
+            color: #20b2aa;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .copyright {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <div class="main-container">
+        <!-- 左侧功能菜单 -->
+        <aside class="sidebar">
+            <!-- 侧边栏内容将由 fengshui-sidebar.js 动态生成 -->
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="content-area">
+            <h1 class="page-title">🌿 花园风水分析</h1>
+            
+            <div class="garden-analysis">
+                <div class="analysis-title">🌺 选择花园类型</div>
+                
+                <div class="garden-types">
+                    <div class="garden-card" data-type="chinese" onclick="selectGardenType('chinese')">
+                        <span class="garden-icon">🏯</span>
+                        <div class="garden-name">中式古典园林</div>
+                        <div class="garden-desc">山水景观，亭台楼阁，体现东方美学精神</div>
+                    </div>
+                    
+                    <div class="garden-card" data-type="modern" onclick="selectGardenType('modern')">
+                        <span class="garden-icon">🏙️</span>
+                        <div class="garden-name">现代简约花园</div>
+                        <div class="garden-desc">简洁线条，几何设计，现代生活美学</div>
+                    </div>
+                    
+                    <div class="garden-card" data-type="japanese" onclick="selectGardenType('japanese')">
+                        <span class="garden-icon">🌸</span>
+                        <div class="garden-name">日式禅意花园</div>
+                        <div class="garden-desc">枯山水，石灯笼，宁静致远的禅意空间</div>
+                    </div>
+                    
+                    <div class="garden-card" data-type="english" onclick="selectGardenType('english')">
+                        <span class="garden-icon">🌹</span>
+                        <div class="garden-name">英式田园花园</div>
+                        <div class="garden-desc">自然野趣，花草丰茂，浪漫田园风情</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label class="input-label">花园方位</label>
+                        <select id="gardenDirection" class="input-select">
+                            <option value="">请选择花园方位</option>
+                            <option value="north">庭院在北方</option>
+                            <option value="south">庭院在南方</option>
+                            <option value="east">庭院在东方</option>
+                            <option value="west">庭院在西方</option>
+                            <option value="center">庭院居中</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">主要植物</label>
+                        <select id="mainPlants" class="input-select">
+                            <option value="">请选择主要植物</option>
+                            <option value="bamboo">竹类植物</option>
+                            <option value="pine">松柏类</option>
+                            <option value="flowers">花卉植物</option>
+                            <option value="fruit">果树类</option>
+                            <option value="herbs">草本植物</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">水景设计</label>
+                        <select id="waterFeature" class="input-select">
+                            <option value="">请选择水景类型</option>
+                            <option value="pond">池塘水景</option>
+                            <option value="fountain">喷泉流水</option>
+                            <option value="stream">小溪流水</option>
+                            <option value="none">无水景设计</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">花园面积（平方米）</label>
+                        <input type="number" id="gardenArea" class="input-field" placeholder="例如：50" min="10" max="500">
+                    </div>
+                </div>
+                
+                <button class="analyze-button" onclick="analyzeGarden()">开始花园风水分析</button>
+            </div>
+            
+            <div id="resultSection" class="result-section">
+                <div class="feng-shui-score">
+                    <div class="score-display" id="gardenScore">85</div>
+                    <div class="score-level" id="scoreLevel">自然和谐</div>
+                    <div class="score-description" id="scoreDescription">
+                        您的花园风水布局良好，有助于营造自然和谐的生活环境。
+                    </div>
+                </div>
+                
+                <div class="analysis-grid" id="analysisGrid">
+                    <!-- 分析结果将由JavaScript生成 -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="mystic-footer">
+        <div class="disclaimer-main">
+            ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
+        </div>
+        <div class="disclaimer">
+            🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
+            🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
+        </div>
+        <div class="footer-links">
+            <a href="../../index_mystic.html">返回首页</a>
+            <a href="#" onclick="return false;">服务条款</a>
+            <a href="#" onclick="return false;">隐私政策</a>
+            <a href="#" onclick="return false;">免责声明</a>
+            <a href="#" onclick="return false;">联系我们</a>
+        </div>
+        <div class="wisdom-quote">
+            "山水有情，花木有灵；园林和谐，人居安康" - 园林风水智慧
+        </div>
+        <div class="copyright">
+            © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
+        </div>
+    </footer>
+
+    <script>
+        let selectedGardenType = null;
+
+        const gardenData = {
+            types: {
+                chinese: {
+                    name: '中式古典园林',
+                    benefits: ['体现东方美学', '山水意境深远', '文化底蕴丰富', '养性修身'],
+                    suggestions: ['注重假山水池配置', '合理设置亭台楼阁', '植物搭配要层次分明', '道路设计要曲径通幽']
+                },
+                modern: {
+                    name: '现代简约花园',
+                    benefits: ['简洁明快', '便于维护', '现代时尚', '功能性强'],
+                    suggestions: ['使用几何线条设计', '选择低维护植物', '重视照明设计', '创造开放空间']
+                },
+                japanese: {
+                    name: '日式禅意花园',
+                    benefits: ['宁静致远', '禅意深邃', '空间利用巧妙', '四季景观变化'],
+                    suggestions: ['营造枯山水景观', '设置石灯笼照明', '种植常绿植物', '创造冥想空间']
+                },
+                english: {
+                    name: '英式田园花园',
+                    benefits: ['自然野趣', '花草丰茂', '浪漫情调', '生态丰富'],
+                    suggestions: ['多种开花植物', '创造自然曲线', '设置休憩区域', '保持生态平衡']
+                }
+            },
+            
+            directions: {
+                north: { element: '水', effect: '宁静致远', score: 8, advice: '适合设置水景，种植耐阴植物，营造宁静环境。' },
+                south: { element: '火', effect: '生机盎然', score: 9, advice: '光照充足，适合种植各类花卉，营造活力空间。' },
+                east: { element: '木', effect: '朝气蓬勃', score: 9, advice: '朝阳方位，适合种植高大乔木，象征蒸蒸日上。' },
+                west: { element: '金', effect: '收敛内敛', score: 7, advice: '夕阳西下，适合观赏性植物，营造温馨氛围。' },
+                center: { element: '土', effect: '稳定和谐', score: 8, advice: '居中位置，适合设置核心景观，体现家庭和睦。' }
+            },
+            
+            plants: {
+                bamboo: { element: '木', effect: '节节高升', score: 9, meaning: '竹子象征品格高洁，有利于提升家庭品位和事业运势。' },
+                pine: { element: '木', effect: '长寿健康', score: 8, meaning: '松柏长青，象征长寿健康，有利于家庭稳定和健康运势。' },
+                flowers: { element: '木', effect: '美满幸福', score: 8, meaning: '花卉植物象征美好生活，有利于家庭和睦和桃花运势。' },
+                fruit: { element: '木', effect: '硕果累累', score: 9, meaning: '果树象征收获丰盛，有利于财运和家庭兴旺。' },
+                herbs: { element: '木', effect: '清香怡人', score: 7, meaning: '草本植物清香宜人，有利于身心健康和情绪调节。' }
+            }
+        };
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function selectGardenType(type) {
+            selectedGardenType = type;
+            
+            // 清除其他选择
+            document.querySelectorAll('.garden-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // 选中当前类型
+            document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+        }
+
+        function analyzeGarden() {
+            const gardenDirection = document.getElementById('gardenDirection').value;
+            const mainPlants = document.getElementById('mainPlants').value;
+            const waterFeature = document.getElementById('waterFeature').value;
+            const gardenArea = document.getElementById('gardenArea').value;
+            
+            if (!selectedGardenType || !gardenDirection || !mainPlants || !waterFeature || !gardenArea) {
+                alert('请完成所有信息填写后再进行分析！');
+                return;
+            }
+            
+            // 显示结果区域
+            const resultSection = document.getElementById('resultSection');
+            resultSection.style.display = 'block';
+            
+            // 计算风水得分
+            let score = calculateGardenScore(gardenDirection, mainPlants, waterFeature, selectedGardenType);
+            
+            // 更新显示
+            document.getElementById('gardenScore').textContent = score;
+            document.getElementById('scoreLevel').textContent = getScoreLevel(score);
+            document.getElementById('scoreDescription').textContent = generateScoreDescription(score, selectedGardenType);
+            
+            // 生成详细分析
+            generateAnalysisGrid(gardenDirection, mainPlants, waterFeature, selectedGardenType);
+            
+            // 滚动到结果区域
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculateGardenScore(gardenDirection, mainPlants, waterFeature, gardenType) {
+            let baseScore = 60;
+            
+            // 花园方位得分
+            const directionData = gardenData.directions[gardenDirection];
+            if (directionData) {
+                baseScore += directionData.score;
+            }
+            
+            // 植物选择得分
+            const plantData = gardenData.plants[mainPlants];
+            if (plantData) {
+                baseScore += plantData.score;
+            }
+            
+            // 水景设计得分
+            const waterBonus = { pond: 8, fountain: 7, stream: 9, none: 5 };
+            baseScore += waterBonus[waterFeature] || 0;
+            
+            // 花园类型适配度
+            const typeBonus = { chinese: 9, modern: 7, japanese: 8, english: 8 };
+            baseScore += typeBonus[gardenType] || 0;
+            
+            // 随机因素
+            baseScore += Math.floor(Math.random() * 8) - 4;
+            
+            return Math.max(40, Math.min(100, baseScore));
+        }
+
+        function getScoreLevel(score) {
+            if (score >= 90) return '天人合一';
+            if (score >= 80) return '自然和谐';
+            if (score >= 70) return '生机盎然';
+            if (score >= 60) return '基本平衡';
+            return '需要调整';
+        }
+
+        function generateScoreDescription(score, gardenType) {
+            const typeData = gardenData.types[gardenType];
+            const descriptions = {
+                90: `您的${typeData.name}风水布局极佳，达到天人合一的理想境界，有助于身心健康和家庭和谐。`,
+                80: `您的${typeData.name}风水布局良好，自然和谐，有利于营造优美的生活环境。`,
+                70: `您的${typeData.name}风水布局基本合理，生机盎然，可在细节上进行优化。`,
+                60: `您的${typeData.name}风水布局达到基本要求，建议进行适当调整以提升效果。`,
+                50: `您的${typeData.name}风水布局需要改善，建议重新规划花园设计。`
+            };
+            
+            for (let threshold of [90, 80, 70, 60, 50]) {
+                if (score >= threshold) {
+                    return descriptions[threshold];
+                }
+            }
+            return descriptions[50];
+        }
+
+        function generateAnalysisGrid(gardenDirection, mainPlants, waterFeature, gardenType) {
+            const analysisGrid = document.getElementById('analysisGrid');
+            const directionData = gardenData.directions[gardenDirection];
+            const plantData = gardenData.plants[mainPlants];
+            const typeData = gardenData.types[gardenType];
+            
+            const analysisItems = [
+                {
+                    title: '花园方位分析',
+                    content: `花园位于${getDirectionName(gardenDirection)}（${directionData.element}元素），${directionData.effect}。${directionData.advice}`
+                },
+                {
+                    title: '植物配置分析',
+                    content: `主要植物为${getPlantName(mainPlants)}（${plantData.element}元素），${plantData.effect}。${plantData.meaning}`
+                },
+                {
+                    title: '水景设计分析',
+                    content: getWaterFeatureAnalysis(waterFeature)
+                },
+                {
+                    title: '改善建议',
+                    content: `${typeData.name}的特色：${typeData.benefits.join('、')}。建议：${typeData.suggestions.join('；')}。`
+                }
+            ];
+            
+            analysisGrid.innerHTML = analysisItems.map(item => `
+                <div class="analysis-item">
+                    <div class="analysis-item-title">${item.title}</div>
+                    <div class="analysis-item-content">${item.content}</div>
+                </div>
+            `).join('');
+        }
+
+        function getDirectionName(direction) {
+            const names = {
+                north: '北方', south: '南方', east: '东方', west: '西方', center: '中央'
+            };
+            return names[direction] || direction;
+        }
+
+        function getPlantName(plant) {
+            const names = {
+                bamboo: '竹类植物', pine: '松柏类', flowers: '花卉植物', 
+                fruit: '果树类', herbs: '草本植物'
+            };
+            return names[plant] || plant;
+        }
+
+        function getWaterFeatureAnalysis(waterFeature) {
+            const analyses = {
+                pond: '池塘水景设计典雅，有利于聚财聚气，营造宁静致远的环境氛围。',
+                fountain: '喷泉流水生机勃勃，有利于激活财运，增强空间的活力和动感。',
+                stream: '小溪流水自然灵动，有利于气场流通，营造清新自然的环境。',
+                none: '无水景设计相对静态，建议适当增加水元素来平衡园林气场。'
+            };
+            return analyses[waterFeature] || '水景设计需要进一步考虑。';
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+        });
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+    <!-- 风水侧边栏组件脚本 -->
+    <script src="../../components/fengshui-sidebar.js"></script>
+</body>
+</html> 

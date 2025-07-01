@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" itemscope itemtype="http://schema.org/WebPage">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,7 +62,14 @@
     }
     </script>
     <title>风水分析 - 家居风水布局 | 神秘学预测中心</title>
+    
+    <!-- 引入共享的风水侧边栏样式 -->
+    <link rel="stylesheet" href="../../components/fengshui-sidebar.css">
+    <!-- 引入公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
     <style>
+        /* 基础样式 */
         * {
             margin: 0;
             padding: 0;
@@ -70,21 +77,23 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e0e0e0;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d4a2e 50%, #1a1a1a 100%);
+            color: white;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* 星空背景动画 */
+        /* 星空动画 */
         .stars {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .star {
@@ -99,66 +108,14 @@
             50% { opacity: 1; }
         }
 
-        
-
-        /* 主要内容区域 */
+        /* 主要布局 */
         .main-container {
             display: flex;
-            margin-top: 70px;
-            min-height: calc(100vh - 70px);
-        }
-
-        /* 左侧功能菜单 */
-        .sidebar {
-            width: 280px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-right: 2px solid #00ffff;
-            padding: 20px 0;
-            overflow-y: auto;
-        }
-
-        .sidebar-category {
-            margin-bottom: 20px;
-        }
-
-        .category-title {
-            color: #00ffff;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .function-list {
-            list-style: none;
-        }
-
-        .function-item {
-            margin: 2px 0;
-        }
-
-        .function-link {
-            display: block;
-            padding: 12px 20px;
-            color: #ccc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .function-link:hover {
-            background: rgba(0, 255, 255, 0.1);
-            color: #00ffff;
-            border-left-color: #00ffff;
-            transform: translateX(5px);
-        }
-
-        .function-link.active {
-            background: rgba(0, 255, 255, 0.2);
-            color: #00ffff;
-            border-left-color: #00ffff;
+            gap: 30px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
         }
 
         /* 主内容区域 */
@@ -533,8 +490,6 @@
         });
     }
     </script>
-    <!-- 公共导航栏样式 -->
-    <link rel="stylesheet" href="../../components/navigation.css">
 </head>
 <body>
     <!-- 星空背景 -->
@@ -546,29 +501,7 @@
     <div class="main-container">
         <!-- 左侧功能菜单 -->
         <aside class="sidebar">
-            <div class="sidebar-category">
-                <div class="category-title">风水分析</div>
-                <ul class="function-list">
-                    <li class="function-item">
-                        <a href="home.html" class="function-link active">家居风水</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="office.html" class="function-link">办公风水</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="bedroom.html" class="function-link">卧室风水</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="kitchen.html" class="function-link">厨房风水</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="garden.html" class="function-link">庭院风水</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="colors.html" class="function-link">色彩风水</a>
-                    </li>
-                </ul>
-            </div>
+            <!-- 侧边栏内容将由 fengshui-sidebar.js 动态生成 -->
         </aside>
 
         <!-- 主内容区域 -->
@@ -1134,5 +1067,7 @@
 
     <!-- 公共导航栏脚本 -->
     <script src="../../components/navigation.js"></script>
+    <!-- 风水侧边栏组件脚本 -->
+    <script src="../../components/fengshui-sidebar.js"></script>
 </body>
-</html></html> 
+</html> 

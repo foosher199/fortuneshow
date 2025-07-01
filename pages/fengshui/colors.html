@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN" itemscope itemtype="http://schema.org/WebPage">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="专业色彩风水分析，提供居家色彩搭配、五行色彩配置等风水指导，营造和谐美好的色彩环境">
+    <meta name="keywords" content="色彩风水,颜色搭配,五行色彩,居家配色,色彩心理,风水色彩">
+    <meta name="author" content="神秘学预测中心">
+    <meta property="og:title" content="色彩风水分析 - 营造和谐色彩环境">
+    <meta property="og:description" content="专业的色彩风水分析服务，优化居家色彩搭配，提升生活品质和运势">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yoursite.com/pages/fengshui/colors.html">
+    <title>色彩风水分析 - 营造和谐色彩环境 | 神秘学预测中心</title>
+    
+    <!-- 引入共享的风水侧边栏样式 -->
+    <link rel="stylesheet" href="../../components/fengshui-sidebar.css">
+    <!-- 引入公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #7209b7 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 星空动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 主要布局 */
+        .main-container {
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24, #f0932b, #eb4d4b, #6c5ce7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3)); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5)); }
+        }
+
+        .color-analysis {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24) 1;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .analysis-title {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .color-types {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .color-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .color-card.selected {
+            border: 2px solid #ff6b6b;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(0, 0, 0, 0.4) 100%);
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+        }
+
+        .color-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .color-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .color-desc {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .input-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24) 1;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            color: #ff6b6b;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .input-field, .input-select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus, .input-select:focus {
+            outline: none;
+            border-color: #ff6b6b;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .analyze-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .analyze-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .result-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24) 1;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .feng-shui-score {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .score-display {
+            font-size: 64px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .score-level {
+            font-size: 24px;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .score-description {
+            color: #ccc;
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .analysis-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .analysis-item-title {
+            color: #ff6b6b;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .analysis-item-content {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                gap: 20px;
+                padding: 15px;
+            }
+
+            .content-area {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .color-types {
+                grid-template-columns: 1fr;
+            }
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 页脚样式 */
+        .mystic-footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(255, 107, 107, 0.1) 100%);
+            color: #ccc;
+            padding: 40px 20px 20px;
+            text-align: center;
+            border-top: 2px solid rgba(255, 107, 107, 0.3);
+            margin-top: 50px;
+        }
+
+        .disclaimer-main {
+            font-size: 16px;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .disclaimer {
+            font-size: 14px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            margin: 20px 0;
+        }
+
+        .footer-links a {
+            color: #ff6b6b;
+            text-decoration: none;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #4ecdc4;
+        }
+
+        .wisdom-quote {
+            font-style: italic;
+            color: #ff6b6b;
+            margin: 20px 0;
+            font-size: 16px;
+        }
+
+        .copyright {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <div class="main-container">
+        <!-- 左侧功能菜单 -->
+        <aside class="sidebar">
+            <!-- 侧边栏内容将由 fengshui-sidebar.js 动态生成 -->
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="content-area">
+            <h1 class="page-title">🎨 色彩风水分析</h1>
+            
+            <div class="color-analysis">
+                <div class="analysis-title">🌈 选择色彩主题</div>
+                
+                <div class="color-types">
+                    <div class="color-card" data-type="warm" onclick="selectColorType('warm')">
+                        <span class="color-icon">🔥</span>
+                        <div class="color-name">暖色调主题</div>
+                        <div class="color-desc">红橙黄色系，温暖活力，提升阳气和事业运</div>
+                    </div>
+                    
+                    <div class="color-card" data-type="cool" onclick="selectColorType('cool')">
+                        <span class="color-icon">❄️</span>
+                        <div class="color-name">冷色调主题</div>
+                        <div class="color-desc">蓝绿紫色系，宁静沉稳，增强智慧和健康运</div>
+                    </div>
+                    
+                    <div class="color-card" data-type="neutral" onclick="selectColorType('neutral')">
+                        <span class="color-icon">🤍</span>
+                        <div class="color-name">中性色主题</div>
+                        <div class="color-desc">黑白灰色系，简约现代，平衡各种运势</div>
+                    </div>
+                    
+                    <div class="color-card" data-type="earth" onclick="selectColorType('earth')">
+                        <span class="color-icon">🌍</span>
+                        <div class="color-name">大地色主题</div>
+                        <div class="color-desc">棕褐土色系，稳重踏实，增强财运和稳定</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-section">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label class="input-label">主色调</label>
+                        <select id="primaryColor" class="input-select">
+                            <option value="">请选择主色调</option>
+                            <option value="red">红色 - 火元素</option>
+                            <option value="orange">橙色 - 火元素</option>
+                            <option value="yellow">黄色 - 土元素</option>
+                            <option value="green">绿色 - 木元素</option>
+                            <option value="blue">蓝色 - 水元素</option>
+                            <option value="purple">紫色 - 火元素</option>
+                            <option value="white">白色 - 金元素</option>
+                            <option value="black">黑色 - 水元素</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">辅助色</label>
+                        <select id="accentColor" class="input-select">
+                            <option value="">请选择辅助色</option>
+                            <option value="red">红色</option>
+                            <option value="orange">橙色</option>
+                            <option value="yellow">黄色</option>
+                            <option value="green">绿色</option>
+                            <option value="blue">蓝色</option>
+                            <option value="purple">紫色</option>
+                            <option value="white">白色</option>
+                            <option value="black">黑色</option>
+                            <option value="gold">金色</option>
+                            <option value="silver">银色</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">应用空间</label>
+                        <select id="spaceType" class="input-select">
+                            <option value="">请选择应用空间</option>
+                            <option value="living">客厅</option>
+                            <option value="bedroom">卧室</option>
+                            <option value="kitchen">厨房</option>
+                            <option value="study">书房</option>
+                            <option value="bathroom">卫生间</option>
+                            <option value="office">办公室</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">期望效果</label>
+                        <select id="desiredEffect" class="input-select">
+                            <option value="">请选择期望效果</option>
+                            <option value="wealth">增强财运</option>
+                            <option value="health">促进健康</option>
+                            <option value="career">提升事业</option>
+                            <option value="relationship">改善人际</option>
+                            <option value="study">提高学习</option>
+                            <option value="peace">营造宁静</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="analyze-button" onclick="analyzeColors()">开始色彩风水分析</button>
+            </div>
+            
+            <div id="resultSection" class="result-section">
+                <div class="feng-shui-score">
+                    <div class="score-display" id="colorScore">82</div>
+                    <div class="score-level" id="scoreLevel">色彩和谐</div>
+                    <div class="score-description" id="scoreDescription">
+                        您的色彩搭配和谐美观，有助于营造良好的居住环境。
+                    </div>
+                </div>
+                
+                <div class="analysis-grid" id="analysisGrid">
+                    <!-- 分析结果将由JavaScript生成 -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="mystic-footer">
+        <div class="disclaimer-main">
+            ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
+        </div>
+        <div class="disclaimer">
+            🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
+            🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
+        </div>
+        <div class="footer-links">
+            <a href="../../index_mystic.html">返回首页</a>
+            <a href="#" onclick="return false;">服务条款</a>
+            <a href="#" onclick="return false;">隐私政策</a>
+            <a href="#" onclick="return false;">免责声明</a>
+            <a href="#" onclick="return false;">联系我们</a>
+        </div>
+        <div class="wisdom-quote">
+            "五行生克，色彩相配；调和阴阳，居室生辉" - 色彩风水智慧
+        </div>
+        <div class="copyright">
+            © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
+        </div>
+    </footer>
+
+    <script>
+        let selectedColorType = null;
+
+        const colorData = {
+            types: {
+                warm: {
+                    name: '暖色调主题',
+                    benefits: ['温暖活力', '提升阳气', '增强社交', '激发创造力'],
+                    suggestions: ['适量使用避免过度', '搭配中性色平衡', '注意光线配合', '考虑空间大小']
+                },
+                cool: {
+                    name: '冷色调主题',
+                    benefits: ['宁静沉稳', '增强专注', '促进思考', '舒缓压力'],
+                    suggestions: ['增加暖色点缀', '注意采光充足', '避免过于单调', '营造温馨感']
+                },
+                neutral: {
+                    name: '中性色主题',
+                    benefits: ['简约现代', '百搭实用', '视觉舒适', '易于搭配'],
+                    suggestions: ['增加色彩层次', '运用质感变化', '适当点缀亮色', '注重光影效果']
+                },
+                earth: {
+                    name: '大地色主题',
+                    benefits: ['稳重踏实', '自然和谐', '增强安全感', '促进健康'],
+                    suggestions: ['避免过于沉闷', '增加自然元素', '注重材质搭配', '营造温暖氛围']
+                }
+            },
+            
+            colors: {
+                red: { element: '火', effect: '激发活力', score: 8, meaning: '代表热情和力量，有助于提升事业运和人际关系。' },
+                orange: { element: '火', effect: '增强创造', score: 7, meaning: '象征创造力和温暖，有利于激发灵感和社交能力。' },
+                yellow: { element: '土', effect: '提升智慧', score: 8, meaning: '代表智慧和财富，有助于学习和财运的提升。' },
+                green: { element: '木', effect: '促进健康', score: 9, meaning: '象征生机和成长，有利于健康运势和事业发展。' },
+                blue: { element: '水', effect: '增强智慧', score: 9, meaning: '代表冷静和智慧，有助于提升学习能力和决策力。' },
+                purple: { element: '火', effect: '提升贵气', score: 7, meaning: '象征高贵和神秘，有利于提升个人品位和贵人运。' },
+                white: { element: '金', effect: '净化环境', score: 8, meaning: '代表纯洁和清新，有助于净化环境和提升精神状态。' },
+                black: { element: '水', effect: '增强沉稳', score: 6, meaning: '象征稳重和权威，有利于提升专业形象和决策能力。' },
+                gold: { element: '金', effect: '招财进宝', score: 9, meaning: '象征财富和地位，有助于提升财运和事业成就。' },
+                silver: { element: '金', effect: '清雅高贵', score: 7, meaning: '代表清雅和现代感，有利于提升品味和人际关系。' }
+            }
+        };
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function selectColorType(type) {
+            selectedColorType = type;
+            
+            // 清除其他选择
+            document.querySelectorAll('.color-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // 选中当前类型
+            document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+        }
+
+        function analyzeColors() {
+            const primaryColor = document.getElementById('primaryColor').value;
+            const accentColor = document.getElementById('accentColor').value;
+            const spaceType = document.getElementById('spaceType').value;
+            const desiredEffect = document.getElementById('desiredEffect').value;
+            
+            if (!selectedColorType || !primaryColor || !accentColor || !spaceType || !desiredEffect) {
+                alert('请完成所有信息填写后再进行分析！');
+                return;
+            }
+            
+            // 显示结果区域
+            const resultSection = document.getElementById('resultSection');
+            resultSection.style.display = 'block';
+            
+            // 计算风水得分
+            let score = calculateColorScore(primaryColor, accentColor, spaceType, selectedColorType);
+            
+            // 更新显示
+            document.getElementById('colorScore').textContent = score;
+            document.getElementById('scoreLevel').textContent = getScoreLevel(score);
+            document.getElementById('scoreDescription').textContent = generateScoreDescription(score, selectedColorType);
+            
+            // 生成详细分析
+            generateAnalysisGrid(primaryColor, accentColor, spaceType, desiredEffect, selectedColorType);
+            
+            // 滚动到结果区域
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculateColorScore(primaryColor, accentColor, spaceType, colorType) {
+            let baseScore = 60;
+            
+            // 主色调得分
+            const primaryData = colorData.colors[primaryColor];
+            if (primaryData) {
+                baseScore += primaryData.score;
+            }
+            
+            // 辅助色得分
+            const accentData = colorData.colors[accentColor];
+            if (accentData) {
+                baseScore += Math.floor(accentData.score * 0.6);
+            }
+            
+            // 色彩搭配和谐度
+            if (isColorHarmony(primaryColor, accentColor)) {
+                baseScore += 8;
+            } else {
+                baseScore -= 5;
+            }
+            
+            // 空间适配度
+            const spaceBonus = getSpaceColorBonus(spaceType, primaryColor);
+            baseScore += spaceBonus;
+            
+            // 色彩主题适配度
+            const typeBonus = { warm: 8, cool: 8, neutral: 7, earth: 8 };
+            baseScore += typeBonus[colorType] || 0;
+            
+            // 随机因素
+            baseScore += Math.floor(Math.random() * 8) - 4;
+            
+            return Math.max(40, Math.min(100, baseScore));
+        }
+
+        function isColorHarmony(primary, accent) {
+            // 简化的色彩和谐判断
+            const harmonies = {
+                red: ['yellow', 'orange', 'white', 'gold'],
+                orange: ['red', 'yellow', 'white', 'gold'],
+                yellow: ['red', 'orange', 'green', 'white'],
+                green: ['yellow', 'blue', 'white', 'black'],
+                blue: ['green', 'purple', 'white', 'silver'],
+                purple: ['blue', 'red', 'white', 'silver'],
+                white: ['red', 'blue', 'green', 'black'],
+                black: ['white', 'gold', 'silver', 'red']
+            };
+            return harmonies[primary] && harmonies[primary].includes(accent);
+        }
+
+        function getSpaceColorBonus(space, color) {
+            const spaceColorMatch = {
+                living: { red: 8, yellow: 7, orange: 6, white: 8 },
+                bedroom: { blue: 9, green: 8, purple: 7, white: 8 },
+                kitchen: { yellow: 9, orange: 8, red: 7, white: 8 },
+                study: { blue: 9, green: 8, white: 7, black: 6 },
+                bathroom: { blue: 8, white: 9, green: 7, silver: 7 },
+                office: { blue: 8, white: 8, black: 7, silver: 6 }
+            };
+            return spaceColorMatch[space] && spaceColorMatch[space][color] || 5;
+        }
+
+        function getScoreLevel(score) {
+            if (score >= 90) return '色彩完美';
+            if (score >= 80) return '色彩和谐';
+            if (score >= 70) return '搭配良好';
+            if (score >= 60) return '基本协调';
+            return '需要调整';
+        }
+
+        function generateScoreDescription(score, colorType) {
+            const typeData = colorData.types[colorType];
+            const descriptions = {
+                90: `您的${typeData.name}搭配极其出色，色彩完美和谐，有助于营造理想的居住环境。`,
+                80: `您的${typeData.name}搭配和谐美观，色彩协调统一，有利于提升生活品质。`,
+                70: `您的${typeData.name}搭配基本良好，色彩搭配合理，可在细节上进行优化。`,
+                60: `您的${typeData.name}搭配达到基本要求，建议进行适当调整以提升效果。`,
+                50: `您的${typeData.name}搭配需要改善，建议重新考虑色彩配置方案。`
+            };
+            
+            for (let threshold of [90, 80, 70, 60, 50]) {
+                if (score >= threshold) {
+                    return descriptions[threshold];
+                }
+            }
+            return descriptions[50];
+        }
+
+        function generateAnalysisGrid(primaryColor, accentColor, spaceType, desiredEffect, colorType) {
+            const analysisGrid = document.getElementById('analysisGrid');
+            const primaryData = colorData.colors[primaryColor];
+            const accentData = colorData.colors[accentColor];
+            const typeData = colorData.types[colorType];
+            
+            const analysisItems = [
+                {
+                    title: '主色调分析',
+                    content: `主色调${getColorName(primaryColor)}（${primaryData.element}元素），${primaryData.effect}。${primaryData.meaning}`
+                },
+                {
+                    title: '辅助色分析',
+                    content: `辅助色${getColorName(accentColor)}（${accentData.element}元素），${accentData.effect}。${accentData.meaning}`
+                },
+                {
+                    title: '空间适配分析',
+                    content: getSpaceAnalysis(spaceType, primaryColor)
+                },
+                {
+                    title: '改善建议',
+                    content: `${typeData.name}的特色：${typeData.benefits.join('、')}。建议：${typeData.suggestions.join('；')}。`
+                }
+            ];
+            
+            analysisGrid.innerHTML = analysisItems.map(item => `
+                <div class="analysis-item">
+                    <div class="analysis-item-title">${item.title}</div>
+                    <div class="analysis-item-content">${item.content}</div>
+                </div>
+            `).join('');
+        }
+
+        function getColorName(color) {
+            const names = {
+                red: '红色', orange: '橙色', yellow: '黄色', green: '绿色',
+                blue: '蓝色', purple: '紫色', white: '白色', black: '黑色',
+                gold: '金色', silver: '银色'
+            };
+            return names[color] || color;
+        }
+
+        function getSpaceAnalysis(space, color) {
+            const analyses = {
+                living: '客厅作为家庭聚会场所，应选择温暖明亮的色彩，营造温馨和谐的氛围。',
+                bedroom: '卧室需要宁静舒适的色彩，有助于放松身心，提升睡眠质量。',
+                kitchen: '厨房宜选择清洁明亮的色彩，营造健康卫生的烹饪环境。',
+                study: '书房适合冷静理性的色彩，有助于提升专注力和学习效率。',
+                bathroom: '卫生间需要清洁明亮的色彩，营造清新卫生的环境。',
+                office: '办公室宜选择专业稳重的色彩，提升工作效率和专业形象。'
+            };
+            return analyses[space] || '选择合适的色彩搭配，营造良好的空间氛围。';
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+        });
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+    <!-- 风水侧边栏组件脚本 -->
+    <script src="../../components/fengshui-sidebar.js"></script>
+</body>
+</html> 
