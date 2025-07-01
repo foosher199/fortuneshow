@@ -57,67 +57,13 @@
 
         /* 主要内容区域 */
         .main-container {
-            display: flex;
+            margin-left: 280px;
             margin-top: 70px;
             min-height: calc(100vh - 70px);
         }
 
-        /* 左侧功能菜单 */
-        .sidebar {
-            width: 280px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-right: 2px solid #00ffff;
-            padding: 20px 0;
-            overflow-y: auto;
-        }
-
-        .sidebar-category {
-            margin-bottom: 20px;
-        }
-
-        .category-title {
-            color: #00ffff;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .function-list {
-            list-style: none;
-        }
-
-        .function-item {
-            margin: 2px 0;
-        }
-
-        .function-link {
-            display: block;
-            padding: 12px 20px;
-            color: #ccc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .function-link:hover {
-            background: rgba(0, 255, 255, 0.1);
-            color: #00ffff;
-            border-left-color: #00ffff;
-            transform: translateX(5px);
-        }
-
-        .function-link.active {
-            background: rgba(0, 255, 255, 0.2);
-            color: #00ffff;
-            border-left-color: #00ffff;
-        }
-
         /* 主内容区域 */
         .content-area {
-            flex: 1;
             padding: 40px;
             position: relative;
         }
@@ -496,20 +442,6 @@
         @media (max-width: 768px) {
             
             
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            
-            .main-container {
-                flex-direction: column;
-            }
-            
-            .content-area {
-                padding: 20px;
-            }
-            
             .dice-types {
                 grid-template-columns: 1fr;
             }
@@ -527,6 +459,8 @@
     </style>
     <!-- 公共导航栏样式 -->
     <link rel="stylesheet" href="../../components/navigation.css">
+    <!-- 占卜侧边栏样式 -->
+    <link rel="stylesheet" href="../../components/divination-sidebar.css">
 </head>
 <body>
     <!-- 星空背景 -->
@@ -538,29 +472,6 @@
     <div class="main-container">
         <!-- 左侧功能菜单 -->
         <aside class="sidebar">
-            <div class="sidebar-category">
-                <div class="category-title">占卜游戏</div>
-                <ul class="function-list">
-                    <li class="function-item">
-                        <a href="lots.html" class="function-link">抽签占卜</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="coin.html" class="function-link">硬币占卜</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="dice.html" class="function-link active">骰子占卜</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="pendulum.html" class="function-link">灵摆占卜</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="crystal.html" class="function-link">水晶球</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="runes.html" class="function-link">符文占卜</a>
-                    </li>
-                </ul>
-            </div>
         </aside>
 
         <!-- 主内容区域 -->
@@ -1054,5 +965,7 @@
 
     <!-- 公共导航栏脚本 -->
     <script src="../../components/navigation.js"></script>
+    <!-- 占卜侧边栏脚本 -->
+    <script src="../../components/divination-sidebar.js"></script>
 </body>
 </html></html> 

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 基础SEO标签 -->
+    <meta name="description" content="专业的符文占卜服务，古老的北欧智慧为您指引人生方向">
+    <meta name="keywords" content="符文占卜,runes,北欧符文,古老智慧,神秘学">
+    <meta name="author" content="神秘学预测中心">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mystic-prediction.com/pages/divination/runes.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="在线占卜 - 符文占卜 | 神秘学预测中心">
+    <meta property="og:description" content="专业的符文占卜服务，古老的北欧智慧为您指引人生方向">
+    <meta property="og:url" content="https://mystic-prediction.com/pages/divination/runes.html">
+    <meta property="og:type" content="website">
+    <title>在线占卜 - 符文占卜 | 神秘学预测中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #4a2c2a 30%, #8b4513 70%, #2d1b14 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 符文发光效果 */
+        .rune-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .floating-rune {
+            position: absolute;
+            font-size: 24px;
+            color: #ff9800;
+            opacity: 0.3;
+            animation: runeFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes runeFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.7; }
+        }
+
+        /* 主要内容区域 */
+        .main-container {
+            margin-left: 280px;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            padding: 40px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #ff9800, #ffb74d, #ffc107);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: runeGlow 3s ease-in-out infinite alternate;
+            font-weight: bold;
+        }
+
+        @keyframes runeGlow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 152, 0, 0.6)); }
+            to { filter: drop-shadow(0 0 40px rgba(255, 193, 7, 0.9)); }
+        }
+
+        .rune-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .rune-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff9800;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rune-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .rune-card:hover::before {
+            opacity: 1;
+        }
+
+        .rune-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #ffb74d;
+            box-shadow: 0 20px 40px rgba(255, 152, 0, 0.4);
+        }
+
+        .rune-icon {
+            font-size: 52px;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 15px rgba(255, 152, 0, 0.8));
+        }
+
+        .rune-title {
+            color: #ff9800;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .rune-description {
+            color: #ddd;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .rune-features {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            border: 1px solid rgba(255, 152, 0, 0.4);
+        }
+
+        .start-button {
+            background: linear-gradient(45deg, #ff9800, #ffb74d);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.5);
+        }
+
+        .divination-area {
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ff9800;
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            display: none;
+            text-align: center;
+        }
+
+        .divination-area.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            border: 2px solid #ff9800;
+            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .question-input::placeholder {
+            color: #ccc;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: #ffb74d;
+            box-shadow: 0 0 20px rgba(255, 152, 0, 0.3);
+        }
+
+        .rune-spread {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            min-height: 200px;
+            position: relative;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .rune-stone {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #8b4513, #a0522d);
+            border: 3px solid #ff9800;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff9800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 
+                0 8px 16px rgba(0, 0, 0, 0.5),
+                inset 0 2px 4px rgba(255, 152, 0, 0.3);
+        }
+
+        .rune-stone.face-down {
+            background: linear-gradient(145deg, #5d4037, #6d4c41);
+            color: transparent;
+        }
+
+        .rune-stone.face-down::before {
+            content: '🪨';
+            color: #8d6e63;
+            font-size: 24px;
+        }
+
+        .rune-stone:hover {
+            transform: translateY(-5px) rotate(5deg);
+            box-shadow: 0 15px 30px rgba(255, 152, 0, 0.4);
+        }
+
+        .rune-stone.revealed {
+            animation: runeReveal 0.6s ease;
+        }
+
+        @keyframes runeReveal {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+
+        .draw-button {
+            background: linear-gradient(45deg, #ff9800, #ffb74d);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            margin: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .draw-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .draw-button:hover::before {
+            left: 100%;
+        }
+
+        .draw-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 152, 0, 0.4);
+        }
+
+        .draw-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-area {
+            background: rgba(255, 152, 0, 0.1);
+            border: 2px solid #ff9800;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result-area.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ff9800;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .result-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .section-title {
+            color: #ff9800;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            color: #ddd;
+            line-height: 1.6;
+        }
+
+        .back-button {
+            background: linear-gradient(45deg, #666, #888);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 102, 102, 0.4);
+        }
+
+        /* 占卜历史 */
+        .history-area {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #ff9800;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-title {
+            color: #ff9800;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .history-item {
+            color: #ddd;
+            font-size: 14px;
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(255, 152, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-container {
+                margin-left: 0;
+                margin-top: 0;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .rune-types {
+                grid-template-columns: 1fr;
+            }
+            
+            .rune-spread {
+                gap: 15px;
+            }
+            
+            .rune-stone {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+        }
+    </style>
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    <!-- 占卜侧边栏样式 -->
+    <link rel="stylesheet" href="../../components/divination-sidebar.css">
+</head>
+<body>
+    <!-- 符文发光背景 -->
+    <div class="rune-glow" id="runeGlow"></div>
+
+    <div class="main-container">
+        <!-- 左侧功能菜单 -->
+        <aside class="sidebar">
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="content-area">
+            <h1 class="page-title">🪨 符文占卜</h1>
+            
+            <div id="runeSelection" class="rune-types">
+                <div class="rune-card" onclick="selectRuneType('single')">
+                    <span class="rune-icon">ᚠ</span>
+                    <h3 class="rune-title">单符文占卜</h3>
+                    <p class="rune-description">抽取一枚符文石，获得简单直接的指导信息</p>
+                    <div class="rune-features">
+                        <span class="feature-tag">简单</span>
+                        <span class="feature-tag">直接</span>
+                        <span class="feature-tag">明确</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+                
+                <div class="rune-card" onclick="selectRuneType('three')">
+                    <span class="rune-icon">ᚦᚨᚱ</span>
+                    <h3 class="rune-title">三符文展开</h3>
+                    <p class="rune-description">过去、现在、未来的三重时间视角解读</p>
+                    <div class="rune-features">
+                        <span class="feature-tag">时间</span>
+                        <span class="feature-tag">全面</span>
+                        <span class="feature-tag">深度</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+                
+                <div class="rune-card" onclick="selectRuneType('cross')">
+                    <span class="rune-icon">✚</span>
+                    <h3 class="rune-title">十字符文阵</h3>
+                    <p class="rune-description">复杂问题的多维度分析，包含障碍与机遇</p>
+                    <div class="rune-features">
+                        <span class="feature-tag">复杂</span>
+                        <span class="feature-tag">多维</span>
+                        <span class="feature-tag">全景</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+                
+                <div class="rune-card" onclick="selectRuneType('relationship')">
+                    <span class="rune-icon">💕</span>
+                    <h3 class="rune-title">关系符文</h3>
+                    <p class="rune-description">专门解读人际关系和情感问题的符文阵</p>
+                    <div class="rune-features">
+                        <span class="feature-tag">关系</span>
+                        <span class="feature-tag">情感</span>
+                        <span class="feature-tag">互动</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+            </div>
+            
+            <div id="divinationArea" class="divination-area">
+                <h2 id="runeTypeName" style="color: #ff9800; margin-bottom: 30px;">符文占卜</h2>
+                <input type="text" id="questionInput" class="question-input" placeholder="请输入您想要询问的问题...">
+                
+                <div class="rune-spread" id="runeSpread">
+                    <!-- 符文石将在这里动态生成 -->
+                </div>
+                
+                <button id="drawButton" class="draw-button" onclick="drawRunes()">
+                    🪨 抽取符文
+                </button>
+                
+                <div id="resultArea" class="result-area">
+                    <!-- 结果将在这里显示 -->
+                </div>
+                
+                <div class="history-area">
+                    <div class="history-title">占卜历史</div>
+                    <div id="historyList">
+                        <!-- 历史记录将在这里显示 -->
+                    </div>
+                </div>
+                
+                <button class="back-button" onclick="backToSelection()">重新选择占卜方式</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const runeSymbols = [
+            'ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ', 'ᚺ', 'ᚾ', 
+            'ᛁ', 'ᛃ', 'ᛇ', 'ᛈ', 'ᛉ', 'ᛊ', 'ᛏ', 'ᛒ', 'ᛖ', 'ᛗ', 
+            'ᛚ', 'ᛝ', 'ᛟ', 'ᛞ'
+        ];
+
+        const runeData = {
+            single: {
+                name: '单符文占卜',
+                count: 1,
+                positions: ['当前指导'],
+                interpretations: {
+                    'ᚠ': { name: 'Fehu (财富)', meaning: '财富和物质资源的流动', advice: '关注财务管理，寻找新的收入来源' },
+                    'ᚢ': { name: 'Uruz (力量)', meaning: '原始力量和生命能量', advice: '发挥内在潜力，勇敢面对挑战' },
+                    'ᚦ': { name: 'Thurisaz (荆棘)', meaning: '防护和净化的力量', advice: '保护自己免受负面影响，清理障碍' },
+                    'ᚨ': { name: 'Ansuz (神意)', meaning: '智慧和沟通的通道', advice: '倾听内在声音，重视沟通交流' },
+                    'ᚱ': { name: 'Raidho (旅程)', meaning: '生命的旅程和变化', advice: '准备迎接新的人生阶段' },
+                    'ᚲ': { name: 'Kenaz (火炬)', meaning: '知识和启发', advice: '学习新技能，寻求知识和启发' },
+                    'ᚷ': { name: 'Gebo (礼物)', meaning: '给予和接受的平衡', advice: '注重付出与回报的平衡' },
+                    'ᚹ': { name: 'Wunjo (喜悦)', meaning: '快乐和满足', advice: '享受生活中的美好时光' }
+                }
+            },
+            three: {
+                name: '三符文展开',
+                count: 3,
+                positions: ['过去', '现在', '未来'],
+                interpretations: {
+                    'ᚠ': { name: 'Fehu (财富)', meaning: '财富和物质资源', advice: '关注经济状况的变化' },
+                    'ᚢ': { name: 'Uruz (力量)', meaning: '生命力和潜能', advice: '发挥个人力量和能力' },
+                    'ᚦ': { name: 'Thurisaz (荆棘)', meaning: '保护和挑战', advice: '面对困难时要有防护意识' },
+                    'ᚨ': { name: 'Ansuz (神意)', meaning: '智慧和沟通', advice: '重视精神层面的指导' },
+                    'ᚱ': { name: 'Raidho (旅程)', meaning: '进步和移动', advice: '做好迎接变化的准备' },
+                    'ᚲ': { name: 'Kenaz (火炬)', meaning: '创造和灵感', advice: '用知识照亮前进的道路' },
+                    'ᚷ': { name: 'Gebo (礼物)', meaning: '交换和关系', advice: '重视人际关系的平衡' },
+                    'ᚹ': { name: 'Wunjo (喜悦)', meaning: '成功和幸福', advice: '保持乐观积极的态度' }
+                }
+            },
+            cross: {
+                name: '十字符文阵',
+                count: 5,
+                positions: ['核心问题', '过去影响', '可能结果', '近期行动', '外在影响'],
+                interpretations: {
+                    'ᚠ': { name: 'Fehu (财富)', meaning: '物质和资源', advice: '注重实际的物质基础' },
+                    'ᚢ': { name: 'Uruz (力量)', meaning: '内在力量', advice: '信任自己的能力' },
+                    'ᚦ': { name: 'Thurisaz (荆棘)', meaning: '保护力量', advice: '建立适当的防护机制' },
+                    'ᚨ': { name: 'Ansuz (神意)', meaning: '精神指导', advice: '寻求更高的智慧' },
+                    'ᚱ': { name: 'Raidho (旅程)', meaning: '人生道路', advice: '为旅程做好准备' },
+                    'ᚲ': { name: 'Kenaz (火炬)', meaning: '启发之光', advice: '学习和成长的机会' },
+                    'ᚷ': { name: 'Gebo (礼物)', meaning: '平衡交换', advice: '给予和接受要保持平衡' },
+                    'ᚹ': { name: 'Wunjo (喜悦)', meaning: '内心满足', advice: '寻找真正的快乐源泉' }
+                }
+            },
+            relationship: {
+                name: '关系符文',
+                count: 4,
+                positions: ['你的状态', '对方状态', '关系动态', '发展方向'],
+                interpretations: {
+                    'ᚠ': { name: 'Fehu (财富)', meaning: '关系中的价值', advice: '珍视彼此的贡献' },
+                    'ᚢ': { name: 'Uruz (力量)', meaning: '关系中的能量', advice: '保持个人独立性' },
+                    'ᚦ': { name: 'Thurisaz (荆棘)', meaning: '关系中的保护', advice: '建立健康的边界' },
+                    'ᚨ': { name: 'Ansuz (神意)', meaning: '沟通和理解', advice: '加强彼此的沟通' },
+                    'ᚱ': { name: 'Raidho (旅程)', meaning: '关系的发展', advice: '共同规划未来' },
+                    'ᚲ': { name: 'Kenaz (火炬)', meaning: '关系的启发', advice: '从关系中学习成长' },
+                    'ᚷ': { name: 'Gebo (礼物)', meaning: '相互给予', advice: '保持付出与接受的平衡' },
+                    'ᚹ': { name: 'Wunjo (喜悦)', meaning: '关系的快乐', advice: '享受彼此的陪伴' }
+                }
+            }
+        };
+
+        let currentRuneType = '';
+        let drawnRunes = [];
+        let divinationHistory = [];
+
+        function createFloatingRunes() {
+            const runeGlow = document.getElementById('runeGlow');
+            for (let i = 0; i < 15; i++) {
+                const runeElement = document.createElement('div');
+                runeElement.className = 'floating-rune';
+                runeElement.textContent = runeSymbols[Math.floor(Math.random() * runeSymbols.length)];
+                runeElement.style.left = Math.random() * 100 + '%';
+                runeElement.style.top = Math.random() * 100 + '%';
+                runeElement.style.animationDelay = Math.random() * 8 + 's';
+                runeElement.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                runeGlow.appendChild(runeElement);
+            }
+        }
+
+        function selectRuneType(type) {
+            currentRuneType = type;
+            const data = runeData[type];
+            
+            document.getElementById('runeTypeName').textContent = data.name;
+            document.getElementById('runeSelection').style.display = 'none';
+            document.getElementById('divinationArea').classList.add('show');
+            
+            setupRuneSpread(data.count);
+        }
+
+        function setupRuneSpread(count) {
+            const runeSpread = document.getElementById('runeSpread');
+            runeSpread.innerHTML = '';
+            
+            for (let i = 0; i < count; i++) {
+                const runeStone = document.createElement('div');
+                runeStone.className = 'rune-stone face-down';
+                runeStone.setAttribute('data-position', i);
+                runeSpread.appendChild(runeStone);
+            }
+        }
+
+        function drawRunes() {
+            const question = document.getElementById('questionInput').value.trim();
+            if (!question) {
+                alert('请先输入您的问题！');
+                return;
+            }
+
+            const drawButton = document.getElementById('drawButton');
+            const runeStones = document.querySelectorAll('.rune-stone');
+            
+            drawButton.disabled = true;
+            drawButton.textContent = '抽取中...';
+
+            // 清空之前的结果
+            drawnRunes = [];
+            
+            // 随机选择符文
+            const availableRunes = [...runeSymbols];
+            const data = runeData[currentRuneType];
+            
+            runeStones.forEach((stone, index) => {
+                setTimeout(() => {
+                    const randomIndex = Math.floor(Math.random() * availableRunes.length);
+                    const selectedRune = availableRunes.splice(randomIndex, 1)[0];
+                    
+                    stone.classList.remove('face-down');
+                    stone.classList.add('revealed');
+                    stone.textContent = selectedRune;
+                    
+                    drawnRunes.push({
+                        symbol: selectedRune,
+                        position: data.positions[index],
+                        interpretation: data.interpretations[selectedRune] || {
+                            name: '未知符文',
+                            meaning: '这是一个神秘的符文，蕴含着特殊的能量',
+                            advice: '相信你的直觉，它会指引你正确的方向'
+                        }
+                    });
+                    
+                    if (index === runeStones.length - 1) {
+                        setTimeout(() => {
+                            showResult();
+                            drawButton.disabled = false;
+                            drawButton.textContent = '🪨 重新抽取';
+                        }, 500);
+                    }
+                }, index * 800);
+            });
+        }
+
+        function showResult() {
+            const data = runeData[currentRuneType];
+            const resultArea = document.getElementById('resultArea');
+            
+            let resultHTML = `
+                <div class="result-title">符文预示 - ${data.name}</div>
+                <div class="result-grid">
+            `;
+            
+            drawnRunes.forEach((rune, index) => {
+                resultHTML += `
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>${rune.symbol}</span>
+                            <span>${rune.position}</span>
+                        </div>
+                        <div class="section-content">
+                            <strong>${rune.interpretation.name}</strong><br>
+                            ${rune.interpretation.meaning}<br><br>
+                            <em>指导建议：${rune.interpretation.advice}</em>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            resultHTML += '</div>';
+            resultArea.innerHTML = resultHTML;
+            resultArea.classList.add('show');
+            
+            // 添加到历史记录
+            addToHistory();
+        }
+
+        function addToHistory() {
+            const question = document.getElementById('questionInput').value.trim();
+            const timestamp = new Date().toLocaleTimeString();
+            
+            const runeString = drawnRunes.map(r => r.symbol).join('');
+            
+            divinationHistory.unshift({
+                time: timestamp,
+                question: question.substring(0, 20) + (question.length > 20 ? '...' : ''),
+                type: runeData[currentRuneType].name,
+                result: runeString
+            });
+
+            // 限制历史记录数量
+            if (divinationHistory.length > 10) {
+                divinationHistory = divinationHistory.slice(0, 10);
+            }
+
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = divinationHistory.map(item => 
+                `<div class="history-item">
+                    ${item.time} - ${item.question} (${item.result})
+                </div>`
+            ).join('');
+        }
+
+        function backToSelection() {
+            document.getElementById('divinationArea').classList.remove('show');
+            document.getElementById('runeSelection').style.display = 'grid';
+            document.getElementById('questionInput').value = '';
+            document.getElementById('resultArea').classList.remove('show');
+            document.getElementById('drawButton').textContent = '🪨 抽取符文';
+            
+            drawnRunes = [];
+            currentRuneType = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', createFloatingRunes);
+    </script>
+
+    <!-- 引入通用页脚 -->
+    <style>
+        .mystic-footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.95));
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .mystic-footer .disclaimer-main {
+            font-size: 15px;
+            color: #ffaa00;
+            font-weight: bold;
+            margin-bottom: 12px;
+            animation: footerGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes footerGlow {
+            from { text-shadow: 0 0 5px #ffaa00, 0 0 10px #ffaa00; }
+            to { text-shadow: 0 0 8px #ffaa00, 0 0 15px #ffaa00, 0 0 20px #ffaa00; }
+        }
+
+        .mystic-footer .disclaimer {
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mystic-footer .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .mystic-footer .footer-links a {
+            color: #888;
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .mystic-footer .footer-links a:hover {
+            color: #00ffff;
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .mystic-footer .copyright {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .mystic-footer .wisdom-quote {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .mystic-footer .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .mystic-footer .disclaimer-main {
+                font-size: 13px;
+            }
+            
+            .mystic-footer .disclaimer {
+                font-size: 12px;
+            }
+        }
+    </style>
+
+    <footer class="mystic-footer">
+        <div class="disclaimer-main">
+            ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
+        </div>
+        <div class="disclaimer">
+            🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
+            🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
+        </div>
+        <div class="footer-links">
+            <a href="../../index_mystic.html">返回首页</a>
+            <a href="#" onclick="return false;">服务条款</a>
+            <a href="#" onclick="return false;">隐私政策</a>
+            <a href="#" onclick="return false;">免责声明</a>
+            <a href="#" onclick="return false;">联系我们</a>
+        </div>
+        <div class="wisdom-quote">
+            "知命不惧，知而无畏" - 探索未知，拥抱可能
+        </div>
+        <div class="copyright">
+            © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
+        </div>
+    </footer>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+    <!-- 占卜侧边栏脚本 -->
+    <script src="../../components/divination-sidebar.js"></script>
+</body>
+</html> 

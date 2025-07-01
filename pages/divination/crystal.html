@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 基础SEO标签 -->
+    <meta name="description" content="专业的水晶球占卜服务，透视未来，预知命运的神秘之窗">
+    <meta name="keywords" content="水晶球占卜,crystal ball,未来预测,神秘学">
+    <meta name="author" content="神秘学预测中心">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mystic-prediction.com/pages/divination/crystal.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="在线占卜 - 水晶球占卜 | 神秘学预测中心">
+    <meta property="og:description" content="专业的水晶球占卜服务，透视未来，预知命运的神秘之窗">
+    <meta property="og:url" content="https://mystic-prediction.com/pages/divination/crystal.html">
+    <meta property="og:type" content="website">
+    <title>在线占卜 - 水晶球占卜 | 神秘学预测中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c2e 0%, #1a237e 30%, #003366 70%, #001122 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 神秘粒子动画 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, #00bcd4, transparent);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.8; }
+        }
+
+        /* 主要内容区域 */
+        .main-container {
+            margin-left: 280px;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            padding: 40px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #00bcd4, #4fc3f7, #81d4fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: crystalGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes crystalGlow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 188, 212, 0.5)); }
+            to { filter: drop-shadow(0 0 40px rgba(129, 212, 250, 0.8)); }
+        }
+
+        .crystal-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .crystal-card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00bcd4;
+            border-radius: 25px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .crystal-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 188, 212, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .crystal-card:hover::before {
+            opacity: 1;
+        }
+
+        .crystal-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: #4fc3f7;
+            box-shadow: 0 25px 50px rgba(0, 188, 212, 0.4);
+        }
+
+        .crystal-icon {
+            font-size: 56px;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.7));
+        }
+
+        .crystal-title {
+            color: #00bcd4;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .crystal-description {
+            color: #ccc;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .crystal-features {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: rgba(0, 188, 212, 0.2);
+            color: #00bcd4;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid rgba(0, 188, 212, 0.4);
+        }
+
+        .start-button {
+            background: linear-gradient(45deg, #00bcd4, #4fc3f7);
+            border: none;
+            border-radius: 30px;
+            padding: 15px 35px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 188, 212, 0.5);
+        }
+
+        .divination-area {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00bcd4;
+            border-radius: 25px;
+            padding: 50px;
+            backdrop-filter: blur(15px);
+            display: none;
+            text-align: center;
+        }
+
+        .divination-area.show {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-input {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px 25px;
+            border: 2px solid #00bcd4;
+            border-radius: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .question-input::placeholder {
+            color: #bbb;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: #4fc3f7;
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.4);
+        }
+
+        .crystal-ball-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px 0;
+            height: 300px;
+            position: relative;
+        }
+
+        .crystal-ball {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(255, 255, 255, 0.8), 
+                rgba(0, 188, 212, 0.4), 
+                rgba(0, 51, 102, 0.8));
+            border-radius: 50%;
+            position: relative;
+            animation: crystalRotate 4s linear infinite;
+            box-shadow: 
+                0 0 50px rgba(0, 188, 212, 0.6),
+                inset 0 0 50px rgba(255, 255, 255, 0.2);
+        }
+
+        .crystal-ball::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 25%;
+            width: 30%;
+            height: 30%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+            border-radius: 50%;
+            animation: shimmer 2s ease-in-out infinite alternate;
+        }
+
+        .crystal-ball.scrying {
+            animation: crystalScrying 3s ease-in-out infinite;
+        }
+
+        @keyframes crystalRotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        @keyframes shimmer {
+            from { opacity: 0.3; transform: scale(1); }
+            to { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        @keyframes crystalScrying {
+            0%, 100% { 
+                box-shadow: 0 0 50px rgba(0, 188, 212, 0.6);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 100px rgba(129, 212, 250, 1);
+                transform: scale(1.1);
+            }
+        }
+
+        .crystal-vision {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .crystal-vision.show {
+            opacity: 1;
+            animation: visionPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes visionPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .scry-button {
+            background: linear-gradient(45deg, #00bcd4, #4fc3f7);
+            border: none;
+            border-radius: 30px;
+            padding: 18px 45px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 20px;
+            margin: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scry-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .scry-button:hover::before {
+            left: 100%;
+        }
+
+        .scry-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 15px 40px rgba(0, 188, 212, 0.5);
+        }
+
+        .scry-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-area {
+            background: rgba(0, 188, 212, 0.1);
+            border: 2px solid #00bcd4;
+            border-radius: 25px;
+            padding: 40px;
+            margin-top: 40px;
+            display: none;
+        }
+
+        .result-area.show {
+            display: block;
+            animation: slideIn 0.6s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00bcd4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .result-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .section-title {
+            color: #00bcd4;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-content {
+            color: #ccc;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .back-button {
+            background: linear-gradient(45deg, #666, #888);
+            border: none;
+            border-radius: 30px;
+            padding: 15px 35px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 25px auto;
+            display: block;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(102, 102, 102, 0.4);
+        }
+
+        /* 占卜历史 */
+        .history-area {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00bcd4;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 25px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .history-title {
+            color: #00bcd4;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .history-item {
+            color: #ccc;
+            font-size: 14px;
+            margin: 8px 0;
+            padding: 8px 15px;
+            background: rgba(0, 188, 212, 0.1);
+            border-radius: 12px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-container {
+                margin-left: 0;
+                margin-top: 0;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .crystal-types {
+                grid-template-columns: 1fr;
+            }
+            
+            .crystal-ball-container {
+                height: 250px;
+            }
+            
+            .crystal-ball {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    <!-- 占卜侧边栏样式 -->
+    <link rel="stylesheet" href="../../components/divination-sidebar.css">
+</head>
+<body>
+    <!-- 神秘粒子背景 -->
+    <div class="particles" id="particles"></div>
+
+    <div class="main-container">
+        <!-- 左侧功能菜单 -->
+        <aside class="sidebar">
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="content-area">
+            <h1 class="page-title">🔮 水晶球占卜</h1>
+            
+            <div id="crystalSelection" class="crystal-types">
+                <div class="crystal-card" onclick="selectCrystalType('future')">
+                    <span class="crystal-icon">🔮</span>
+                    <h3 class="crystal-title">未来透视</h3>
+                    <p class="crystal-description">透过水晶球窥见未来的可能性，预知即将发生的事件</p>
+                    <div class="crystal-features">
+                        <span class="feature-tag">未来</span>
+                        <span class="feature-tag">预知</span>
+                        <span class="feature-tag">透视</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+                
+                <div class="crystal-card" onclick="selectCrystalType('love')">
+                    <span class="crystal-icon">💎</span>
+                    <h3 class="crystal-title">感情水晶</h3>
+                    <p class="crystal-description">专注于爱情和人际关系的水晶球占卜，解读情感密码</p>
+                    <div class="crystal-features">
+                        <span class="feature-tag">爱情</span>
+                        <span class="feature-tag">关系</span>
+                        <span class="feature-tag">情感</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+                
+                <div class="crystal-card" onclick="selectCrystalType('career')">
+                    <span class="crystal-icon">💰</span>
+                    <h3 class="crystal-title">事业财运</h3>
+                    <p class="crystal-description">洞察事业发展和财富运势，指引成功之路</p>
+                    <div class="crystal-features">
+                        <span class="feature-tag">事业</span>
+                        <span class="feature-tag">财运</span>
+                        <span class="feature-tag">成功</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+                
+                <div class="crystal-card" onclick="selectCrystalType('spiritual')">
+                    <span class="crystal-icon">🌟</span>
+                    <h3 class="crystal-title">灵性指引</h3>
+                    <p class="crystal-description">探索内在智慧和灵性成长，寻找人生真谛</p>
+                    <div class="crystal-features">
+                        <span class="feature-tag">灵性</span>
+                        <span class="feature-tag">智慧</span>
+                        <span class="feature-tag">成长</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+            </div>
+            
+            <div id="divinationArea" class="divination-area">
+                <h2 id="crystalTypeName" style="color: #00bcd4; margin-bottom: 40px;">水晶球占卜</h2>
+                <input type="text" id="questionInput" class="question-input" placeholder="请输入您想要询问的问题...">
+                
+                <div class="crystal-ball-container" id="crystalContainer">
+                    <div class="crystal-ball" id="crystalBall">
+                        <div class="crystal-vision" id="crystalVision">
+                            <!-- 水晶球中的幻象将在这里显示 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="scryButton" class="scry-button" onclick="scryCrystal()">
+                    🔮 凝视水晶球
+                </button>
+                
+                <div id="resultArea" class="result-area">
+                    <!-- 结果将在这里显示 -->
+                </div>
+                
+                <div class="history-area">
+                    <div class="history-title">占卜历史</div>
+                    <div id="historyList">
+                        <!-- 历史记录将在这里显示 -->
+                    </div>
+                </div>
+                
+                <button class="back-button" onclick="backToSelection()">重新选择占卜方式</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const crystalData = {
+            future: {
+                name: '未来透视',
+                visions: ['🌅', '⚡', '🌙', '☀️', '🌈', '⭐', '🔥', '💫'],
+                results: ['光明前景', '转折将至', '稳定发展', '挑战与机遇', '意外惊喜', '需要等待'],
+                interpretations: {
+                    '光明前景': {
+                        title: '光明的未来',
+                        meaning: '水晶球中显现出光明的景象，预示着美好的未来即将到来。',
+                        advice: '保持积极的心态，勇敢地朝着目标前进。',
+                        timeframe: '近期内（1-3个月）'
+                    },
+                    '转折将至': {
+                        title: '重要转折点',
+                        meaning: '生活即将迎来重要的转折点，新的机会正在酝酿。',
+                        advice: '做好迎接变化的准备，把握即将到来的机遇。',
+                        timeframe: '短期内（1-6周）'
+                    },
+                    '稳定发展': {
+                        title: '稳步前进',
+                        meaning: '未来将是稳定发展的时期，按部就班地前进最为明智。',
+                        advice: '保持现有的节奏，踏实地向前走。',
+                        timeframe: '中长期（3-6个月）'
+                    },
+                    '挑战与机遇': {
+                        title: '挑战中的机遇',
+                        meaning: '未来会面临一些挑战，但挑战中蕴含着巨大的机遇。',
+                        advice: '勇敢面对困难，在挑战中寻找成长的机会。',
+                        timeframe: '近期内（2-8周）'
+                    },
+                    '意外惊喜': {
+                        title: '意想不到的惊喜',
+                        meaning: '生活中将出现令人惊喜的变化，带来预期之外的好运。',
+                        advice: '保持开放的心态，迎接生活的惊喜。',
+                        timeframe: '随时可能（1-12周）'
+                    },
+                    '需要等待': {
+                        title: '耐心等待时机',
+                        meaning: '现在还不是行动的最佳时机，需要耐心等待。',
+                        advice: '暂时保持现状，等待更好的时机到来。',
+                        timeframe: '延后（3-6个月）'
+                    }
+                }
+            },
+            love: {
+                name: '感情水晶',
+                visions: ['💕', '💖', '💝', '💘', '💗', '❤️', '💙', '💜'],
+                results: ['真爱降临', '感情升温', '需要沟通', '保持距离', '新的开始', '深化理解'],
+                interpretations: {
+                    '真爱降临': {
+                        title: '真爱即将出现',
+                        meaning: '水晶球显示真挚的爱情即将进入你的生活。',
+                        advice: '敞开心扉，准备迎接真爱的到来。',
+                        energy: '充满爱的能量，桃花运旺盛'
+                    },
+                    '感情升温': {
+                        title: '关系将更进一步',
+                        meaning: '现有的感情关系将会升温，向更深层次发展。',
+                        advice: '珍惜当前的关系，投入更多的关爱。',
+                        energy: '甜蜜温暖，情感和谐'
+                    },
+                    '需要沟通': {
+                        title: '沟通是关键',
+                        meaning: '感情中存在一些误解，需要开诚布公的沟通。',
+                        advice: '主动表达想法，倾听对方的心声。',
+                        energy: '需要理解和包容'
+                    },
+                    '保持距离': {
+                        title: '给彼此一些空间',
+                        meaning: '目前的关系需要一些缓冲空间来思考。',
+                        advice: '暂时保持适当距离，让感情有喘息的空间。',
+                        energy: '冷静思考，理性对待'
+                    },
+                    '新的开始': {
+                        title: '感情新篇章',
+                        meaning: '旧的感情模式即将结束，新的感情生活开始。',
+                        advice: '放下过去，迎接全新的感情体验。',
+                        energy: '新鲜活力，充满希望'
+                    },
+                    '深化理解': {
+                        title: '更深层的理解',
+                        meaning: '你们之间的关系将达到更深层次的理解和默契。',
+                        advice: '用心体验这种深度连接，珍惜彼此。',
+                        energy: '心灵相通，深度连接'
+                    }
+                }
+            },
+            career: {
+                name: '事业财运',
+                visions: ['💰', '📈', '👑', '🏆', '💎', '🔑', '⚖️', '🎯'],
+                results: ['财运亨通', '升职加薪', '投资机会', '合作伙伴', '技能提升', '创业时机'],
+                interpretations: {
+                    '财运亨通': {
+                        title: '财富运势上升',
+                        meaning: '水晶球显示你的财运正在上升，经济状况将会改善。',
+                        advice: '把握赚钱机会，理性投资理财。',
+                        timing: '近1-3个月内见效'
+                    },
+                    '升职加薪': {
+                        title: '职业发展顺利',
+                        meaning: '在工作中的努力将得到认可，升职加薪的机会即将到来。',
+                        advice: '继续努力工作，展现自己的能力和价值。',
+                        timing: '3-6个月内有所突破'
+                    },
+                    '投资机会': {
+                        title: '投资良机出现',
+                        meaning: '一个不错的投资机会正在向你招手。',
+                        advice: '仔细研究投资项目，谨慎决策。',
+                        timing: '近期内注意相关信息'
+                    },
+                    '合作伙伴': {
+                        title: '重要合作机会',
+                        meaning: '将遇到重要的合作伙伴，为事业发展带来新动力。',
+                        advice: '主动寻找合作机会，建立良好的人际关系。',
+                        timing: '2-4个月内可能出现'
+                    },
+                    '技能提升': {
+                        title: '能力提升期',
+                        meaning: '这是提升个人技能和专业能力的好时机。',
+                        advice: '投资自己的教育和培训，提升竞争力。',
+                        timing: '持续性发展机会'
+                    },
+                    '创业时机': {
+                        title: '创业机会来临',
+                        meaning: '如果你有创业想法，现在可能是不错的时机。',
+                        advice: '做好充分的准备和规划，谨慎开始。',
+                        timing: '6-12个月内考虑'
+                    }
+                }
+            },
+            spiritual: {
+                name: '灵性指引',
+                visions: ['🕉️', '☯️', '🌟', '🔯', '🎭', '🦋', '🌸', '🧘'],
+                results: ['内在觉醒', '精神成长', '直觉增强', '业力清理', '能量提升', '灵性连接'],
+                interpretations: {
+                    '内在觉醒': {
+                        title: '内在意识的觉醒',
+                        meaning: '你的内在意识正在觉醒，对生活有了更深的理解。',
+                        advice: '多花时间冥想和反思，倾听内心的声音。',
+                        practice: '建议每日冥想15-30分钟'
+                    },
+                    '精神成长': {
+                        title: '灵性层面的成长',
+                        meaning: '你正处在重要的精神成长阶段，智慧在不断增长。',
+                        advice: '多读灵性书籍，参与相关的学习和实践。',
+                        practice: '寻找灵性导师或加入学习小组'
+                    },
+                    '直觉增强': {
+                        title: '直觉力的提升',
+                        meaning: '你的直觉能力正在增强，要学会信任内在的指引。',
+                        advice: '多相信第一直觉，培养敏锐的洞察力。',
+                        practice: '练习静心观察，记录直觉体验'
+                    },
+                    '业力清理': {
+                        title: '业力模式的清理',
+                        meaning: '过去的业力模式正在被清理，为新的成长腾出空间。',
+                        advice: '接受过去的经历，原谅自己和他人。',
+                        practice: '进行宽恕冥想，释放负面情绪'
+                    },
+                    '能量提升': {
+                        title: '能量频率的提升',
+                        meaning: '你的能量频率正在提升，与更高的意识连接。',
+                        advice: '保持积极正面的思想，多接触自然。',
+                        practice: '户外冥想，能量疗愈练习'
+                    },
+                    '灵性连接': {
+                        title: '与宇宙的连接',
+                        meaning: '你与宇宙的连接正在加深，感受到更大的支持力量。',
+                        advice: '保持感恩的心态，相信宇宙的安排。',
+                        practice: '感恩练习，与自然和谐相处'
+                    }
+                }
+            }
+        };
+
+        let currentCrystalType = '';
+        let crystalResult = '';
+        let divinationHistory = [];
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 6 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        function selectCrystalType(type) {
+            currentCrystalType = type;
+            const data = crystalData[type];
+            
+            document.getElementById('crystalTypeName').textContent = data.name;
+            document.getElementById('crystalSelection').style.display = 'none';
+            document.getElementById('divinationArea').classList.add('show');
+        }
+
+        function scryCrystal() {
+            const question = document.getElementById('questionInput').value.trim();
+            if (!question) {
+                alert('请先输入您的问题！');
+                return;
+            }
+
+            const crystalBall = document.getElementById('crystalBall');
+            const crystalVision = document.getElementById('crystalVision');
+            const scryButton = document.getElementById('scryButton');
+            
+            scryButton.disabled = true;
+            scryButton.textContent = '水晶球凝视中...';
+
+            // 启动水晶球占卜动画
+            crystalBall.classList.add('scrying');
+            
+            setTimeout(() => {
+                const data = crystalData[currentCrystalType];
+                const results = data.results;
+                const visions = data.visions;
+                
+                crystalResult = results[Math.floor(Math.random() * results.length)];
+                const vision = visions[Math.floor(Math.random() * visions.length)];
+                
+                // 显示水晶球中的幻象
+                crystalVision.textContent = vision;
+                crystalVision.classList.add('show');
+                
+                setTimeout(() => {
+                    crystalBall.classList.remove('scrying');
+                    showResult();
+                    scryButton.disabled = false;
+                    scryButton.textContent = '🔮 重新凝视';
+                }, 1500);
+            }, 3000);
+        }
+
+        function showResult() {
+            const data = crystalData[currentCrystalType];
+            const interpretation = data.interpretations[crystalResult];
+
+            const resultArea = document.getElementById('resultArea');
+            
+            let additionalInfo = '';
+            if (interpretation.timeframe) {
+                additionalInfo += `
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>⏰</span>
+                            <span>时间预期</span>
+                        </div>
+                        <div class="section-content">${interpretation.timeframe}</div>
+                    </div>
+                `;
+            }
+            if (interpretation.energy) {
+                additionalInfo += `
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>⚡</span>
+                            <span>能量状态</span>
+                        </div>
+                        <div class="section-content">${interpretation.energy}</div>
+                    </div>
+                `;
+            }
+            if (interpretation.timing) {
+                additionalInfo += `
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>📅</span>
+                            <span>时机把握</span>
+                        </div>
+                        <div class="section-content">${interpretation.timing}</div>
+                    </div>
+                `;
+            }
+            if (interpretation.practice) {
+                additionalInfo += `
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>🧘</span>
+                            <span>修行建议</span>
+                        </div>
+                        <div class="section-content">${interpretation.practice}</div>
+                    </div>
+                `;
+            }
+            
+            resultArea.innerHTML = `
+                <div class="result-title">${interpretation.title}</div>
+                <div class="result-grid">
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>🔮</span>
+                            <span>水晶显现</span>
+                        </div>
+                        <div class="section-content">结果: ${crystalResult}</div>
+                    </div>
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>✨</span>
+                            <span>占卜解读</span>
+                        </div>
+                        <div class="section-content">${interpretation.meaning}</div>
+                    </div>
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>💡</span>
+                            <span>指导建议</span>
+                        </div>
+                        <div class="section-content">${interpretation.advice}</div>
+                    </div>
+                    ${additionalInfo}
+                </div>
+            `;
+            
+            resultArea.classList.add('show');
+            
+            // 添加到历史记录
+            addToHistory();
+        }
+
+        function addToHistory() {
+            const question = document.getElementById('questionInput').value.trim();
+            const timestamp = new Date().toLocaleTimeString();
+            
+            divinationHistory.unshift({
+                time: timestamp,
+                question: question.substring(0, 25) + (question.length > 25 ? '...' : ''),
+                type: crystalData[currentCrystalType].name,
+                result: crystalResult
+            });
+
+            // 限制历史记录数量
+            if (divinationHistory.length > 8) {
+                divinationHistory = divinationHistory.slice(0, 8);
+            }
+
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = divinationHistory.map(item => 
+                `<div class="history-item">
+                    ${item.time} - ${item.question} (${item.result})
+                </div>`
+            ).join('');
+        }
+
+        function backToSelection() {
+            document.getElementById('divinationArea').classList.remove('show');
+            document.getElementById('crystalSelection').style.display = 'grid';
+            document.getElementById('questionInput').value = '';
+            document.getElementById('resultArea').classList.remove('show');
+            document.getElementById('scryButton').textContent = '🔮 凝视水晶球';
+            
+            // 重置水晶球状态
+            const crystalBall = document.getElementById('crystalBall');
+            const crystalVision = document.getElementById('crystalVision');
+            crystalBall.classList.remove('scrying');
+            crystalVision.classList.remove('show');
+            
+            crystalResult = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', createParticles);
+    </script>
+
+    <!-- 引入通用页脚 -->
+    <style>
+        .mystic-footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.95));
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .mystic-footer .disclaimer-main {
+            font-size: 15px;
+            color: #ffaa00;
+            font-weight: bold;
+            margin-bottom: 12px;
+            animation: footerGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes footerGlow {
+            from { text-shadow: 0 0 5px #ffaa00, 0 0 10px #ffaa00; }
+            to { text-shadow: 0 0 8px #ffaa00, 0 0 15px #ffaa00, 0 0 20px #ffaa00; }
+        }
+
+        .mystic-footer .disclaimer {
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mystic-footer .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .mystic-footer .footer-links a {
+            color: #888;
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .mystic-footer .footer-links a:hover {
+            color: #00ffff;
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .mystic-footer .copyright {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .mystic-footer .wisdom-quote {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .mystic-footer .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .mystic-footer .disclaimer-main {
+                font-size: 13px;
+            }
+            
+            .mystic-footer .disclaimer {
+                font-size: 12px;
+            }
+        }
+    </style>
+
+    <footer class="mystic-footer">
+        <div class="disclaimer-main">
+            ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
+        </div>
+        <div class="disclaimer">
+            🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
+            🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
+        </div>
+        <div class="footer-links">
+            <a href="../../index_mystic.html">返回首页</a>
+            <a href="#" onclick="return false;">服务条款</a>
+            <a href="#" onclick="return false;">隐私政策</a>
+            <a href="#" onclick="return false;">免责声明</a>
+            <a href="#" onclick="return false;">联系我们</a>
+        </div>
+        <div class="wisdom-quote">
+            "知命不惧，知而无畏" - 探索未知，拥抱可能
+        </div>
+        <div class="copyright">
+            © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
+        </div>
+    </footer>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+    <!-- 占卜侧边栏脚本 -->
+    <script src="../../components/divination-sidebar.js"></script>
+</body>
+</html> 

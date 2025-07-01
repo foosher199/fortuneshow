@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 基础SEO标签 -->
+    <meta name="description" content="专业的灵摆占卜服务，为您提供准确的预测和分析指导">
+    <meta name="keywords" content="灵摆占卜,pendulum,预测分析,神秘学">
+    <meta name="author" content="神秘学预测中心">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://mystic-prediction.com/pages/divination/pendulum.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="在线占卜 - 灵摆占卜 | 神秘学预测中心">
+    <meta property="og:description" content="专业的灵摆占卜服务，为您提供准确的预测和分析指导">
+    <meta property="og:url" content="https://mystic-prediction.com/pages/divination/pendulum.html">
+    <meta property="og:type" content="website">
+    <title>在线占卜 - 灵摆占卜 | 神秘学预测中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #2d1b69 50%, #1a1a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 星空背景动画 */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* 主要内容区域 */
+        .main-container {
+            margin-left: 280px;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* 主内容区域 */
+        .content-area {
+            padding: 40px;
+            position: relative;
+        }
+
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #9966cc, #cc6699);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(153, 102, 204, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(204, 102, 153, 0.5)); }
+        }
+
+        .pendulum-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .pendulum-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9966cc;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pendulum-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(153, 102, 204, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .pendulum-card:hover::before {
+            opacity: 1;
+        }
+
+        .pendulum-card:hover {
+            transform: translateY(-10px);
+            border-color: #cc6699;
+            box-shadow: 0 20px 40px rgba(153, 102, 204, 0.3);
+        }
+
+        .pendulum-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .pendulum-title {
+            color: #9966cc;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .pendulum-description {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .pendulum-features {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: rgba(153, 102, 204, 0.2);
+            color: #9966cc;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            border: 1px solid rgba(153, 102, 204, 0.3);
+        }
+
+        .start-button {
+            background: linear-gradient(45deg, #9966cc, #cc6699);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .start-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(153, 102, 204, 0.4);
+        }
+
+        .divination-area {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9966cc;
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            display: none;
+            text-align: center;
+        }
+
+        .divination-area.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            border: 2px solid #9966cc;
+            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .question-input::placeholder {
+            color: #ccc;
+        }
+
+        .question-input:focus {
+            outline: none;
+            border-color: #cc6699;
+            box-shadow: 0 0 20px rgba(153, 102, 204, 0.3);
+        }
+
+        .pendulum-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            height: 200px;
+            position: relative;
+        }
+
+        .pendulum {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #9966cc, #cc6699);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: pendulumSwing 2s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(153, 102, 204, 0.6);
+        }
+
+        .pendulum::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 150px;
+            background: linear-gradient(to bottom, rgba(153, 102, 204, 0.8), rgba(153, 102, 204, 0.3));
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            transform-origin: bottom;
+        }
+
+        @keyframes pendulumSwing {
+            0%, 100% { transform: translateX(-50%) rotate(-15deg); }
+            50% { transform: translateX(-50%) rotate(15deg); }
+        }
+
+        .pendulum.stopped {
+            animation: none;
+        }
+
+        .pendulum.pointing-yes {
+            transform: translateX(-50%) rotate(-30deg);
+        }
+
+        .pendulum.pointing-no {
+            transform: translateX(-50%) rotate(30deg);
+        }
+
+        .pendulum.pointing-maybe {
+            transform: translateX(-50%) rotate(0deg);
+        }
+
+        .swing-button {
+            background: linear-gradient(45deg, #9966cc, #cc6699);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            margin: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .swing-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .swing-button:hover::before {
+            left: 100%;
+        }
+
+        .swing-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(153, 102, 204, 0.4);
+        }
+
+        .swing-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-area {
+            background: rgba(153, 102, 204, 0.1);
+            border: 2px solid #9966cc;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result-area.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .result-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #9966cc;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .result-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .section-title {
+            color: #9966cc;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-content {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .back-button {
+            background: linear-gradient(45deg, #666, #888);
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(102, 102, 102, 0.4);
+        }
+
+        /* 占卜历史 */
+        .history-area {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #9966cc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-title {
+            color: #9966cc;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .history-item {
+            color: #ccc;
+            font-size: 14px;
+            margin: 5px 0;
+            padding: 5px 10px;
+            background: rgba(153, 102, 204, 0.1);
+            border-radius: 8px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-container {
+                margin-left: 0;
+                margin-top: 0;
+            }
+            
+            .content-area {
+                padding: 20px;
+            }
+            
+            .pendulum-types {
+                grid-template-columns: 1fr;
+            }
+            
+            .pendulum-container {
+                height: 150px;
+            }
+        }
+    </style>
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    <!-- 占卜侧边栏样式 -->
+    <link rel="stylesheet" href="../../components/divination-sidebar.css">
+</head>
+<body>
+    <!-- 星空背景 -->
+    <div class="stars" id="stars"></div>
+
+    <div class="main-container">
+        <!-- 左侧功能菜单 -->
+        <aside class="sidebar">
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="content-area">
+            <h1 class="page-title">🔗 灵摆占卜</h1>
+            
+            <div id="pendulumSelection" class="pendulum-types">
+                <div class="pendulum-card" onclick="selectPendulumType('yesno')">
+                    <span class="pendulum-icon">🔗</span>
+                    <h3 class="pendulum-title">是否占卜</h3>
+                    <p class="pendulum-description">简单的是非问题，灵摆会为你指出明确答案</p>
+                    <div class="pendulum-features">
+                        <span class="feature-tag">是非</span>
+                        <span class="feature-tag">简单</span>
+                        <span class="feature-tag">明确</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+                
+                <div class="pendulum-card" onclick="selectPendulumType('direction')">
+                    <span class="pendulum-icon">🧭</span>
+                    <h3 class="pendulum-title">方向指引</h3>
+                    <p class="pendulum-description">在人生十字路口，让灵摆为你指明前进方向</p>
+                    <div class="pendulum-features">
+                        <span class="feature-tag">方向</span>
+                        <span class="feature-tag">指引</span>
+                        <span class="feature-tag">人生</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+                
+                <div class="pendulum-card" onclick="selectPendulumType('energy')">
+                    <span class="pendulum-icon">⚡</span>
+                    <h3 class="pendulum-title">能量感知</h3>
+                    <p class="pendulum-description">感知周围的能量状态，了解环境和人际关系</p>
+                    <div class="pendulum-features">
+                        <span class="feature-tag">能量</span>
+                        <span class="feature-tag">感知</span>
+                        <span class="feature-tag">环境</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+                
+                <div class="pendulum-card" onclick="selectPendulumType('chakra')">
+                    <span class="pendulum-icon">🔮</span>
+                    <h3 class="pendulum-title">脉轮检测</h3>
+                    <p class="pendulum-description">检测身体各个脉轮的能量状态和平衡情况</p>
+                    <div class="pendulum-features">
+                        <span class="feature-tag">脉轮</span>
+                        <span class="feature-tag">能量</span>
+                        <span class="feature-tag">平衡</span>
+                    </div>
+                    <button class="start-button">开始占卜</button>
+                </div>
+            </div>
+            
+            <div id="divinationArea" class="divination-area">
+                <h2 id="pendulumTypeName" style="color: #9966cc; margin-bottom: 30px;">灵摆占卜</h2>
+                <input type="text" id="questionInput" class="question-input" placeholder="请输入您想要询问的问题...">
+                
+                <div class="pendulum-container" id="pendulumContainer">
+                    <div class="pendulum" id="pendulum"></div>
+                </div>
+                
+                <button id="swingButton" class="swing-button" onclick="swingPendulum()">
+                    🔗 开始摆动
+                </button>
+                
+                <div id="resultArea" class="result-area">
+                    <!-- 结果将在这里显示 -->
+                </div>
+                
+                <div class="history-area">
+                    <div class="history-title">占卜历史</div>
+                    <div id="historyList">
+                        <!-- 历史记录将在这里显示 -->
+                    </div>
+                </div>
+                
+                <button class="back-button" onclick="backToSelection()">重新选择占卜方式</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const pendulumData = {
+            yesno: {
+                name: '是否占卜',
+                results: ['是', '否', '也许'],
+                interpretations: {
+                    '是': {
+                        title: '肯定回答 - 是',
+                        meaning: '灵摆给出了明确的肯定答案，事情会朝着积极的方向发展。',
+                        advice: '相信自己的直觉，勇敢地按照计划前进。',
+                        energy: '积极、肯定、前进'
+                    },
+                    '否': {
+                        title: '否定回答 - 否',
+                        meaning: '灵摆给出了否定的答案，可能需要重新考虑或等待时机。',
+                        advice: '停下来重新思考，寻找其他的解决方案。',
+                        energy: '停顿、思考、转向'
+                    },
+                    '也许': {
+                        title: '模糊回答 - 也许',
+                        meaning: '情况还不够明朗，需要更多信息或等待合适的时机。',
+                        advice: '保持开放的心态，继续观察和收集信息。',
+                        energy: '等待、观察、准备'
+                    }
+                }
+            },
+            direction: {
+                name: '方向指引',
+                results: ['向前', '向左', '向右', '停留'],
+                interpretations: {
+                    '向前': {
+                        title: '前进指引',
+                        meaning: '继续当前的方向是正确的，勇敢前进。',
+                        advice: '保持现在的路线，加快步伐前进。'
+                    },
+                    '向左': {
+                        title: '左转指引',
+                        meaning: '需要调整方向，尝试新的方法或路径。',
+                        advice: '开放思维，尝试不同的方式。'
+                    },
+                    '向右': {
+                        title: '右转指引',
+                        meaning: '考虑更保守或传统的方法。',
+                        advice: '回到基础，采用稳妥的策略。'
+                    },
+                    '停留': {
+                        title: '原地等待',
+                        meaning: '现在不是行动的时候，需要耐心等待。',
+                        advice: '保持现状，等待更好的时机。'
+                    }
+                }
+            },
+            energy: {
+                name: '能量感知',
+                results: ['正能量', '负能量', '中性能量', '混合能量'],
+                interpretations: {
+                    '正能量': {
+                        title: '正面能量',
+                        meaning: '周围充满积极正面的能量，是行动的好时机。',
+                        advice: '把握这个充满正能量的时期，积极行动。'
+                    },
+                    '负能量': {
+                        title: '负面能量',
+                        meaning: '周围存在一些负面能量，需要净化和保护。',
+                        advice: '进行能量清理，避免负面影响。'
+                    },
+                    '中性能量': {
+                        title: '平衡能量',
+                        meaning: '能量处于平衡状态，适合冥想和内省。',
+                        advice: '利用这个平静的时期进行自我反思。'
+                    },
+                    '混合能量': {
+                        title: '复杂能量',
+                        meaning: '存在多种能量混合，情况比较复杂。',
+                        advice: '仔细分析不同的影响因素，谨慎行动。'
+                    }
+                }
+            },
+            chakra: {
+                name: '脉轮检测',
+                results: ['根轮活跃', '脐轮活跃', '太阳神经丛活跃', '心轮活跃', '喉轮活跃', '眉心轮活跃', '顶轮活跃'],
+                interpretations: {
+                    '根轮活跃': {
+                        title: '根轮能量强',
+                        meaning: '基础稳固，安全感强，生命力旺盛。',
+                        advice: '利用这个稳定的基础，建立更大的目标。'
+                    },
+                    '脐轮活跃': {
+                        title: '脐轮能量强',
+                        meaning: '创造力和情感能量丰富，性能量平衡。',
+                        advice: '发挥创造才能，享受生活的乐趣。'
+                    },
+                    '太阳神经丛活跃': {
+                        title: '太阳神经丛能量强',
+                        meaning: '自信心和个人力量处于高峰状态。',
+                        advice: '相信自己的能力，勇敢承担责任。'
+                    },
+                    '心轮活跃': {
+                        title: '心轮能量强',
+                        meaning: '爱与慈悲的能量充盈，人际关系和谐。',
+                        advice: '开放心扉，给予和接受更多的爱。'
+                    },
+                    '喉轮活跃': {
+                        title: '喉轮能量强',
+                        meaning: '沟通表达能力强，真实表达自我。',
+                        advice: '勇敢说出内心的想法，诚实沟通。'
+                    },
+                    '眉心轮活跃': {
+                        title: '眉心轮能量强',
+                        meaning: '直觉和洞察力敏锐，智慧觉醒。',
+                        advice: '相信内在智慧，培养直觉能力。'
+                    },
+                    '顶轮活跃': {
+                        title: '顶轮能量强',
+                        meaning: '精神层面觉醒，与宇宙意识连接。',
+                        advice: '继续精神修炼，追求更高的觉知。'
+                    }
+                }
+            }
+        };
+
+        let currentPendulumType = '';
+        let pendulumResult = '';
+        let divinationHistory = [];
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function selectPendulumType(type) {
+            currentPendulumType = type;
+            const data = pendulumData[type];
+            
+            document.getElementById('pendulumTypeName').textContent = data.name;
+            document.getElementById('pendulumSelection').style.display = 'none';
+            document.getElementById('divinationArea').classList.add('show');
+        }
+
+        function swingPendulum() {
+            const question = document.getElementById('questionInput').value.trim();
+            if (!question) {
+                alert('请先输入您的问题！');
+                return;
+            }
+
+            const pendulum = document.getElementById('pendulum');
+            const swingButton = document.getElementById('swingButton');
+            
+            swingButton.disabled = true;
+            swingButton.textContent = '摆动中...';
+
+            // 停止当前动画
+            pendulum.classList.add('stopped');
+            
+            setTimeout(() => {
+                const data = pendulumData[currentPendulumType];
+                const results = data.results;
+                pendulumResult = results[Math.floor(Math.random() * results.length)];
+                
+                // 根据结果设置灵摆指向
+                if (pendulumResult === '是' || pendulumResult === '向前' || pendulumResult === '正能量') {
+                    pendulum.classList.add('pointing-yes');
+                } else if (pendulumResult === '否' || pendulumResult === '停留' || pendulumResult === '负能量') {
+                    pendulum.classList.add('pointing-no');
+                } else {
+                    pendulum.classList.add('pointing-maybe');
+                }
+                
+                setTimeout(() => {
+                    showResult();
+                    swingButton.disabled = false;
+                    swingButton.textContent = '🔗 重新摆动';
+                }, 1000);
+            }, 2000);
+        }
+
+        function showResult() {
+            const data = pendulumData[currentPendulumType];
+            const interpretation = data.interpretations[pendulumResult];
+
+            const resultArea = document.getElementById('resultArea');
+            
+            resultArea.innerHTML = `
+                <div class="result-title">${interpretation.title}</div>
+                <div class="result-grid">
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>🔗</span>
+                            <span>灵摆指向</span>
+                        </div>
+                        <div class="section-content">结果: ${pendulumResult}</div>
+                    </div>
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>🔮</span>
+                            <span>占卜解读</span>
+                        </div>
+                        <div class="section-content">${interpretation.meaning}</div>
+                    </div>
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>💡</span>
+                            <span>建议指导</span>
+                        </div>
+                        <div class="section-content">${interpretation.advice}</div>
+                    </div>
+                    ${interpretation.energy ? `
+                    <div class="result-section">
+                        <div class="section-title">
+                            <span>⚡</span>
+                            <span>能量特征</span>
+                        </div>
+                        <div class="section-content">${interpretation.energy}</div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            resultArea.classList.add('show');
+            
+            // 添加到历史记录
+            addToHistory();
+        }
+
+        function addToHistory() {
+            const question = document.getElementById('questionInput').value.trim();
+            const timestamp = new Date().toLocaleTimeString();
+            
+            divinationHistory.unshift({
+                time: timestamp,
+                question: question.substring(0, 20) + (question.length > 20 ? '...' : ''),
+                type: pendulumData[currentPendulumType].name,
+                result: pendulumResult
+            });
+
+            // 限制历史记录数量
+            if (divinationHistory.length > 10) {
+                divinationHistory = divinationHistory.slice(0, 10);
+            }
+
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('historyList');
+            historyList.innerHTML = divinationHistory.map(item => 
+                `<div class="history-item">
+                    ${item.time} - ${item.question} (${item.result})
+                </div>`
+            ).join('');
+        }
+
+        function backToSelection() {
+            document.getElementById('divinationArea').classList.remove('show');
+            document.getElementById('pendulumSelection').style.display = 'grid';
+            document.getElementById('questionInput').value = '';
+            document.getElementById('resultArea').classList.remove('show');
+            document.getElementById('swingButton').textContent = '🔗 开始摆动';
+            
+            // 重置灵摆状态
+            const pendulum = document.getElementById('pendulum');
+            pendulum.classList.remove('stopped', 'pointing-yes', 'pointing-no', 'pointing-maybe');
+            
+            pendulumResult = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', createStars);
+    </script>
+
+    <!-- 引入通用页脚 -->
+    <style>
+        .mystic-footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.95));
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(0, 255, 255, 0.3);
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .mystic-footer .disclaimer-main {
+            font-size: 15px;
+            color: #ffaa00;
+            font-weight: bold;
+            margin-bottom: 12px;
+            animation: footerGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes footerGlow {
+            from { text-shadow: 0 0 5px #ffaa00, 0 0 10px #ffaa00; }
+            to { text-shadow: 0 0 8px #ffaa00, 0 0 15px #ffaa00, 0 0 20px #ffaa00; }
+        }
+
+        .mystic-footer .disclaimer {
+            font-size: 13px;
+            color: #ccc;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .mystic-footer .footer-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .mystic-footer .footer-links a {
+            color: #888;
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .mystic-footer .footer-links a:hover {
+            color: #00ffff;
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .mystic-footer .copyright {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .mystic-footer .wisdom-quote {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .mystic-footer .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .mystic-footer .disclaimer-main {
+                font-size: 13px;
+            }
+            
+            .mystic-footer .disclaimer {
+                font-size: 12px;
+            }
+        }
+    </style>
+
+    <footer class="mystic-footer">
+        <div class="disclaimer-main">
+            ⚠️ 重要提醒：本站所有预测结果仅供娱乐参考，请勿当真！
+        </div>
+        <div class="disclaimer">
+            🌟 命运掌握在自己手中，占卜结果仅为参考 • 理性对待预测内容，积极面对人生挑战<br>
+            🔮 本平台致力于弘扬传统文化，所有内容均为文化传播和娱乐目的
+        </div>
+        <div class="footer-links">
+            <a href="../../index_mystic.html">返回首页</a>
+            <a href="#" onclick="return false;">服务条款</a>
+            <a href="#" onclick="return false;">隐私政策</a>
+            <a href="#" onclick="return false;">免责声明</a>
+            <a href="#" onclick="return false;">联系我们</a>
+        </div>
+        <div class="wisdom-quote">
+            "知命不惧，知而无畏" - 探索未知，拥抱可能
+        </div>
+        <div class="copyright">
+            © 2024 神秘学预测中心 All Rights Reserved | 仅供娱乐 请勿当真
+        </div>
+    </footer>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+    <!-- 占卜侧边栏脚本 -->
+    <script src="../../components/divination-sidebar.js"></script>
+</body>
+</html> 
