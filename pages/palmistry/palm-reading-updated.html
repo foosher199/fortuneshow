@@ -1,1 +1,330 @@
- 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 手相面相模块公共组件 -->
+    <link rel="stylesheet" href="../../components/palmistry-sidebar.css">
+    <script src="../../components/palmistry-sidebar.js"></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <title>高级手相分析 - 神秘学预测中心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin-left: 280px;
+        }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        
+        .main-container { display: flex; min-height: 100vh; }
+        .content-area { flex: 1; padding: 40px; }
+        
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #00ffff, #40e0d0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(64, 224, 208, 0.5)); }
+        }
+        
+        .analysis-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .upload-area {
+            border: 2px dashed #00ffff;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(0, 255, 255, 0.05);
+            margin-bottom: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #40e0d0;
+        }
+        
+        .upload-icon {
+            font-size: 48px;
+            color: #00ffff;
+            margin-bottom: 15px;
+        }
+        
+        .upload-text {
+            color: #ccc;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .upload-hint {
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .analysis-result {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .palm-image {
+            text-align: center;
+        }
+        
+        .palm-preview {
+            max-width: 100%;
+            border-radius: 15px;
+            border: 2px solid #00ffff;
+            margin-bottom: 20px;
+        }
+        
+        .analysis-details {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .detail-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #00ffff;
+        }
+        
+        .detail-title {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .detail-content {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .analysis-btn {
+            background: linear-gradient(45deg, #00ffff, #40e0d0);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        .analysis-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body { margin-left: 0; }
+            .main-container { flex-direction: column; }
+            .content-area { padding: 20px; }
+            .analysis-result { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+
+        <main class="content-area">
+            <h1 class="page-title">🖐️ 高级手相分析</h1>
+            
+            <div class="analysis-section">
+                <h3 style="color: #00ffff; margin-bottom: 20px; text-align: center;">📸 上传手相图片</h3>
+                
+                <div class="upload-area" onclick="document.getElementById('palmImage').click()">
+                    <div class="upload-icon">📷</div>
+                    <div class="upload-text">点击上传您的手相图片</div>
+                    <div class="upload-hint">支持 JPG、PNG 格式，建议清晰的手掌照片</div>
+                    <input type="file" id="palmImage" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="analysis-btn" onclick="startAnalysis()" id="analyzeBtn" disabled>
+                        🔍 开始AI智能分析
+                    </button>
+                </div>
+            </div>
+            
+            <div id="analysisResult" class="analysis-result">
+                <div class="palm-image">
+                    <img id="palmPreview" class="palm-preview" alt="手相预览">
+                    <div style="color: #00ffff; font-weight: bold; margin-top: 10px;">您的手相图片</div>
+                </div>
+                
+                <div class="analysis-details">
+                    <div class="detail-item">
+                        <div class="detail-title">🧠 智慧线分析</div>
+                        <div class="detail-content" id="wisdomLine">
+                            正在分析您的智慧线特征...
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-title">❤️ 感情线分析</div>
+                        <div class="detail-content" id="emotionLine">
+                            正在分析您的感情线特征...
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-title">🌟 生命线分析</div>
+                        <div class="detail-content" id="lifeLine">
+                            正在分析您的生命线特征...
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-title">💰 财运线分析</div>
+                        <div class="detail-content" id="wealthLine">
+                            正在分析您的财运线特征...
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-title">🎯 综合建议</div>
+                        <div class="detail-content" id="overallAdvice">
+                            正在生成个性化建议...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let uploadedImage = null;
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImage = e.target.result;
+                    document.getElementById('analyzeBtn').disabled = false;
+                    
+                    // 显示预览
+                    const preview = document.getElementById('palmPreview');
+                    preview.src = uploadedImage;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function startAnalysis() {
+            if (!uploadedImage) {
+                alert('请先上传手相图片！');
+                return;
+            }
+
+            // 显示分析结果区域
+            document.getElementById('analysisResult').style.display = 'grid';
+            
+            // 模拟AI分析过程
+            setTimeout(() => analyzeWisdomLine(), 1000);
+            setTimeout(() => analyzeEmotionLine(), 2000);
+            setTimeout(() => analyzeLifeLine(), 3000);
+            setTimeout(() => analyzeWealthLine(), 4000);
+            setTimeout(() => generateOverallAdvice(), 5000);
+        }
+
+        function analyzeWisdomLine() {
+            const analyses = [
+                '您的智慧线清晰深长，表明思维敏捷，逻辑性强。适合从事需要分析判断的工作，学习能力出众。',
+                '智慧线略有波浪形，显示您思维活跃，富有创造力。在艺术或创新领域会有不错的发展。',
+                '智慧线平直有力，说明您做事理性务实，善于规划。在管理或技术领域容易获得成功。'
+            ];
+            document.getElementById('wisdomLine').textContent = analyses[Math.floor(Math.random() * analyses.length)];
+        }
+
+        function analyzeEmotionLine() {
+            const analyses = [
+                '感情线深而清晰，表明您感情丰富，对爱情忠诚专一。容易遇到真心相爱的伴侣。',
+                '感情线有分叉，显示您在感情上会有多次选择机会。需要理性对待感情问题。',
+                '感情线向上弯曲，说明您性格开朗乐观，人际关系良好，容易获得他人好感。'
+            ];
+            document.getElementById('emotionLine').textContent = analyses[Math.floor(Math.random() * analyses.length)];
+        }
+
+        function analyzeLifeLine() {
+            const analyses = [
+                '生命线深长有力，表明您体质健康，生命力旺盛。注意保持良好的生活习惯。',
+                '生命线有岛纹，提醒您要注意某个时期的健康状况，建议定期体检。',
+                '生命线末端有分支，显示您晚年生活会很充实，可能会有多重兴趣爱好。'
+            ];
+            document.getElementById('lifeLine').textContent = analyses[Math.floor(Math.random() * analyses.length)];
+        }
+
+        function analyzeWealthLine() {
+            const analyses = [
+                '财运线清晰明显，表明您有良好的理财能力，财富会稳步增长。',
+                '财运线断续，显示您的财运会有起伏，建议多元化投资，分散风险。',
+                '财运线深直，说明您有赚钱的天赋，适合自主创业或投资理财。'
+            ];
+            document.getElementById('wealthLine').textContent = analyses[Math.floor(Math.random() * analyses.length)];
+        }
+
+        function generateOverallAdvice() {
+            const advices = [
+                '综合您的手相特征，建议您发挥自身的智慧和创造力，在事业上会有很好的发展。同时要注意平衡工作与生活，保持身心健康。',
+                '您的手相显示出很好的综合素质，建议抓住机遇，勇于挑战。在人际关系上要保持真诚，这将为您带来更多机会。',
+                '从手相来看，您是一个很有潜力的人。建议制定明确的目标，持之以恒地努力，成功指日可待。'
+            ];
+            document.getElementById('overallAdvice').textContent = advices[Math.floor(Math.random() * advices.length)];
+        }
+
+        document.addEventListener('DOMContentLoaded', createStars);
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+</body>
+</html> 

@@ -16,6 +16,11 @@
     <meta property="og:url" content="https://mystic-prediction.com/pages/palmistry/face-reading.html">
     <meta property="og:type" content="website">
     <title>手相面相 - face-reading | 神秘学预测中心</title>
+    
+    <!-- 公共组件引用 -->
+    <link rel="stylesheet" href="../../components/palmistry-sidebar.css">
+    <script src="../../components/palmistry-sidebar.js" defer></script>
+    
     <style>
         * {
             margin: 0;
@@ -29,6 +34,7 @@
             color: #e0e0e0;
             min-height: 100vh;
             overflow-x: hidden;
+            margin-left: 280px;
         }
 
         /* 星空背景动画 */
@@ -46,59 +52,6 @@
             display: flex;
             margin-top: 70px;
             min-height: calc(100vh - 70px);
-        }
-
-        /* 左侧功能菜单 */
-        .sidebar {
-            width: 280px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            border-right: 2px solid #00ffff;
-            padding: 20px 0;
-            overflow-y: auto;
-        }
-
-        .sidebar-category {
-            margin-bottom: 20px;
-        }
-
-        .category-title {
-            color: #00ffff;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
-            margin-bottom: 10px;
-        }
-
-        .function-list {
-            list-style: none;
-        }
-
-        .function-item {
-            margin: 2px 0;
-        }
-
-        .function-link {
-            display: block;
-            padding: 12px 20px;
-            color: #ccc;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border-left: 3px solid transparent;
-        }
-
-        .function-link:hover {
-            background: rgba(0, 255, 255, 0.1);
-            color: #00ffff;
-            border-left-color: #00ffff;
-            transform: translateX(5px);
-        }
-
-        .function-link.active {
-            background: rgba(0, 255, 255, 0.2);
-            color: #00ffff;
-            border-left-color: #00ffff;
         }
 
         /* 主内容区域 */
@@ -368,12 +321,8 @@
 
         /* 响应式设计 */
         @media (max-width: 768px) {
-            
-            
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
+            body {
+                margin-left: 0;
             }
             
             .main-container {
@@ -406,33 +355,8 @@
     
 
     <div class="main-container">
-        <!-- 左侧功能菜单 -->
-        <aside class="sidebar">
-            <div class="sidebar-category">
-                <div class="category-title">手相面相</div>
-                <ul class="function-list">
-                    <li class="function-item">
-                        <a href="palm-reading.html" class="function-link">手相分析</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="face-reading.html" class="function-link active">面相分析</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="body-language.html" class="function-link">体相分析</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="mole-reading.html" class="function-link">痣相分析</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="forehead.html" class="function-link">额相分析</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="eyes.html" class="function-link">眼相分析</a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-
+        <aside class="sidebar"></aside>
+        
         <!-- 主内容区域 -->
         <main class="content-area">
             <h1 class="page-title">👤 面相分析</h1>
@@ -1003,4 +927,4 @@
     <script src="../../components/navigation.js"></script>
     <script src="../../components/starfield.js"></script>
 </body>
-</html></html> 
+</html> 

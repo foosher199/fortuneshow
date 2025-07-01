@@ -62,6 +62,11 @@
     }
     </script>
     <title>手相面相分析 - 在线看手相面相 | 神秘学预测中心</title>
+    
+    <!-- 公共组件引用 -->
+    <link rel="stylesheet" href="../../components/palmistry-sidebar.css">
+    <script src="../../components/palmistry-sidebar.js" defer></script>
+    
     <style>
         * {
             margin: 0;
@@ -76,6 +81,7 @@
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
+            margin-left: 280px; /* 为侧边栏留出空间 */
         }
 
         
@@ -478,25 +484,7 @@
     
 
     <div class="main-container">
-        <div class="sidebar">
-            <div class="sidebar-category">
-                <div class="category-title">🖐️ 手相面相</div>
-                <ul class="function-list">
-                    <li class="function-item">
-                        <a href="#" class="function-link active">手相分析</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="#" class="function-link">面相解读</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="#" class="function-link">指纹分析</a>
-                    </li>
-                    <li class="function-item">
-                        <a href="#" class="function-link">掌纹详解</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <aside class="sidebar"></aside>
 
         <div class="content-area"><article itemscope itemtype="https://schema.org/Article">
 
@@ -1072,4 +1060,4 @@
     <script src="../../components/navigation.js"></script>
     <script src="../../components/starfield.js"></script>
 </body>
-</html></html> 
+</html> 

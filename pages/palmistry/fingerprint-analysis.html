@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 手相面相模块公共组件 -->
+    <link rel="stylesheet" href="../../components/palmistry-sidebar.css">
+    <script src="../../components/palmistry-sidebar.js" defer></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <title>指纹分析 - 神秘学预测中心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin-left: 280px;
+        }
+        
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        
+        .main-container { display: flex; min-height: 100vh; }
+        .content-area { flex: 1; padding: 40px; }
+        
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #00ffff, #40e0d0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(64, 224, 208, 0.5)); }
+        }
+        
+        .fingerprint-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .fingerprint-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .finger-card {
+            background: rgba(0, 255, 255, 0.05);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .finger-card:hover {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .finger-card.selected {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .finger-name {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .fingerprint-canvas {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            margin: 10px auto;
+            background: #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pattern-selector {
+            margin-top: 15px;
+        }
+        
+        .pattern-btn {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #ccc;
+            padding: 6px 12px;
+            border-radius: 20px;
+            margin: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 11px;
+        }
+        
+        .pattern-btn:hover, .pattern-btn.active {
+            background: rgba(0, 255, 255, 0.3);
+            border-color: #00ffff;
+            color: #00ffff;
+        }
+        
+        .pattern-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .pattern-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .pattern-card:hover {
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.1);
+        }
+        
+        .pattern-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .pattern-title {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .pattern-desc {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .analysis-btn {
+            background: linear-gradient(45deg, #00ffff, #40e0d0);
+            border: none;
+            border-radius: 25px;
+            padding: 15px 40px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            display: block;
+            margin: 0 auto;
+        }
+        .analysis-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+        }
+        
+        .result-section {
+            display: none;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        .result-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            color: #ccc;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .tab-btn:hover, .tab-btn.active {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            color: #00ffff;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .analysis-item {
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #00ffff;
+        }
+        
+        .analysis-title {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .analysis-content {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body { margin-left: 0; }
+            .main-container { flex-direction: column; }
+            .content-area { padding: 20px; }
+            .fingerprint-grid { grid-template-columns: repeat(2, 1fr); }
+            .pattern-types { grid-template-columns: 1fr; }
+            .result-tabs { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+
+        <main class="content-area">
+            <h1 class="page-title">🔍 指纹分析</h1>
+            
+            <div class="fingerprint-section">
+                <h3 style="color: #00ffff; margin-bottom: 20px; text-align: center;">👆 选择手指并确定指纹类型</h3>
+                
+                <div class="fingerprint-grid">
+                    <div class="finger-card" data-finger="thumb">
+                        <div class="finger-name">拇指</div>
+                        <div class="fingerprint-canvas" id="thumb-canvas"></div>
+                        <div class="pattern-selector">
+                            <button class="pattern-btn" data-pattern="loop" onclick="selectPattern('thumb', 'loop')">箕形</button>
+                            <button class="pattern-btn" data-pattern="whorl" onclick="selectPattern('thumb', 'whorl')">涡形</button>
+                            <button class="pattern-btn" data-pattern="arch" onclick="selectPattern('thumb', 'arch')">弓形</button>
+                        </div>
+                    </div>
+                    
+                    <div class="finger-card" data-finger="index">
+                        <div class="finger-name">食指</div>
+                        <div class="fingerprint-canvas" id="index-canvas"></div>
+                        <div class="pattern-selector">
+                            <button class="pattern-btn" data-pattern="loop" onclick="selectPattern('index', 'loop')">箕形</button>
+                            <button class="pattern-btn" data-pattern="whorl" onclick="selectPattern('index', 'whorl')">涡形</button>
+                            <button class="pattern-btn" data-pattern="arch" onclick="selectPattern('index', 'arch')">弓形</button>
+                        </div>
+                    </div>
+                    
+                    <div class="finger-card" data-finger="middle">
+                        <div class="finger-name">中指</div>
+                        <div class="fingerprint-canvas" id="middle-canvas"></div>
+                        <div class="pattern-selector">
+                            <button class="pattern-btn" data-pattern="loop" onclick="selectPattern('middle', 'loop')">箕形</button>
+                            <button class="pattern-btn" data-pattern="whorl" onclick="selectPattern('middle', 'whorl')">涡形</button>
+                            <button class="pattern-btn" data-pattern="arch" onclick="selectPattern('middle', 'arch')">弓形</button>
+                        </div>
+                    </div>
+                    
+                    <div class="finger-card" data-finger="ring">
+                        <div class="finger-name">无名指</div>
+                        <div class="fingerprint-canvas" id="ring-canvas"></div>
+                        <div class="pattern-selector">
+                            <button class="pattern-btn" data-pattern="loop" onclick="selectPattern('ring', 'loop')">箕形</button>
+                            <button class="pattern-btn" data-pattern="whorl" onclick="selectPattern('ring', 'whorl')">涡形</button>
+                            <button class="pattern-btn" data-pattern="arch" onclick="selectPattern('ring', 'arch')">弓形</button>
+                        </div>
+                    </div>
+                    
+                    <div class="finger-card" data-finger="pinky">
+                        <div class="finger-name">小指</div>
+                        <div class="fingerprint-canvas" id="pinky-canvas"></div>
+                        <div class="pattern-selector">
+                            <button class="pattern-btn" data-pattern="loop" onclick="selectPattern('pinky', 'loop')">箕形</button>
+                            <button class="pattern-btn" data-pattern="whorl" onclick="selectPattern('pinky', 'whorl')">涡形</button>
+                            <button class="pattern-btn" data-pattern="arch" onclick="selectPattern('pinky', 'arch')">弓形</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="fingerprint-section">
+                <h3 style="color: #00ffff; margin-bottom: 20px; text-align: center;">📚 指纹类型说明</h3>
+                
+                <div class="pattern-types">
+                    <div class="pattern-card">
+                        <div class="pattern-icon">🌀</div>
+                        <div class="pattern-title">箕形纹（Loop）</div>
+                        <div class="pattern-desc">
+                            最常见的指纹类型，纹线呈弓形或马蹄形。
+                            代表适应性强、性格温和、善于合作。
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-card">
+                        <div class="pattern-icon">🌪️</div>
+                        <div class="pattern-title">涡形纹（Whorl）</div>
+                        <div class="pattern-desc">
+                            纹线呈螺旋状或同心圆形。
+                            代表独立性强、有领导才能、思维独特。
+                        </div>
+                    </div>
+                    
+                    <div class="pattern-card">
+                        <div class="pattern-icon">🏹</div>
+                        <div class="pattern-title">弓形纹（Arch）</div>
+                        <div class="pattern-desc">
+                            纹线呈拱形，较为简单。
+                            代表诚实可靠、脚踏实地、保守稳重。
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="analysis-btn" onclick="analyzeFingerprints()" id="analyzeBtn">
+                        🔍 开始指纹分析
+                    </button>
+                </div>
+            </div>
+            
+            <div id="resultSection" class="result-section">
+                <div class="result-tabs">
+                    <button class="tab-btn active" onclick="switchTab('personality')">性格特质</button>
+                    <button class="tab-btn" onclick="switchTab('talent')">天赋才能</button>
+                    <button class="tab-btn" onclick="switchTab('career')">事业方向</button>
+                    <button class="tab-btn" onclick="switchTab('relationship')">人际关系</button>
+                    <button class="tab-btn" onclick="switchTab('advice')">发展建议</button>
+                </div>
+                
+                <div id="personality" class="tab-content active">
+                    <div class="analysis-item">
+                        <div class="analysis-title">🌟 性格分析</div>
+                        <div class="analysis-content" id="personalityContent">
+                            正在分析您的性格特质...
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="talent" class="tab-content">
+                    <div class="analysis-item">
+                        <div class="analysis-title">🎯 天赋才能</div>
+                        <div class="analysis-content" id="talentContent">
+                            正在分析您的天赋潜能...
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="career" class="tab-content">
+                    <div class="analysis-item">
+                        <div class="analysis-title">💼 事业方向</div>
+                        <div class="analysis-content" id="careerContent">
+                            正在分析适合的事业发展方向...
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="relationship" class="tab-content">
+                    <div class="analysis-item">
+                        <div class="analysis-title">👥 人际关系</div>
+                        <div class="analysis-content" id="relationshipContent">
+                            正在分析您的人际交往特点...
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="advice" class="tab-content">
+                    <div class="analysis-item">
+                        <div class="analysis-title">💡 发展建议</div>
+                        <div class="analysis-content" id="adviceContent">
+                            正在生成个性化发展建议...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let fingerprintPatterns = {
+            thumb: null,
+            index: null,
+            middle: null,
+            ring: null,
+            pinky: null
+        };
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function selectPattern(finger, pattern) {
+            fingerprintPatterns[finger] = pattern;
+            
+            // 更新按钮状态
+            const fingerCard = document.querySelector(`[data-finger="${finger}"]`);
+            fingerCard.querySelectorAll('.pattern-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            fingerCard.querySelector(`[data-pattern="${pattern}"]`).classList.add('active');
+            
+            // 更新指纹图案
+            updateFingerprintCanvas(finger, pattern);
+            
+            // 高亮选中的手指卡片
+            fingerCard.classList.add('selected');
+        }
+
+        function updateFingerprintCanvas(finger, pattern) {
+            const canvas = document.getElementById(`${finger}-canvas`);
+            canvas.innerHTML = ''; // 清空之前的内容
+            
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', '76');
+            svg.setAttribute('height', '76');
+            svg.setAttribute('viewBox', '0 0 76 76');
+            
+            if (pattern === 'loop') {
+                // 箕形纹
+                svg.innerHTML = `
+                    <path d="M10 38 Q38 10 66 38 Q38 50 10 38" fill="none" stroke="#8b4513" stroke-width="2"/>
+                    <path d="M15 38 Q38 15 61 38 Q38 45 15 38" fill="none" stroke="#8b4513" stroke-width="1.5"/>
+                    <path d="M20 38 Q38 20 56 38 Q38 40 20 38" fill="none" stroke="#8b4513" stroke-width="1"/>
+                `;
+            } else if (pattern === 'whorl') {
+                // 涡形纹
+                svg.innerHTML = `
+                    <circle cx="38" cy="38" r="25" fill="none" stroke="#8b4513" stroke-width="2"/>
+                    <circle cx="38" cy="38" r="18" fill="none" stroke="#8b4513" stroke-width="1.5"/>
+                    <circle cx="38" cy="38" r="12" fill="none" stroke="#8b4513" stroke-width="1"/>
+                    <circle cx="38" cy="38" r="6" fill="none" stroke="#8b4513" stroke-width="0.5"/>
+                `;
+            } else if (pattern === 'arch') {
+                // 弓形纹
+                svg.innerHTML = `
+                    <path d="M5 50 Q38 15 71 50" fill="none" stroke="#8b4513" stroke-width="2"/>
+                    <path d="M10 48 Q38 18 66 48" fill="none" stroke="#8b4513" stroke-width="1.5"/>
+                    <path d="M15 46 Q38 21 61 46" fill="none" stroke="#8b4513" stroke-width="1"/>
+                    <path d="M20 44 Q38 24 56 44" fill="none" stroke="#8b4513" stroke-width="0.5"/>
+                `;
+            }
+            
+            canvas.appendChild(svg);
+        }
+
+        function analyzeFingerprints() {
+            const selectedCount = Object.values(fingerprintPatterns).filter(p => p !== null).length;
+            
+            if (selectedCount === 0) {
+                alert('请至少选择一个手指的指纹类型！');
+                return;
+            }
+            
+            // 显示结果区域
+            document.getElementById('resultSection').style.display = 'block';
+            
+            // 模拟分析过程
+            setTimeout(() => analyzePersonality(), 1000);
+            setTimeout(() => analyzeTalent(), 2000);
+            setTimeout(() => analyzeCareer(), 3000);
+            setTimeout(() => analyzeRelationship(), 4000);
+            setTimeout(() => generateAdvice(), 5000);
+            
+            // 滚动到结果区域
+            document.getElementById('resultSection').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function analyzePersonality() {
+            const patterns = Object.values(fingerprintPatterns).filter(p => p !== null);
+            const loopCount = patterns.filter(p => p === 'loop').length;
+            const whorlCount = patterns.filter(p => p === 'whorl').length;
+            const archCount = patterns.filter(p => p === 'arch').length;
+            
+            let analysis = '';
+            
+            if (loopCount >= whorlCount && loopCount >= archCount) {
+                analysis = '您的性格特征以箕形纹为主导，说明您是一个适应性很强的人。您善于与人合作，性格温和友善，能够很好地融入不同的环境。您具有很强的同理心，能够理解他人的感受，这使您在人际关系中表现出色。您倾向于避免冲突，寻求和谐的解决方案。';
+            } else if (whorlCount >= loopCount && whorlCount >= archCount) {
+                analysis = '您的性格特征以涡形纹为主导，说明您是一个独立性很强的人。您有自己独特的思维方式和见解，不容易被他人的观点所左右。您具有天生的领导才能，能够在团队中发挥核心作用。您喜欢挑战，勇于创新，但有时可能显得有些固执。';
+            } else if (archCount >= loopCount && archCount >= whorlCount) {
+                analysis = '您的性格特征以弓形纹为主导，说明您是一个诚实可靠的人。您脚踏实地，做事认真负责，是他人可以信赖的伙伴。您比较保守稳重，喜欢按部就班地完成工作。您的价值观比较传统，重视家庭和稳定的生活。';
+            } else {
+                analysis = '您的指纹类型比较均衡，说明您的性格具有多面性。您既有适应环境的能力，也有独立思考的特质，还具备踏实可靠的品格。这种均衡的性格让您能够在不同的情况下展现出不同的优势。';
+            }
+            
+            document.getElementById('personalityContent').textContent = analysis;
+        }
+
+        function analyzeTalent() {
+            const patterns = Object.values(fingerprintPatterns).filter(p => p !== null);
+            const thumbPattern = fingerprintPatterns.thumb;
+            const indexPattern = fingerprintPatterns.index;
+            
+            let talents = [];
+            
+            if (thumbPattern === 'whorl') {
+                talents.push('领导能力强，适合管理职位');
+            } else if (thumbPattern === 'loop') {
+                talents.push('协调能力出色，善于团队合作');
+            }
+            
+            if (indexPattern === 'whorl') {
+                talents.push('创新思维活跃，适合创意工作');
+            } else if (indexPattern === 'arch') {
+                talents.push('执行力强，适合实务性工作');
+            }
+            
+            if (patterns.includes('loop') && patterns.includes('whorl')) {
+                talents.push('兼具感性和理性思维');
+            }
+            
+            if (talents.length === 0) {
+                talents.push('您具有均衡的能力发展，在多个领域都有潜力');
+            }
+            
+            const analysis = `根据您的指纹分析，您的天赋主要体现在以下方面：\n\n• ${talents.join('\n• ')}\n\n建议您重点发展这些天赋领域，将会获得更好的成就。`;
+            
+            document.getElementById('talentContent').textContent = analysis;
+        }
+
+        function analyzeCareer() {
+            const patterns = Object.values(fingerprintPatterns).filter(p => p !== null);
+            const loopCount = patterns.filter(p => p === 'loop').length;
+            const whorlCount = patterns.filter(p => p === 'whorl').length;
+            const archCount = patterns.filter(p => p === 'arch').length;
+            
+            let careers = [];
+            
+            if (whorlCount > loopCount && whorlCount > archCount) {
+                careers = [
+                    '创业者、企业家',
+                    '设计师、艺术家',
+                    '研究员、科学家',
+                    '项目经理、部门主管',
+                    '自由职业者'
+                ];
+            } else if (loopCount > whorlCount && loopCount > archCount) {
+                careers = [
+                    '人力资源专员',
+                    '客户服务代表',
+                    '教师、培训师',
+                    '销售代表',
+                    '咨询顾问'
+                ];
+            } else if (archCount > loopCount && archCount > whorlCount) {
+                careers = [
+                    '会计师、财务分析师',
+                    '工程师、技术员',
+                    '行政助理、文秘',
+                    '质量控制员',
+                    '银行职员'
+                ];
+            } else {
+                careers = [
+                    '综合管理岗位',
+                    '市场营销',
+                    '产品经理',
+                    '业务分析师',
+                    '多元化发展'
+                ];
+            }
+            
+            const analysis = `根据您的指纹特征，以下职业方向比较适合您：\n\n• ${careers.join('\n• ')}\n\n这些职业能够充分发挥您的天赋和性格优势。`;
+            
+            document.getElementById('careerContent').textContent = analysis;
+        }
+
+        function analyzeRelationship() {
+            const patterns = Object.values(fingerprintPatterns).filter(p => p !== null);
+            const loopCount = patterns.filter(p => p === 'loop').length;
+            const whorlCount = patterns.filter(p => p === 'whorl').length;
+            
+            let analysis = '';
+            
+            if (loopCount > whorlCount) {
+                analysis = '您在人际关系中表现出色，善于倾听和理解他人。您很容易获得他人的信任和好感，朋友圈比较广泛。您习惯为他人着想，有时可能会忽略自己的需求。建议您在保持善良的同时，也要学会适当地表达自己的想法和需求。';
+            } else if (whorlCount > loopCount) {
+                analysis = '您在人际关系中比较独立，有自己的交友标准。您不会刻意迎合他人，但一旦建立友谊就会很忠诚。您可能朋友不多，但都是深交。建议您适当地开放自己，尝试与更多不同类型的人交流，这会带来意想不到的收获。';
+            } else {
+                analysis = '您在人际关系中表现得比较均衡，既能独立思考，也能与他人很好地相处。您能够根据不同的情况调整自己的交往方式。这种灵活性让您在各种社交场合都能如鱼得水。';
+            }
+            
+            document.getElementById('relationshipContent').textContent = analysis;
+        }
+
+        function generateAdvice() {
+            const patterns = Object.values(fingerprintPatterns).filter(p => p !== null);
+            const dominantPattern = getDominantPattern(patterns);
+            
+            let advice = '';
+            
+            if (dominantPattern === 'loop') {
+                advice = '发展建议：\n\n• 充分发挥您的协调和沟通能力，在团队中承担更多责任\n• 学会适当地坚持自己的原则，不要过度妥协\n• 培养决策能力，提高独立处理问题的信心\n• 在帮助他人的同时，也要关注自己的成长需求\n• 考虑发展领导技能，您的亲和力是很好的基础';
+            } else if (dominantPattern === 'whorl') {
+                advice = '发展建议：\n\n• 继续发挥您的创新和领导能力，勇于承担更大的责任\n• 学会更好地与他人协作，倾听不同的声音\n• 培养耐心，不要急于求成，稳步推进目标\n• 适当地分享决策权，让团队成员参与其中\n• 保持开放的心态，接受建设性的意见和建议';
+            } else if (dominantPattern === 'arch') {
+                advice = '发展建议：\n\n• 充分发挥您的可靠性和执行力，在专业领域深耕\n• 适当地培养创新思维，尝试新的方法和理念\n• 提高沟通表达能力，更好地展示自己的价值\n• 建立更广泛的人际网络，扩大视野和机会\n• 学会适应变化，在稳定中寻求适度的突破';
+            } else {
+                advice = '发展建议：\n\n• 充分利用您性格的多面性，在不同情况下发挥不同优势\n• 明确自己的核心价值观和目标，避免在选择中迷失\n• 培养专业技能的同时，也要发展软技能\n• 保持学习的热情，持续自我提升\n• 寻找能够发挥多重才能的工作或项目';
+            }
+            
+            document.getElementById('adviceContent').textContent = advice;
+        }
+
+        function getDominantPattern(patterns) {
+            const counts = { loop: 0, whorl: 0, arch: 0 };
+            patterns.forEach(p => counts[p]++);
+            
+            const max = Math.max(counts.loop, counts.whorl, counts.arch);
+            if (counts.loop === max) return 'loop';
+            if (counts.whorl === max) return 'whorl';
+            if (counts.arch === max) return 'arch';
+            return 'balanced';
+        }
+
+        function switchTab(tabName) {
+            // 移除所有活动状态
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // 激活选中的标签
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', createStars);
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+</body>
+</html> 

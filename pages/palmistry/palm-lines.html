@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- 手相面相模块公共组件 -->
+    <link rel="stylesheet" href="../../components/palmistry-sidebar.css">
+    <script src="../../components/palmistry-sidebar.js" defer></script>
+    
+    <!-- 公共导航栏样式 -->
+    <link rel="stylesheet" href="../../components/navigation.css">
+    
+    <title>掌纹详解 - 神秘学预测中心</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            margin-left: 280px;
+        }
+        
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 3s infinite; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+        
+        .main-container { display: flex; min-height: 100vh; }
+        .content-area { flex: 1; padding: 40px; }
+        
+        .page-title {
+            font-size: 36px;
+            background: linear-gradient(45deg, #00ffff, #40e0d0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(64, 224, 208, 0.5)); }
+        }
+        
+        .palm-section {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .palm-guide {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .palm-diagram {
+            text-align: center;
+        }
+        
+        .palm-svg {
+            width: 100%;
+            max-width: 400px;
+            height: 500px;
+            background: #f5deb3;
+            border-radius: 15px;
+            border: 2px solid #00ffff;
+        }
+        
+        .line-selector {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .line-category {
+            margin-bottom: 25px;
+        }
+        
+        .category-title {
+            color: #00ffff;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+            padding-bottom: 8px;
+        }
+        
+        .line-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .line-btn {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            color: #ccc;
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            text-align: left;
+        }
+        
+        .line-btn:hover, .line-btn.active {
+            background: rgba(0, 255, 255, 0.2);
+            border-color: #00ffff;
+            color: #00ffff;
+            transform: translateX(5px);
+        }
+        
+        .analysis-result {
+            display: none;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #00ffff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .selected-line {
+            color: #00ffff;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .line-description {
+            color: #ccc;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .analysis-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 25px;
+        }
+        
+        .analysis-card {
+            background: rgba(0, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #00ffff;
+        }
+        
+        .card-title {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .card-content {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        
+        .feature-title {
+            color: #40e0d0;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .feature-desc {
+            color: #aaa;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body { margin-left: 0; }
+            .main-container { flex-direction: column; }
+            .content-area { padding: 20px; }
+            .palm-guide { grid-template-columns: 1fr; }
+            .analysis-content { grid-template-columns: 1fr; }
+            .line-buttons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="main-container">
+        <!-- 左侧功能菜单 - 使用公共组件 -->
+        <aside class="sidebar"></aside>
+
+        <main class="content-area">
+            <h1 class="page-title">🖐️ 掌纹详解</h1>
+            
+            <div class="palm-section">
+                <h3 style="color: #00ffff; margin-bottom: 20px; text-align: center;">📖 掌纹知识指南</h3>
+                
+                <div class="palm-guide">
+                    <div class="palm-diagram">
+                        <h4 style="color: #40e0d0; margin-bottom: 15px;">手掌纹线图解</h4>
+                        <svg class="palm-svg" viewBox="0 0 300 400" id="palmSvg">
+                            <!-- 手掌轮廓 -->
+                            <path d="M50 350 Q45 340 50 330 L60 250 Q65 180 80 120 Q85 100 95 85 Q100 75 110 70 L140 65 Q160 60 180 65 L210 70 Q220 75 225 85 Q235 100 240 120 Q255 180 260 250 L270 330 Q275 340 270 350 Q265 360 250 365 L70 365 Q55 360 50 350 Z" fill="#f5deb3" stroke="#d2b48c" stroke-width="2"/>
+                            
+                            <!-- 主要掌纹线 -->
+                            <path id="lifeLine" d="M80 120 Q100 200 120 300" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line" data-line="life"/>
+                            <path id="headLine" d="M85 140 Q150 150 220 160" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line" data-line="head"/>
+                            <path id="heartLine" d="M85 110 Q150 105 220 120" stroke="#8b4513" stroke-width="3" fill="none" class="palm-line" data-line="heart"/>
+                            <path id="fateLine" d="M160 350 Q165 250 170 150" stroke="#8b4513" stroke-width="2" fill="none" class="palm-line" data-line="fate"/>
+                            
+                            <!-- 次要掌纹线 -->
+                            <path id="sunLine" d="M200 300 L210 180" stroke="#cd853f" stroke-width="2" fill="none" class="palm-line" data-line="sun"/>
+                            <path id="mercuryLine" d="M240 320 Q245 280 250 240" stroke="#cd853f" stroke-width="1.5" fill="none" class="palm-line" data-line="mercury"/>
+                            <path id="marriageLine" d="M260 150 L240 155" stroke="#cd853f" stroke-width="1.5" fill="none" class="palm-line" data-line="marriage"/>
+                            
+                            <!-- 手指 -->
+                            <rect x="90" y="45" width="15" height="35" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                            <rect x="120" y="35" width="15" height="45" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                            <rect x="150" y="40" width="15" height="40" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                            <rect x="180" y="45" width="15" height="35" rx="7" fill="#f5deb3" stroke="#d2b48c"/>
+                            
+                            <!-- 拇指 -->
+                            <ellipse cx="60" cy="200" rx="12" ry="25" fill="#f5deb3" stroke="#d2b48c"/>
+                        </svg>
+                    </div>
+                    
+                    <div class="line-selector">
+                        <div class="line-category">
+                            <div class="category-title">🌟 主要掌纹</div>
+                            <div class="line-buttons">
+                                <button class="line-btn" onclick="selectLine('life')">
+                                    <strong>生命线</strong><br>
+                                    <small>健康与生命力</small>
+                                </button>
+                                <button class="line-btn" onclick="selectLine('head')">
+                                    <strong>智慧线</strong><br>
+                                    <small>思维与才智</small>
+                                </button>
+                                <button class="line-btn" onclick="selectLine('heart')">
+                                    <strong>感情线</strong><br>
+                                    <small>爱情与情感</small>
+                                </button>
+                                <button class="line-btn" onclick="selectLine('fate')">
+                                    <strong>事业线</strong><br>
+                                    <small>职业与成就</small>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="line-category">
+                            <div class="category-title">✨ 辅助掌纹</div>
+                            <div class="line-buttons">
+                                <button class="line-btn" onclick="selectLine('sun')">
+                                    <strong>太阳线</strong><br>
+                                    <small>名声与成功</small>
+                                </button>
+                                <button class="line-btn" onclick="selectLine('mercury')">
+                                    <strong>水星线</strong><br>
+                                    <small>沟通与商业</small>
+                                </button>
+                                <button class="line-btn" onclick="selectLine('marriage')">
+                                    <strong>婚姻线</strong><br>
+                                    <small>婚恋与伴侣</small>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="analysisResult" class="analysis-result">
+                <div class="result-header">
+                    <div class="selected-line" id="selectedLineName"></div>
+                    <div class="line-description" id="lineDescription"></div>
+                </div>
+                
+                <div class="analysis-content">
+                    <div class="analysis-card">
+                        <div class="card-title">📚 基本含义</div>
+                        <div class="card-content" id="basicMeaning"></div>
+                        
+                        <div class="features-grid" id="featuresGrid"></div>
+                    </div>
+                    
+                    <div class="analysis-card">
+                        <div class="card-title">🔍 详细解读</div>
+                        <div class="card-content" id="detailedAnalysis"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const palmLineData = {
+            life: {
+                name: "生命线 (Life Line)",
+                description: "生命线是最重要的掌纹之一，反映一个人的健康状况、生命力强弱和寿命长短。",
+                basicMeaning: "生命线起始于拇指与食指之间，环绕拇指基部，延伸至手腕方向。它不仅代表生命的长度，更重要的是反映生命的质量、健康状况和生活态度。",
+                features: [
+                    { title: "深而清晰", desc: "体质强健，生命力旺盛，健康状况良好" },
+                    { title: "浅而模糊", desc: "体质较弱，容易疲劳，需要注意健康保养" },
+                    { title: "长而绕拇指", desc: "长寿体质，精力充沛，生活积极乐观" },
+                    { title: "短而直", desc: "性格直率，但可能体质不够强健" },
+                    { title: "有断裂", desc: "某个时期可能面临健康挑战，需要特别注意" },
+                    { title: "双重线", desc: "生命力强韧，有贵人相助，恢复能力强" }
+                ],
+                detailedAnalysis: "生命线的长短并不直接决定寿命，而是反映生命质量。深刻清晰的生命线表示身体健康，精力充沛；如果生命线出现岛纹，可能暗示某个时期的健康问题；如果有支线向上，表示生活中会有积极的转变。生命线的起点如果与智慧线相连，说明做事谨慎，如果分离则表示性格独立。"
+            },
+            head: {
+                name: "智慧线 (Head Line)",
+                description: "智慧线反映一个人的思维方式、智力水平、学习能力和性格特征。",
+                basicMeaning: "智慧线从拇指与食指之间开始，横穿手掌，是判断思维模式的重要标志。它不仅显示智力高低，更重要的是反映思考方式和学习特点。",
+                features: [
+                    { title: "长而清晰", desc: "思维敏锐，分析能力强，善于深度思考" },
+                    { title: "短而有力", desc: "直觉敏锐，行动力强，善于快速决策" },
+                    { title: "笔直延伸", desc: "逻辑清晰，做事有条理，理性思维强" },
+                    { title: "向下弯曲", desc: "想象力丰富，富有创意，艺术天赋高" },
+                    { title: "末端分叉", desc: "思维多元化，能从不同角度思考问题" },
+                    { title: "中断或岛纹", desc: "某个时期可能面临思维困扰或学习障碍" }
+                ],
+                detailedAnalysis: "智慧线的长度和深度反映思维的深度和广度。如果智慧线与生命线紧密相连，说明性格谨慎，依赖性较强；如果分离距离较大，则表示独立性强，敢于冒险。智慧线下垂度越大，创造力越强，但实用性可能较弱；如果过于平直，则可能缺乏想象力但执行力强。"
+            },
+            heart: {
+                name: "感情线 (Heart Line)",
+                description: "感情线反映一个人的情感世界、爱情观念、人际关系和情绪管理能力。",
+                basicMeaning: "感情线位于手掌上方，从小指下方开始，延伸至食指或中指下方，是了解情感特质的重要线条。",
+                features: [
+                    { title: "深而清晰", desc: "感情丰富，对爱情专一，情感表达直接" },
+                    { title: "浅而模糊", desc: "理性冷静，不易被情绪左右，但可能缺乏激情" },
+                    { title: "长而延伸", desc: "感情丰富，社交能力强，桃花运较好" },
+                    { title: "短而有力", desc: "感情专一，不善表达，但内心深情" },
+                    { title: "弧度明显", desc: "性格温和，富有同情心，善解人意" },
+                    { title: "较为平直", desc: "理性对待感情，不容易冲动，稳重可靠" }
+                ],
+                detailedAnalysis: "感情线的起点位置很重要：如果从食指下方开始，表示理想主义，对爱情要求高；如果从中指下方开始，表示比较现实，注重实际条件。感情线上的分支向上表示积极的感情经历，向下则可能表示感情挫折。如果感情线末端有多个分支，说明感情生活丰富多彩。"
+            },
+            fate: {
+                name: "事业线 (Fate Line)",
+                description: "事业线反映一个人的事业运势、职业发展和人生目标的实现程度。",
+                basicMeaning: "事业线从手腕向中指方向延伸，反映事业发展的轨迹和成就。并非每个人都有明显的事业线，这并不意味着没有事业成就。",
+                features: [
+                    { title: "清晰笔直", desc: "事业目标明确，执行力强，容易获得成功" },
+                    { title: "模糊不清", desc: "事业发展较为平缓，或者更注重精神满足" },
+                    { title: "多条并行", desc: "多才多艺，可能在多个领域发展或有副业" },
+                    { title: "中断断续", desc: "事业发展会有起伏，需要适时调整方向" },
+                    { title: "中年出现", desc: "大器晚成型，中年后事业会有突破性发展" },
+                    { title: "无明显线", desc: "适合自由发展，不喜欢被传统框架束缚" }
+                ],
+                detailedAnalysis: "事业线的起点很重要：从生命线起始表示靠自己努力；从月丘起始表示容易得到他人帮助；从手腕中央起始表示命运自主性强。事业线如果直达中指，表示有很强的事业心；如果偏向食指，适合领导工作；偏向无名指则适合创意工作。"
+            },
+            sun: {
+                name: "太阳线 (Sun Line)",
+                description: "太阳线又称成功线，反映一个人的名声、声望、创造力和获得成功的能力。",
+                basicMeaning: "太阳线位于无名指下方，向手掌延伸，代表成功、名声和艺术天赋。拥有清晰太阳线的人通常具有特殊才能。",
+                features: [
+                    { title: "清晰深长", desc: "具有艺术天赋，容易获得名声和成功" },
+                    { title: "多条平行", desc: "才能多样化，在多个领域都有发展潜力" },
+                    { title: "短而有力", desc: "在特定领域会有突出表现" },
+                    { title: "起点较低", desc: "早年就显露才华，年轻时容易成功" },
+                    { title: "起点较高", desc: "大器晚成，中晚年才显露头角" },
+                    { title: "断续不清", desc: "才华需要后天培养，成功需要更多努力" }
+                ],
+                detailedAnalysis: "太阳线与事业线相辅相成，如果两线都很清晰，表示既有事业成就又有社会声望。太阳线上的星纹表示突然的成功机会；如果有岛纹，可能表示名声受损的时期。太阳线越靠近无名指根部，越表示在艺术、娱乐或创意领域有特殊天赋。"
+            },
+            mercury: {
+                name: "水星线 (Mercury Line)",
+                description: "水星线反映一个人的沟通能力、商业头脑、健康状况和学习能力。",
+                basicMeaning: "水星线从小指下方向手掌延伸，与沟通、商业、健康密切相关。清晰的水星线表示良好的表达能力和商业洞察力。",
+                features: [
+                    { title: "清晰直长", desc: "沟通能力强，商业头脑发达，健康状况良好" },
+                    { title: "断续不连", desc: "健康需要注意，或者沟通能力需要提升" },
+                    { title: "弯曲波浪", desc: "思维活跃，但可能缺乏稳定性" },
+                    { title: "深而有力", desc: "在商业或学术领域有特殊才能" },
+                    { title: "浅而模糊", desc: "需要加强沟通技巧和学习能力" },
+                    { title: "与其他线相交", desc: "多才多艺，但要注意健康管理" }
+                ],
+                detailedAnalysis: "水星线清晰的人通常具有很好的商业直觉和沟通能力，适合从事销售、教育、医疗等需要与人打交道的工作。如果水星线与健康线重合，需要特别注意消化系统的健康。水星线上的方格纹通常表示在商业上会有保护，而岛纹则可能表示沟通障碍或健康问题。"
+            },
+            marriage: {
+                name: "婚姻线 (Marriage Line)",
+                description: "婚姻线反映一个人的婚恋状况、感情关系的数量和质量。",
+                basicMeaning: "婚姻线位于小指下方，感情线上方的短横线，反映重要的感情关系。线条的数量、深浅和特征都有特殊含义。",
+                features: [
+                    { title: "一条深清", desc: "一生中会有一段重要且稳定的感情关系" },
+                    { title: "多条平行", desc: "感情经历丰富，可能会有多段重要关系" },
+                    { title: "向上弯曲", desc: "婚姻幸福，感情生活美满" },
+                    { title: "向下弯曲", desc: "感情路上可能遇到挫折，需要用心经营" },
+                    { title: "有分支", desc: "感情关系复杂，或者会有重要的感情选择" },
+                    { title: "断裂或岛纹", desc: "感情关系可能经历波折或分离" }
+                ],
+                detailedAnalysis: "婚姻线的位置高低反映结婚年龄：靠近感情线表示早婚，靠近小指表示晚婚。婚姻线的深度反映感情的深度和持久性。如果婚姻线末端有向上的小线，表示感情生活会越来越好；如果有向下的线，则需要更多努力维护感情。多条婚姻线并不一定表示多次婚姻，也可能表示多段重要的感情经历。"
+            }
+        };
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function selectLine(lineType) {
+            // 更新按钮状态
+            document.querySelectorAll('.line-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // 高亮选中的线条
+            document.querySelectorAll('.palm-line').forEach(line => {
+                line.style.stroke = line.dataset.line === lineType ? '#ff6b6b' : '#8b4513';
+                line.style.strokeWidth = line.dataset.line === lineType ? '4' : (line.id.includes('Line') ? '3' : '2');
+            });
+            
+            // 显示分析结果
+            showAnalysis(lineType);
+        }
+
+        function showAnalysis(lineType) {
+            const data = palmLineData[lineType];
+            if (!data) return;
+            
+            // 显示分析区域
+            document.getElementById('analysisResult').style.display = 'block';
+            
+            // 填充基本信息
+            document.getElementById('selectedLineName').textContent = data.name;
+            document.getElementById('lineDescription').textContent = data.description;
+            document.getElementById('basicMeaning').textContent = data.basicMeaning;
+            document.getElementById('detailedAnalysis').textContent = data.detailedAnalysis;
+            
+            // 生成特征网格
+            const featuresGrid = document.getElementById('featuresGrid');
+            featuresGrid.innerHTML = '';
+            
+            data.features.forEach(feature => {
+                const featureDiv = document.createElement('div');
+                featureDiv.className = 'feature-item';
+                featureDiv.innerHTML = `
+                    <div class="feature-title">${feature.title}</div>
+                    <div class="feature-desc">${feature.desc}</div>
+                `;
+                featuresGrid.appendChild(featureDiv);
+            });
+            
+            // 滚动到结果区域
+            document.getElementById('analysisResult').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', createStars);
+    </script>
+
+    <!-- 公共导航栏脚本 -->
+    <script src="../../components/navigation.js"></script>
+</body>
+</html> 
